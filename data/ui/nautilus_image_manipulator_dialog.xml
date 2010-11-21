@@ -1,0 +1,9 @@
+<glade-catalog name="nautilus_image_manipulator_dialog" domain="glade-3" 
+               depends="gtk+" version="1.0">
+  <glade-widget-classes>
+    <glade-widget-class title="NautilusImageManipulator Dialog" name="NautilusImageManipulatorDialog" 
+                        generic-name="nautilus_image)manipulator_dialog" parent="GtkDialog"
+                        icon-name="widget-gtk-dialog"/>
+  </glade-widget-classes>
+
+</glade-catalog>
