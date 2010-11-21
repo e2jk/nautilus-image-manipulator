@@ -1,0 +1,8 @@
+[Desktop Entry]
+_Name=Nautilus Image Manipulator
+_Comment=NautilusImageManipulator application
+Categories=GNOME;Utility;
+Exec=nautilus-image-manipulator
+Icon=nautilus-image-manipulator
+Terminal=false
+Type=Application
