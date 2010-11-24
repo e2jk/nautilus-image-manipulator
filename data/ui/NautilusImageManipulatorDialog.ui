@@ -71,6 +71,7 @@
                         <child>
                           <object class="GtkComboBox" id="size_combobox">
                             <property name="visible">True</property>
+                            <property name="has_focus">True</property>
                             <property name="model">size_liststore</property>
                             <property name="active">4</property>
                             <child>
@@ -109,7 +110,6 @@
                           <object class="GtkRadioButton" id="custom_scale_radiobutton">
                             <property name="label" translatable="yes">Scale:</property>
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="draw_indicator">True</property>
@@ -156,7 +156,6 @@
                           <object class="GtkRadioButton" id="custom_size_radiobutton">
                             <property name="label" translatable="yes">Custom size:</property>
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="draw_indicator">True</property>
