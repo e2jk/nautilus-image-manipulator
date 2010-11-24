@@ -18,6 +18,7 @@
 import gtk
 
 from nautilus_image_manipulator.helpers import get_builder
+from ImageManipulations import resize_images
 
 import gettext
 from gettext import gettext as _
@@ -91,10 +92,16 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             # Nothing to do
             pass
 
-        # Determine the resizing parameters
+        # This variable will contain the output of the resizing operation
+        result = None
+
+        # Determine the resizing parameters and launch the resizing
         # Resize using default values
         if self.builder.get_object("default_size_radiobutton").get_active():
-            pass
+            values = self.builder.get_object("size_combobox").get_active_text()
+            if values:
+                values = values.split("x")
+                result = resize_images(int(values[0]), int(values[1]))
 
         # Resize using a custom scale value
         elif self.builder.get_object("custom_scale_radiobutton").get_active():
