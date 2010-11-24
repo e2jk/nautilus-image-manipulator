@@ -64,6 +64,8 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
         # Code for other initialization actions should be added here.
         # TODO: Reuse last time's settings
+        self.builder.get_object("subdirectory_name_entry").set_sensitive(True)
+        self.builder.get_object("append_name_entry").set_sensitive(False)
 
     def resize(self, widget, data=None):
         """The user has elected to resize the images
@@ -127,7 +129,14 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Clean up code for saving application state should be added here.
         gtk.main_quit()
 
+    def on_filename_toggled(self, widget, data=None):
+        """Updates the sensitiveness of the entry boxes depending on which filename option is chosen."""
+        if widget.get_active():
+            self.builder.get_object("subdirectory_name_entry").set_sensitive(widget == self.builder.get_object("subdirectory_radiobutton"))
+            self.builder.get_object("append_name_entry").set_sensitive(widget == self.builder.get_object("append_radiobutton"))
+
     def error_with_parameters(self, error_message):
+        """Displays an error message if the parameters given to resize the images are not valid."""
         label = gtk.Label(error_message)
         label.set_padding(10, 5)
         dialog = gtk.Dialog(_("Invalid parameters"),
