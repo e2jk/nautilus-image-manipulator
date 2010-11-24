@@ -130,10 +130,21 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         gtk.main_quit()
 
     def on_filename_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the entry boxes depending on which filename option is chosen."""
+        """Updates the sensitiveness of the filename entry boxes depending on which option is chosen."""
         if widget.get_active():
             self.builder.get_object("subdirectory_name_entry").set_sensitive(widget == self.builder.get_object("subdirectory_radiobutton"))
             self.builder.get_object("append_name_entry").set_sensitive(widget == self.builder.get_object("append_radiobutton"))
+
+    def on_send_toggled(self, widget, data=None):
+        """Updates the sensitiveness of the elements involved with sending the images."""
+        doSend = widget.get_active()
+        self.builder.get_object("upload_radiobutton").set_sensitive(doSend)
+        self.builder.get_object("upload_combobox").set_sensitive(doSend and self.builder.get_object("upload_radiobutton").get_active())
+        self.builder.get_object("send_email_radiobutton").set_sensitive(doSend)
+
+    def on_send_type_toggled(self, widget, data=None):
+        """Updates the sensitiveness of the upload combobox when changing the sending options."""
+        self.builder.get_object("upload_combobox").set_sensitive(self.builder.get_object("upload_radiobutton").get_active())
 
     def error_with_parameters(self, error_message):
         """Displays an error message if the parameters given to resize the images are not valid."""
