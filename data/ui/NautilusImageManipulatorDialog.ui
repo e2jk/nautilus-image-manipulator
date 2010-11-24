@@ -104,7 +104,6 @@
                     </child>
                     <child>
                       <object class="GtkHBox" id="hbox4">
-                        <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkRadioButton" id="custom_scale_radiobutton">
@@ -152,7 +151,6 @@
                     </child>
                     <child>
                       <object class="GtkHBox" id="hbox5">
-                        <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkRadioButton" id="custom_size_radiobutton">
@@ -298,7 +296,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="entry1">
+                          <object class="GtkEntry" id="subdirectory_name_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
@@ -320,7 +318,6 @@
                           <object class="GtkRadioButton" id="append_radiobutton">
                             <property name="label" translatable="yes">Append</property>
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
@@ -336,8 +333,8 @@
                         <child>
                           <object class="GtkEntry" id="append_name_entry">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
+                            <property name="tooltip_text" translatable="yes">This value will be appended before the image extension</property>
                             <property name="invisible_char">&#x25CF;</property>
                           </object>
                           <packing>
@@ -347,7 +344,6 @@
                         <child>
                           <object class="GtkLabel" id="label10">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="label" translatable="yes">to file title</property>
                           </object>
                           <packing>
@@ -365,7 +361,6 @@
                       <object class="GtkRadioButton" id="inplace_radiobutton">
                         <property name="label" translatable="yes">Resize in place</property>
                         <property name="visible">True</property>
-                        <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="active">True</property>
@@ -415,8 +410,10 @@
                 <property name="label">Resize</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
-                <signal name="clicked" handler="ok"/>
+                <signal name="clicked" handler="resize"/>
               </object>
               <packing>
                 <property name="expand">False</property>

@@ -62,16 +62,54 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         self.builder.connect_signals(self)
 
         # Code for other initialization actions should be added here.
+        # TODO: Reuse last time's settings
 
-    def ok(self, widget, data=None):
-        """The user has elected to save the changes.
+    def resize(self, widget, data=None):
+        """The user has elected to resize the images
 
         Called before the dialog returns gtk.RESONSE_OK from run().
         """
-        pass
+
+        # Determine the output filenames
+        subdirectoryName = ""
+        appendString = ""
+        if self.builder.get_object("subdirectory_radiobutton").get_active():
+            subdirectoryName = self.builder.get_object("subdirectory_name_entry").get_text()
+            if not subdirectoryName:
+                self.error_with_parameters(_("Please enter a value for the subdirectory."))
+                return
+            # TODO: Check that the value is a valid subdirectory name
+
+        elif self.builder.get_object("append_radiobutton").get_active():
+            appendString = self.builder.get_object("append_name_entry").get_text()
+            if not appendString:
+                self.error_with_parameters(_("Please enter some text to append to the filename."))
+                return
+            # TODO: Check that the value is valid to be appended to the filename
+
+        elif self.builder.get_object("inplace_radiobutton").get_active():
+            # Nothing to do
+            pass
+
+        # Determine the resizing parameters
+        # Resize using default values
+        if self.builder.get_object("default_size_radiobutton").get_active():
+            pass
+
+        # Resize using a custom scale value
+        elif self.builder.get_object("custom_scale_radiobutton").get_active():
+            # TODO: Support resizing according to a custom scale
+            pass
+
+        # Resize using custom scale values
+        elif self.builder.get_object("custom_size_radiobutton").get_active():
+            # TODO: Support resizing according to custom values
+            pass
+
+        # TODO: Remember the settings for next time
 
     def cancel(self, widget, data=None):
-        """The user has elected cancel changes.
+        """The user has elected to cancel.
 
         Called before the dialog returns gtk.RESPONSE_CANCEL for run()
         """
@@ -81,6 +119,18 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         """Called when the NautilusImageManipulatorWindow is closed."""
         # Clean up code for saving application state should be added here.
         gtk.main_quit()
+
+    def error_with_parameters(self, error_message):
+        label = gtk.Label(error_message)
+        label.set_padding(10, 5)
+        dialog = gtk.Dialog(_("Invalid parameters"),
+                           self,
+                           gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                           (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+        dialog.vbox.pack_start(label)
+        label.show()
+        response = dialog.run()
+        dialog.destroy()
 
 
 if __name__ == "__main__":
