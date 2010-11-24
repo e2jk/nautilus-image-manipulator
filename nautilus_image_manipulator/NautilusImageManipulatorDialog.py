@@ -129,6 +129,22 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Clean up code for saving application state should be added here.
         gtk.main_quit()
 
+    def on_size_option_toggled(self, widget, data=None):
+        """Updates the sensitiveness of the size option fields depending on which option is chosen."""
+        if widget.get_active():
+            isDefaultSize = (widget == self.builder.get_object("default_size_radiobutton"))
+            self.builder.get_object("size_combobox").set_sensitive(isDefaultSize)
+            self.builder.get_object("def_size_pixels_label").set_sensitive(isDefaultSize)
+            isScale = (widget == self.builder.get_object("custom_scale_radiobutton"))
+            self.builder.get_object("scale_spinbutton").set_sensitive(isScale)
+            self.builder.get_object("scale_percent_label").set_sensitive(isScale)
+            isCustomSize = (widget == self.builder.get_object("custom_size_radiobutton"))
+            self.builder.get_object("custom_width_label").set_sensitive(isCustomSize)
+            self.builder.get_object("width_spinbutton").set_sensitive(isCustomSize)
+            self.builder.get_object("custom_height_label").set_sensitive(isCustomSize)
+            self.builder.get_object("height_spinbutton").set_sensitive(isCustomSize)
+            self.builder.get_object("custom_pixels_label").set_sensitive(isCustomSize)
+
     def on_filename_toggled(self, widget, data=None):
         """Updates the sensitiveness of the filename entry boxes depending on which option is chosen."""
         if widget.get_active():
