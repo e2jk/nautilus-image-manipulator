@@ -6,7 +6,6 @@
   <object class="NautilusImageManipulatorDialog" id="nautilus_image_manipulator_dialog">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="icon">../media/icon.png</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
     <signal name="destroy" handler="on_destroy"/>

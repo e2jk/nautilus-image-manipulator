@@ -13,6 +13,16 @@ gettext.textdomain('nautilus-image-manipulator')
 
 class NautilusImageManipulatorDialog(gtk.Dialog):
     __gtype_name__ = "NautilusImageManipulatorDialog"
+    
+    # To construct a new instance of this method, the following notable 
+    # methods are called in this order:
+    # __new__(cls)
+    # __init__(self)
+    # finish_initializing(self, builder)
+    # __init__(self)
+    #
+    # For this reason, it's recommended you leave __init__ empty and put
+    # your inialization code in finish_intializing
 
     def __new__(cls):
         """Special static method that's automatically called by Python when 
@@ -32,10 +42,14 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         and creating a NautilusImageManipulatorDialog object with it in order to
         finish initializing the start of the new NautilusImageManipulatorDialog
         instance.
+        
+        Put your initilization code in here and leave __init__ undefined.
         """
         # Get a reference to the builder and set up the signals.
         self.builder = builder
         self.builder.connect_signals(self)
+
+        # Code for other initialization actions should be added here.
 
     def ok(self, widget, data=None):
         """The user has elected to save the changes.
@@ -49,10 +63,13 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
         Called before the dialog returns gtk.RESPONSE_CANCEL for run()
         """
-        pass
+        self.destroy()
+
+    def on_destroy(self, widget, data=None):
+        """Called when the NautilusImageManipulatorWindow is closed."""
+        # Clean up code for saving application state should be added here.
+        gtk.main_quit()
 
 
 if __name__ == "__main__":
-    dialog = NautilusImageManipulatorDialog()
-    dialog.show()
-    gtk.main()
+    pass
