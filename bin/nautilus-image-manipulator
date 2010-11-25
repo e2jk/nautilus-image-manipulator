@@ -55,4 +55,5 @@ if __name__ == "__main__":
     # Run the application.
     dialog = NautilusImageManipulatorDialog.NautilusImageManipulatorDialog()
     dialog.show()
-    gtk.main()
+    try: gtk.main()
+    except KeyboardInterrupt: pass
