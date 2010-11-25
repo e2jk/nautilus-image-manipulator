@@ -93,17 +93,12 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         elif self.builder.get_object("inplace_radiobutton").get_active():
             # Nothing to do
             pass
-
-        # This variable will contain the output of the resizing operation
-        result = None
-
-        # Determine the resizing parameters and launch the resizing
+        
+        # Determine the resizing parameters
+        geometry = None # The size parameters for the resizing operation
         # Resize using default values
         if self.builder.get_object("default_size_radiobutton").get_active():
-            values = self.builder.get_object("size_combobox").get_active_text()
-            if values:
-                values = values.split("x")
-                result = resize_images(int(values[0]), int(values[1]))
+            geometry = self.builder.get_object("size_combobox").get_active_text()
 
         # Resize using a custom scale value
         elif self.builder.get_object("custom_scale_radiobutton").get_active():
@@ -114,6 +109,11 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         elif self.builder.get_object("custom_size_radiobutton").get_active():
             # TODO: Support resizing according to custom values
             pass
+        
+        # Resize the images
+        result = 0 # The output of the resizing operation
+        if geometry:
+            result = resize_images(geometry, subdirectoryName, appendString)
 
         # TODO: Remember the settings for next time
 

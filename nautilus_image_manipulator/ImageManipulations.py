@@ -15,17 +15,68 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import gettext
+import os, gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
-def resize_images(width, height):
-    """Performs the resizing operation.
+def resize_images(geometry, subdirectoryName, appendString):
+    """Loops over all files to resize them.
     
     The return value indicates if the operation as a whole was successful.
     """
-    print "XX: %d, %d" % (width, height)
-    return 0
+    files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+    #files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
+    
+    # Clean the subdirectory name input
+    if subdirectoryName:
+        # Remove eventual slashes at the beginning or end of the subdirectory name
+        cleanSubdirectoryName = []
+        for i in subdirectoryName.split("/"):
+            if i:
+                cleanSubdirectoryName.append(i)
+        subdirectoryName = "/".join(cleanSubdirectoryName)
+    
+    retVal = 0
+    for f in files:
+        retVal += resize_one_image(f, geometry, subdirectoryName, appendString)
+    return retVal
+
+def resize_one_image(fileName, geometry, subdirectoryName, appendString):
+    """Performs the resizing operation on one image.
+    
+    The return value indicates if this resizing operation was successful.
+    """
+    s = fileName.split("/")
+    basePath = "/".join(s[:-1])
+    name = s[-1]
+    
+    if subdirectoryName:
+        basePath = "%s/%s" % (basePath, subdirectoryName)
+    
+    if appendString:
+        # TODO: If the appendString ends in "/", the images will be called ".jpg" which is a
+        # hidden file in it's own new folder (folder name == the image name).
+        # What should we do about it?
+        n = name.split(".")
+        extension = n[-1].lower() # Also convert the extension to lower case
+        name = "%s%s.%s" % (".".join(n[:-1]), appendString, extension)
+    
+    # This is the output filename
+    newFileName = "%s/%s" % (basePath, name)
+    
+    # Make sure the directory exists
+    # Note: a new subdirectorie will also need to be created if a / was entered in the appendString
+    try: os.makedirs("/".join(newFileName.split("/")[:-1]))
+    except: pass
+    
+    # Resize the image using ImageMagick
+    cmd = "/usr/bin/convert %(fileName)s -resize %(geometry)s %(newFileName)s" % {"fileName": fileName, "geometry": geometry, "newFileName": newFileName}
+    retVal = 0
+    retVal = os.system(cmd)
+    if retVal != 0:
+        # TODO: Better handling of this error (write to log?)
+        print "Error while executing resize command:", retVal
+    return retVal
 
 if __name__ == "__main__":
     pass
