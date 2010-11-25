@@ -75,7 +75,6 @@
                             <property name="visible">True</property>
                             <property name="has_focus">True</property>
                             <property name="model">size_liststore</property>
-                            <property name="active">4</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext1"/>
                               <attributes>
@@ -127,7 +126,6 @@
                         <child>
                           <object class="GtkSpinButton" id="scale_spinbutton">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
                             <property name="adjustment">scale_adjustment</property>
@@ -139,7 +137,6 @@
                         <child>
                           <object class="GtkLabel" id="scale_percent_label">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="label" translatable="yes">percent</property>
                           </object>
                           <packing>
@@ -176,7 +173,6 @@
                         <child>
                           <object class="GtkLabel" id="custom_width_label">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="label" translatable="yes">Width:</property>
                           </object>
                           <packing>
@@ -188,7 +184,6 @@
                         <child>
                           <object class="GtkSpinButton" id="width_spinbutton">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
                             <property name="adjustment">width_adjustment</property>
@@ -200,7 +195,6 @@
                         <child>
                           <object class="GtkLabel" id="custom_height_label">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="label" translatable="yes">Height:</property>
                           </object>
                           <packing>
@@ -212,7 +206,6 @@
                         <child>
                           <object class="GtkSpinButton" id="height_spinbutton">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
                             <property name="adjustment">height_adjustment</property>
@@ -224,7 +217,6 @@
                         <child>
                           <object class="GtkLabel" id="custom_pixels_label">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="label" translatable="yes">pixels</property>
                           </object>
                           <packing>
@@ -476,7 +468,6 @@
                                   <object class="GtkRadioButton" id="upload_radiobutton">
                                     <property name="label" translatable="yes">Upload a .zip file to</property>
                                     <property name="visible">True</property>
-                                    <property name="sensitive">False</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="draw_indicator">True</property>
@@ -491,7 +482,6 @@
                                 <child>
                                   <object class="GtkComboBox" id="upload_combobox">
                                     <property name="visible">True</property>
-                                    <property name="sensitive">False</property>
                                     <property name="model">upload_liststore</property>
                                     <property name="active">0</property>
                                     <child>
@@ -513,7 +503,6 @@
                             <child>
                               <object class="GtkRadioButton" id="send_email_radiobutton">
                                 <property name="label" translatable="yes">Attach to an email message</property>
-                                <property name="sensitive">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="draw_indicator">True</property>
@@ -607,21 +596,18 @@
     </action-widgets>
   </object>
   <object class="GtkAdjustment" id="scale_adjustment">
-    <property name="value">50</property>
     <property name="lower">1</property>
     <property name="upper">200</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="width_adjustment">
-    <property name="value">1000</property>
     <property name="lower">1</property>
     <property name="upper">9999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="height_adjustment">
-    <property name="value">1000</property>
     <property name="lower">1</property>
     <property name="upper">9999</property>
     <property name="step_increment">1</property>

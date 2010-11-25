@@ -64,8 +64,16 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
         # Code for other initialization actions should be added here.
         # TODO: Reuse last time's settings
-        self.builder.get_object("subdirectory_name_entry").set_sensitive(True)
-        self.builder.get_object("append_name_entry").set_sensitive(False)
+        # Size parameters
+        self.builder.get_object("size_combobox").set_active(4)
+        self.builder.get_object("scale_adjustment").set_value(50)
+        self.builder.get_object("width_adjustment").set_value(1000)
+        self.builder.get_object("height_adjustment").set_value(1000)
+        self.builder.get_object("default_size_radiobutton").toggled()
+        # Name parameters
+        self.builder.get_object("subdirectory_name_entry").set_text(_("resized"))
+        self.builder.get_object("append_name_entry").set_text(_("-resized"))
+        self.builder.get_object("subdirectory_radiobutton").toggled()
 
     def resize(self, widget, data=None):
         """The user has elected to resize the images
