@@ -19,13 +19,8 @@ import os, gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
-def resize_images(geometry, subdirectoryName, appendString):
-    """Loops over all files to resize them.
-    
-    The return value indicates if the operation as a whole was successful.
-    """
-    files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
-    #files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
+def resize_images(files, geometry, subdirectoryName, appendString):
+    """Loops over all files to resize them."""
     
     # Clean the subdirectory name input
     if subdirectoryName:
@@ -36,10 +31,8 @@ def resize_images(geometry, subdirectoryName, appendString):
                 cleanSubdirectoryName.append(i)
         subdirectoryName = "/".join(cleanSubdirectoryName)
     
-    retVal = 0
     for f in files:
-        retVal += resize_one_image(f, geometry, subdirectoryName, appendString)
-    return retVal
+        retVal = resize_one_image(f, geometry, subdirectoryName, appendString)
 
 def resize_one_image(fileName, geometry, subdirectoryName, appendString):
     """Performs the resizing operation on one image.

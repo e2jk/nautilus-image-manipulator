@@ -72,6 +72,9 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
         Called before the dialog returns gtk.RESONSE_OK from run().
         """
+        # Test files (they should be provided by the nautilus extension)
+        files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+        #files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
 
         # Determine the output filenames
         subdirectoryName = ""
@@ -109,9 +112,8 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             geometry = "%dx%d" % (int(self.builder.get_object("width_spinbutton").get_value()), int(self.builder.get_object("height_spinbutton").get_value()))
         
         # Resize the images
-        result = 0 # The output of the resizing operation
         if geometry:
-            result = resize_images(geometry, subdirectoryName, appendString)
+            resize_images(files, geometry, subdirectoryName, appendString)
 
         # TODO: Remember the settings for next time
 
