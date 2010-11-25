@@ -15,7 +15,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import gtk
+import gtk, gobject
 
 from nautilus_image_manipulator.helpers import get_builder
 from ImageManipulations import resize_images
@@ -74,6 +74,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         """
         # Test files (they should be provided by the nautilus extension)
         files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+        files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
         #files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
 
         # Determine the output filenames
@@ -111,9 +112,17 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         elif self.builder.get_object("custom_size_radiobutton").get_active():
             geometry = "%dx%d" % (int(self.builder.get_object("width_spinbutton").get_value()), int(self.builder.get_object("height_spinbutton").get_value()))
         
-        # Resize the images
         if geometry:
-            resize_images(files, geometry, subdirectoryName, appendString)
+            # Disable the parameter UI elements and display the progress bar
+            self.builder.get_object("parameters_vbox").set_sensitive(False)
+            self.builder.get_object("resize_button").set_sensitive(False)
+            self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Resizing images..."))
+            self.builder.get_object("progress_progressbar").show()
+            while gtk.events_pending():
+                gtk.main_iteration() # Used to refresh the UI
+            # Resize the images
+            task = resize_images(self, files, geometry, subdirectoryName, appendString)
+            gobject.idle_add(task.next)
 
         # TODO: Remember the settings for next time
 

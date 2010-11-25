@@ -19,7 +19,7 @@ import os, gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
-def resize_images(files, geometry, subdirectoryName, appendString):
+def resize_images(dialog, files, geometry, subdirectoryName, appendString):
     """Loops over all files to resize them."""
     
     # Clean the subdirectory name input
@@ -31,8 +31,17 @@ def resize_images(files, geometry, subdirectoryName, appendString):
                 cleanSubdirectoryName.append(i)
         subdirectoryName = "/".join(cleanSubdirectoryName)
     
+    i = float(0)
     for f in files:
         retVal = resize_one_image(f, geometry, subdirectoryName, appendString)
+        i += 1
+        percent = i / len(files)
+        dialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
+        dialog.builder.get_object("progress_progressbar").set_fraction(percent)
+        # There's more work, return True
+        yield True
+    # No more work, return False
+    yield False
 
 def resize_one_image(fileName, geometry, subdirectoryName, appendString):
     """Performs the resizing operation on one image.
