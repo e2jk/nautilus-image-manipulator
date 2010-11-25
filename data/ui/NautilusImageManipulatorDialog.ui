@@ -155,6 +155,7 @@
                     </child>
                     <child>
                       <object class="GtkHBox" id="hbox5">
+                        <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkRadioButton" id="custom_size_radiobutton">

@@ -106,8 +106,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
         # Resize using custom scale values
         elif self.builder.get_object("custom_size_radiobutton").get_active():
-            # TODO: Support resizing according to custom values
-            pass
+            geometry = "%dx%d" % (int(self.builder.get_object("width_spinbutton").get_value()), int(self.builder.get_object("height_spinbutton").get_value()))
         
         # Resize the images
         result = 0 # The output of the resizing operation
