@@ -130,10 +130,14 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
                 gtk.main_iteration() # Used to refresh the UI
             # Resize the images
             im = ImageManipulations(self, files, geometry, subdirectoryName, appendString)
+            im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
             gobject.idle_add(task.next)
 
         # TODO: Remember the settings for next time
+
+    def on_resizing_done(self, im):
+        print "Resizing is done"
 
     def cancel(self, widget, data=None):
         """The user has elected to cancel.

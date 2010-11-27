@@ -52,7 +52,8 @@ class ImageManipulations(gobject.GObject):
             self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
             # There's more work, return True
             yield True
-        # 
+        # Signal we are done resizing
+        self.emit("resizing_done")
         # No more work, return False
         yield False
 
@@ -92,6 +93,9 @@ class ImageManipulations(gobject.GObject):
             # TODO: Better handling of this error (write to log?)
             print "Error while executing resize command:", retVal
         return (retVal, newFileName)
+
+gobject.type_register(ImageManipulations)
+gobject.signal_new("resizing_done", ImageManipulations, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ())
 
 if __name__ == "__main__":
     pass
