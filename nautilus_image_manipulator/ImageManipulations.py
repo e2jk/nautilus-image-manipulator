@@ -32,8 +32,11 @@ def resize_images(dialog, files, geometry, subdirectoryName, appendString):
         subdirectoryName = "/".join(cleanSubdirectoryName)
     
     i = float(0)
+    newFiles = []
     for f in files:
-        retVal = resize_one_image(f, geometry, subdirectoryName, appendString)
+        (retVal, newFileName) = resize_one_image(f, geometry, subdirectoryName, appendString)
+        newFiles.append(newFileName)
+        # TODO: handle error in resizing image (ask to retry, ignore this image or cancel the whole operation)
         i += 1
         percent = i / len(files)
         dialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
@@ -78,7 +81,7 @@ def resize_one_image(fileName, geometry, subdirectoryName, appendString):
     if retVal != 0:
         # TODO: Better handling of this error (write to log?)
         print "Error while executing resize command:", retVal
-    return retVal
+    return (retVal, newFileName)
 
 if __name__ == "__main__":
     pass
