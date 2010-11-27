@@ -18,7 +18,7 @@
 import gtk, gobject
 
 from nautilus_image_manipulator.helpers import get_builder
-from ImageManipulations import resize_images
+from ImageManipulations import ImageManipulations
 
 import gettext
 from gettext import gettext as _
@@ -129,7 +129,8 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             while gtk.events_pending():
                 gtk.main_iteration() # Used to refresh the UI
             # Resize the images
-            task = resize_images(self, files, geometry, subdirectoryName, appendString)
+            im = ImageManipulations(self, files, geometry, subdirectoryName, appendString)
+            task = im.resize_images()
             gobject.idle_add(task.next)
 
         # TODO: Remember the settings for next time
