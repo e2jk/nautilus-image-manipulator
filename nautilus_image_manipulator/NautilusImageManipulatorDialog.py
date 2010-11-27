@@ -82,7 +82,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         """
         # Test files (they should be provided by the nautilus extension)
         files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
-        files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+        #files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
         #files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
 
         # Determine the output filenames
@@ -137,7 +137,14 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # TODO: Remember the settings for next time
 
     def on_resizing_done(self, im):
-        print "Resizing is done"
+        """Triggered when all the images have been resized"""
+        # Check if the user wants to send the images
+        if self.builder.get_object("send_checkbutton").get_active():
+            # We need to send the images
+            pass
+        else:
+            # The user doesn't want to send the images, we're done!
+            self.destroy()
 
     def cancel(self, widget, data=None):
         """The user has elected to cancel.
