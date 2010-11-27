@@ -182,10 +182,9 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
     def on_send_toggled(self, widget, data=None):
         """Updates the sensitiveness of the elements involved with sending the images."""
-        doSend = widget.get_active()
-        self.builder.get_object("upload_radiobutton").set_sensitive(doSend)
-        self.builder.get_object("upload_combobox").set_sensitive(doSend and self.builder.get_object("upload_radiobutton").get_active())
-        self.builder.get_object("send_email_radiobutton").set_sensitive(doSend)
+        self.builder.get_object("send_options_hbox").set_sensitive(widget.get_active())
+        if not self.builder.get_object("send_options_hbox").get_visible():
+            self.builder.get_object("send_options_hbox").show()
 
     def on_send_type_toggled(self, widget, data=None):
         """Updates the sensitiveness of the upload combobox when changing the sending options."""
