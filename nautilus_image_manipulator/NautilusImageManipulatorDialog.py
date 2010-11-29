@@ -141,10 +141,17 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Check if the user wants to send the images
         if self.builder.get_object("send_checkbutton").get_active():
             # We need to send the images
-            pass
+            # First, pack the modified images in a zip file
+            im.connect("packing_done", self.on_packing_done)
+            task = im.pack_images()
+            gobject.idle_add(task.next)
         else:
             # The user doesn't want to send the images, we're done!
             self.destroy()
+
+    def on_packing_done(self, im):
+        """Triggered when all the images have been packed together"""
+        print "Packing done!"
 
     def cancel(self, widget, data=None):
         """The user has elected to cancel.

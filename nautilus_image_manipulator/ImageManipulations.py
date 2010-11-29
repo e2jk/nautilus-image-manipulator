@@ -15,7 +15,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import os, gettext, gobject
+import os, gettext, gobject, zipfile
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
@@ -41,10 +41,10 @@ class ImageManipulations(gobject.GObject):
     def resize_images(self):
         """Loops over all files to resize them."""
         i = float(0)
-        newFiles = []
+        self.newFiles = []
         for f in self.origFiles:
             (retVal, newFileName) = self.resize_one_image(f)
-            newFiles.append(newFileName)
+            self.newFiles.append(newFileName)
             # TODO: handle error in resizing image (ask to retry, ignore this image or cancel the whole operation)
             i += 1
             percent = i / self.numFiles
@@ -94,8 +94,42 @@ class ImageManipulations(gobject.GObject):
             print "Error while executing resize command:", retVal
         return (retVal, newFileName)
 
+    def pack_images(self):
+        """Creates a zip file containing the modified files"""
+        # Generate the name of the zipfile
+        dirname = os.path.dirname(self.origFiles[0])
+        zipname = "images" # Default filename
+        if self.subdirectoryName:
+            zipname = self.subdirectoryName
+        if self.appendString:
+            zipname = self.appendString
+        self.zipfile = "%s/%s.zip" % (dirname, zipname)
+        
+        # Zip the files into a PKZIP format .zip file
+        zout = zipfile.ZipFile(self.zipfile, "w")
+        i = float(0)
+        for fname in self.newFiles:
+            # TODO: make sure the name of the images are unique (could not be true if using appendString)
+            zout.write(fname, os.path.basename(fname), zipfile.ZIP_DEFLATED)
+            i += 1
+            percent = i / self.numFiles
+            self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Packing images..."), int(percent * 100)))
+            self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
+            # There's more work, return True
+            yield True
+        zout.close() # Close the zip file
+        
+        # TODO: check with zipfile.is_zipfile(self.zipfile) and ZipFile.testzip() if the generated zipfile is valid
+        
+        # Signal we are done packing
+        self.emit("packing_done")
+        # No more work, return False
+        yield False
+        
+
 gobject.type_register(ImageManipulations)
 gobject.signal_new("resizing_done", ImageManipulations, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ())
+gobject.signal_new("packing_done", ImageManipulations, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ())
 
 if __name__ == "__main__":
     pass
