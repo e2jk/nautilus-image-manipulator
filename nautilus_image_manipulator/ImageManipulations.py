@@ -122,14 +122,14 @@ class ImageManipulations(gobject.GObject):
         # TODO: check with zipfile.is_zipfile(self.zipfile) and ZipFile.testzip() if the generated zipfile is valid
         
         # Signal we are done packing
-        self.emit("packing_done")
+        self.emit("packing_done", self.zipfile)
         # No more work, return False
         yield False
         
 
 gobject.type_register(ImageManipulations)
 gobject.signal_new("resizing_done", ImageManipulations, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ())
-gobject.signal_new("packing_done", ImageManipulations, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ())
+gobject.signal_new("packing_done", ImageManipulations, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (gobject.TYPE_STRING, ))
 
 if __name__ == "__main__":
     pass

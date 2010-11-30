@@ -140,16 +140,20 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         """Triggered when all the images have been resized"""
         # Check if the user wants to send the images
         if self.builder.get_object("send_checkbutton").get_active():
-            # We need to send the images
-            # First, pack the modified images in a zip file
-            im.connect("packing_done", self.on_packing_done)
-            task = im.pack_images()
-            gobject.idle_add(task.next)
+            if self.builder.get_object("upload_radiobutton").get_active():
+                # The user wants to upload to a website, pack the modified images in a zip file
+                im.connect("packing_done", self.on_packing_done)
+                task = im.pack_images()
+                gobject.idle_add(task.next)
+            elif self.builder.get_object("send_email_radiobutton").get_active():
+                # The user wants to send the images via email, send them as attachments
+                # TODO: implement the sending as email attachments
+                pass
         else:
             # The user doesn't want to send the images, we're done!
             self.destroy()
 
-    def on_packing_done(self, im):
+    def on_packing_done(self, im, zipfile):
         """Triggered when all the images have been packed together"""
         print "Packing done!"
 
