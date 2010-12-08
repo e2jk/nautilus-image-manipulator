@@ -83,6 +83,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Test files (they should be provided by the nautilus extension)
         files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
         #files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+        #files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
         #files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
 
         # Determine the output filenames
@@ -155,7 +156,35 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
     def on_packing_done(self, im, zipfile):
         """Triggered when all the images have been packed together"""
-        print "Packing done!"
+        # Import the module that takes care of uploading to the selected website
+        import_string = "from upload.z%s import UploadSite" % self.builder.get_object("upload_combobox").get_active_text().replace(".", "").replace("/", "")
+        # TODO: make sure the import does not fail
+        exec import_string
+        # TODO: make sure this is properly initialized (no need to try to upload if we don't have upload urls for instance)
+        u = UploadSite()
+        self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Uploading images..."))
+        self.builder.get_object("progress_progressbar").set_fraction(0)
+        self.uploadPercent = 0
+        (downloadPage, deletePage) = u.upload(zipfile, self.uploading_callback)
+        # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
+        # Note that the selection clipboard will be empty when the dialog gets closed.
+        # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
+        gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
+        gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
+
+    def uploading_callback(self, param, current, total):
+        """This function gets called when uploading the images.
+        
+        It updates the progress bar according to the progress of the upload."""
+        percent = float(current)/total
+        percent100 = int(percent * 100)
+        if percent100 > self.uploadPercent:
+            self.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
+            self.builder.get_object("progress_progressbar").set_fraction(percent)
+            while gtk.events_pending():
+                gtk.main_iteration() # Used to refresh the UI
+            self.uploadPercent = percent100
+        
 
     def cancel(self, widget, data=None):
         """The user has elected to cancel.
