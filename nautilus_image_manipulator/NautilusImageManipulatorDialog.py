@@ -171,6 +171,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
         gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
         gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
+        self.on_uploading_done(downloadPage, deletePage)
 
     def uploading_callback(self, param, current, total):
         """This function gets called when uploading the images.
@@ -184,6 +185,19 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             while gtk.events_pending():
                 gtk.main_iteration() # Used to refresh the UI
             self.uploadPercent = percent100
+
+    def on_uploading_done(self, downloadPage, deletePage):
+        """Displays the url where the images can be downloaded from, or deleted."""
+        print "File uploaded successfully!\n%s\n%s" % (downloadPage, deletePage)
+        self.builder.get_object("parameters_vbox").hide()
+        self.builder.get_object("progress_progressbar").hide()
+        # Update the link buttons with the urls
+        self.builder.get_object("download_linkbutton").set_label(downloadPage)
+        self.builder.get_object("download_linkbutton").set_uri(downloadPage)
+        self.builder.get_object("delete_linkbutton").set_label(deletePage)
+        self.builder.get_object("delete_linkbutton").set_uri(deletePage)
+        self.builder.get_object("upload_url_vbox").show()
+        #self.builder.get_object("nautilus_image_manipulator_dialog").resize(-1, -1)
         
 
     def cancel(self, widget, data=None):
