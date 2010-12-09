@@ -15,7 +15,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import gtk, gobject
+import gtk, gobject, ConfigParser, os
 
 from nautilus_image_manipulator.helpers import get_builder
 from ImageManipulations import ImageManipulations
@@ -62,18 +62,8 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         self.builder = builder
         self.builder.connect_signals(self)
 
-        # Code for other initialization actions should be added here.
-        # TODO: Reuse last time's settings
-        # Size parameters
-        self.builder.get_object("size_combobox").set_active(4)
-        self.builder.get_object("scale_adjustment").set_value(50)
-        self.builder.get_object("width_adjustment").set_value(1000)
-        self.builder.get_object("height_adjustment").set_value(1000)
-        self.builder.get_object("default_size_radiobutton").toggled()
-        # Name parameters
-        self.builder.get_object("subdirectory_name_entry").set_text(_("resized"))
-        self.builder.get_object("append_name_entry").set_text(_("-resized"))
-        self.builder.get_object("subdirectory_radiobutton").toggled()
+        # Load the saved configuration
+        self.loadConfig()
 
     def resize(self, widget, data=None):
         """The user has elected to resize the images
@@ -135,7 +125,8 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             task = im.resize_images()
             gobject.idle_add(task.next)
 
-        # TODO: Remember the settings for next time
+        # Remember the settings for next time
+        self.saveConfig()
 
     def on_resizing_done(self, im):
         """Triggered when all the images have been resized"""
@@ -209,7 +200,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
     def on_destroy(self, widget, data=None):
         """Called when the NautilusImageManipulatorWindow is closed."""
-        # Clean up code for saving application state should be added here.
+        # Note: The parameters don't get saved when canceling. It is called at the end of self.resize().
         gtk.main_quit()
 
     def on_size_option_toggled(self, widget, data=None):
@@ -256,6 +247,101 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         label.show()
         response = dialog.run()
         dialog.destroy()
+
+    def loadConfig(self):
+        """Read the ini file to get the previous configuration. The ini file is located at ~/.nautilus-image-manipulator.ini.
+        
+        If no previous values are found, sets the UI to default values."""
+        self.configFilename = os.path.expanduser("~/.nautilus-image-manipulator.ini")
+        self.config = ConfigParser.ConfigParser()
+        self.config.read(self.configFilename)
+        if len(self.config.sections()) > 0:
+            # TODO: take care of eventual exceptions if a value is not set
+            # Resize
+            size_combobox_value = self.config.getint("Resize", "size_combobox")
+            scale_adjustment_value = self.config.getint("Resize", "scale_adjustment")
+            width_adjustment_value = self.config.getint("Resize", "width_adjustment")
+            height_adjustment_value = self.config.getint("Resize", "height_adjustment")
+            toggled_size_radiobutton = self.config.get("Resize", "toggled_size_radiobutton")
+            
+            # Output
+            subdirectory_name_entry_value = self.config.get("Output", "subdirectory_name_entry")
+            append_name_entry_value = self.config.get("Output", "append_name_entry")
+            toggled_output_radiobutton = self.config.get("Output", "toggled_output_radiobutton")
+            
+            # Sending
+            is_send_checkbutton_toggled = self.config.getboolean("Sending", "is_send_checkbutton_toggled")
+            toggled_sending_option_radiobutton = self.config.get("Sending", "toggled_sending_option_radiobutton")
+            upload_combobox_value = self.config.getint("Sending", "upload_combobox")
+            
+            # TODO: Make sure that the values read from the ini file are valid, else use default values
+        else:
+            # Default parameters
+            # Resize
+            size_combobox_value = 4
+            scale_adjustment_value = 50
+            width_adjustment_value = 1000
+            height_adjustment_value = 1000
+            toggled_size_radiobutton = "default_size_radiobutton"
+            
+            # Output
+            subdirectory_name_entry_value = _("resized")
+            append_name_entry_value = _("-resized")
+            toggled_output_radiobutton = "subdirectory_radiobutton"
+            
+            # Sending
+            is_send_checkbutton_toggled = False
+            toggled_sending_option_radiobutton = "upload_radiobutton"
+            upload_combobox_value = 0
+        
+        # Update the UI with the previous (or default) values
+        # Size parameters
+        self.builder.get_object("size_combobox").set_active(size_combobox_value)
+        self.builder.get_object("scale_adjustment").set_value(scale_adjustment_value)
+        self.builder.get_object("width_adjustment").set_value(width_adjustment_value)
+        self.builder.get_object("height_adjustment").set_value(height_adjustment_value)
+        self.builder.get_object(toggled_size_radiobutton).set_active(True)
+        
+        # Output parameters
+        self.builder.get_object("subdirectory_name_entry").set_text(subdirectory_name_entry_value)
+        self.builder.get_object("append_name_entry").set_text(append_name_entry_value)
+        self.builder.get_object(toggled_output_radiobutton).set_active(True)
+        
+        # Sending parameters
+        self.builder.get_object("send_checkbutton").set_active(is_send_checkbutton_toggled)
+        self.builder.get_object(toggled_sending_option_radiobutton).set_active(True)
+        self.builder.get_object("upload_combobox").set_active(upload_combobox_value)
+
+    def saveConfig(self):
+        """Save the current configuration in the ini file"""
+        f = open(self.configFilename, "w")
+        
+        if not self.config.has_section("Resize"):
+            self.config.add_section("Resize")
+        self.config.set("Resize", "size_combobox", int(self.builder.get_object("size_combobox").get_active()))
+        for v in ("scale_adjustment", "width_adjustment", "height_adjustment"):
+            self.config.set("Resize", v, int(self.builder.get_object(v).get_value()))
+        for b in ("default_size_radiobutton", "custom_scale_radiobutton", "custom_size_radiobutton"):
+            if self.builder.get_object(b).get_active():
+                self.config.set("Resize", "toggled_size_radiobutton", b)
+        
+        if not self.config.has_section("Output"):
+            self.config.add_section("Output")
+        for v in ("subdirectory_name_entry", "append_name_entry"):
+            self.config.set("Output", v, self.builder.get_object(v).get_text())
+        for b in ("subdirectory_radiobutton", "append_radiobutton", "inplace_radiobutton"):
+            if self.builder.get_object(b).get_active():
+                self.config.set("Output", "toggled_output_radiobutton", b)
+        
+        if not self.config.has_section("Sending"):
+            self.config.add_section("Sending")
+        self.config.set("Sending", "is_send_checkbutton_toggled", self.builder.get_object("send_checkbutton").get_active())
+        for b in ("upload_radiobutton", "send_email_radiobutton"):
+            if self.builder.get_object(b).get_active():
+                self.config.set("Sending", "toggled_sending_option_radiobutton", b)
+        self.config.set("Sending", "upload_combobox", int(self.builder.get_object("upload_combobox").get_active()))
+        
+        self.config.write(f)
 
 
 if __name__ == "__main__":
