@@ -65,7 +65,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Load the saved configuration
         self.loadConfig()
 
-    def resize(self, widget, data=None):
+    def resize_images(self, widget, data=None):
         """The user has elected to resize the images
 
         Called before the dialog returns gtk.RESONSE_OK from run().
@@ -188,7 +188,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         self.builder.get_object("delete_linkbutton").set_label(deletePage)
         self.builder.get_object("delete_linkbutton").set_uri(deletePage)
         self.builder.get_object("upload_url_vbox").show()
-        #self.builder.get_object("nautilus_image_manipulator_dialog").resize(-1, -1)
+        self.resize(1, 1)
         
 
     def cancel(self, widget, data=None):
