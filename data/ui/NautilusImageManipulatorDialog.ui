@@ -23,7 +23,7 @@
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Image size&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Image Size&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
@@ -246,7 +246,7 @@
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Filename&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Output Options&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
@@ -394,7 +394,7 @@
               <object class="GtkLabel" id="label11">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Sending options&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Sending Options&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
