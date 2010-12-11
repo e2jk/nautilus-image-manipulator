@@ -157,6 +157,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         self.builder.get_object("progress_progressbar").set_fraction(0)
         self.uploadPercent = 0
         (downloadPage, deletePage) = u.upload(zipfile, self.uploading_callback)
+        #(downloadPage, deletePage) = ("http://TTTTT.1fichier.com", "http://www.1fichier.com/remove/TTTTT/VVVVV")
         # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
         # Note that the selection clipboard will be empty when the dialog gets closed.
         # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
