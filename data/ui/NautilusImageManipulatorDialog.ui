@@ -20,10 +20,10 @@
             <property name="visible">True</property>
             <property name="spacing">12</property>
             <child>
-              <object class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="image_size_label">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Image Size&lt;/b&gt;</property>
+                <property name="label" translatable="yes" comments="Use &quot;Title Case&quot; if used in your language">Image Size</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
@@ -243,10 +243,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label2">
+              <object class="GtkLabel" id="output_options_label">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Output Options&lt;/b&gt;</property>
+                <property name="label" translatable="yes" comments="Use &quot;Title Case&quot; if used in your language">Output Options</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
@@ -391,10 +391,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label11">
+              <object class="GtkLabel" id="sending_options_label">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Sending Options&lt;/b&gt;</property>
+                <property name="label" translatable="yes" comments="Use &quot;Title Case&quot; if used in your language">Sending Options</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
@@ -555,10 +555,10 @@
           <object class="GtkVBox" id="upload_url_vbox">
             <property name="spacing">12</property>
             <child>
-              <object class="GtkLabel" id="label14">
+              <object class="GtkLabel" id="images_uploaded_label">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Images successfully uploaded!&lt;/b&gt;</property>
+                <property name="label" translatable="yes">Images successfully uploaded!</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
