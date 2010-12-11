@@ -6,7 +6,7 @@
   <object class="NautilusImageManipulatorDialog" id="nautilus_image_manipulator_dialog">
     <property name="visible">True</property>
     <property name="border_width">12</property>
-    <property name="title" translatable="yes">Resize image</property>
+    <property name="title" translatable="yes">Resize images</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
@@ -314,7 +314,7 @@
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkRadioButton" id="append_radiobutton">
-                            <property name="label" translatable="yes">Append</property>
+                            <property name="label" translatable="yes" comments="Part of &quot;Append XX to file name&quot;">Append</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -343,7 +343,7 @@
                         <child>
                           <object class="GtkLabel" id="label10">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">to file name</property>
+                            <property name="label" translatable="yes" comments="Part of &quot;Append XX to file name&quot;">to file name</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -467,7 +467,7 @@
                                 <property name="spacing">6</property>
                                 <child>
                                   <object class="GtkRadioButton" id="upload_radiobutton">
-                                    <property name="label" translatable="yes">Upload a .zip file to</property>
+                                    <property name="label" translatable="yes" comments="After this text comes a combobox to select to which website to upload the images to. It will thus be like &quot;Upload a .zip file to example.com&quot;">Upload a .zip file to</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -745,22 +745,22 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">96x96</col>
+        <col id="0">96x96</col>
       </row>
       <row>
-        <col id="0" translatable="yes">128x128</col>
+        <col id="0">128x128</col>
       </row>
       <row>
-        <col id="0" translatable="yes">640x480</col>
+        <col id="0">640x480</col>
       </row>
       <row>
-        <col id="0" translatable="yes">800x600</col>
+        <col id="0">800x600</col>
       </row>
       <row>
-        <col id="0" translatable="yes">1024x768</col>
+        <col id="0">1024x768</col>
       </row>
       <row>
-        <col id="0" translatable="yes">1280x960</col>
+        <col id="0">1280x960</col>
       </row>
     </data>
   </object>
@@ -771,7 +771,7 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">1fichier.com</col>
+        <col id="0">1fichier.com</col>
       </row>
     </data>
   </object>

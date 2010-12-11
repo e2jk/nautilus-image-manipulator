@@ -297,9 +297,11 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             toggled_size_radiobutton = "default_size_radiobutton"
             
             # Output
-            subdirectory_name_entry_value = _("resized")
-            append_name_entry_value = _("-resized")
             toggled_output_radiobutton = "subdirectory_radiobutton"
+            # Default name of the subdirectory in which the resized images will be put
+            subdirectory_name_entry_value = _("resized")
+            # Default value of the string that will be appended to the filename of the resized images
+            append_name_entry_value = _("-resized")
             
             # Sending
             is_send_checkbutton_toggled = False
