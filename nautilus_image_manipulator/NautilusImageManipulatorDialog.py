@@ -189,6 +189,10 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         self.builder.get_object("delete_linkbutton").set_label(deletePage)
         self.builder.get_object("delete_linkbutton").set_uri(deletePage)
         self.builder.get_object("upload_url_vbox").show()
+        # Hide the cancel and resize button, and show the close button
+        self.builder.get_object("cancel_button").hide()
+        self.builder.get_object("resize_button").hide()
+        self.builder.get_object("close_button").show()
         self.resize(1, 1)
         
 
