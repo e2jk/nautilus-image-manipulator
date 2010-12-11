@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-11 18:47+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:90
+msgid "Please enter a value for the subdirectory."
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:97
+msgid "Please enter some text to append to the filename."
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:123
+#: ../nautilus_image_manipulator/ImageManipulations.py:51
+msgid "Resizing images..."
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:161
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:180
+msgid "Uploading images..."
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:254
+msgid "Invalid parameters"
+msgstr ""
+
+#. Output
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:300
+msgid "resized"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:301
+msgid "-resized"
+msgstr ""
+
+#: ../nautilus-image-manipulator.desktop.in.h:1
+msgid "Nautilus Image Manipulator"
+msgstr ""
+
+#: ../nautilus-image-manipulator.desktop.in.h:2
+msgid "Resize and upload images from Nautilus"
+msgstr ""
+
+#: ../nautilus_image_manipulator/ImageManipulations.py:116
+msgid "Packing images..."
+msgstr ""
+
+#: ../bin/nautilus-image-manipulator.py:47
+msgid "Show debug messages"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:1
+msgid "1024x768"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:2
+msgid "1280x960"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:3
+msgid "128x128"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:4
+msgid "1fichier.com"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:5
+msgid "640x480"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:6
+msgid "800x600"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
+msgid "96x96"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:8
+msgid "Append"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:9
+msgid "Attach to an email message"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
+msgid "Custom size:"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
+msgid "Delete url:"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
+msgid "Download url:"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
+msgid "Height:"
+msgstr ""
+
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:15
+msgid "Image Size"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
+msgid "Images successfully uploaded!"
+msgstr ""
+
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
+msgid "Output Options"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
+msgid "Put in subdirectory called"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
+msgid "Resize image"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
+msgid "Resize in place"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+msgid "Scale:"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
+msgid "Select a size:"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
+msgid "Send the resized images"
+msgstr ""
+
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+msgid "Sending Options"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
+msgid "The download url has been copied in the clipboard"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+msgid "This value will be appended before the image extension"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
+msgid "Upload a .zip file to"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
+msgid "Width:"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
+msgid "percent"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+msgid "pixels"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
+msgid "to file name"
+msgstr ""
