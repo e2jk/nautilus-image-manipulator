@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-11 22:10+0100\n"
+"POT-Creation-Date: 2010-12-13 19:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,35 +16,35 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:90
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:88
 msgid "Please enter a value for the subdirectory."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:97
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:95
 msgid "Please enter some text to append to the filename."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:123
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:121
 #: ../nautilus_image_manipulator/ImageManipulations.py:51
 msgid "Resizing images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:161
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:180
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:159
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:178
 msgid "Uploading images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:254
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:252
 msgid "Invalid parameters"
 msgstr ""
 
 #. Default name of the subdirectory in which the resized images will be put
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:302
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:300
 msgid "resized"
 msgstr ""
 
 #. Default value of the string that will be appended to the filename of the resized images
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:304
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:302
 msgid "-resized"
 msgstr ""
 
@@ -60,8 +60,12 @@ msgstr ""
 msgid "Packing images..."
 msgstr ""
 
-#: ../bin/nautilus-image-manipulator.py:47
+#: ../bin/nautilus-image-manipulator.py:45
 msgid "Show debug messages"
+msgstr ""
+
+#: ../bin/nautilus-image-manipulator.py:46
+msgid "A file to be resized. Use multiple arguments to resize multiple files."
 msgstr ""
 
 #. Part of "Append XX to file name"

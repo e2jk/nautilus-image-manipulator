@@ -69,18 +69,15 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
         # Load the saved configuration
         self.loadConfig()
+        
+    def set_files(self, files):
+        self.files = files
 
     def resize_images(self, widget, data=None):
         """The user has elected to resize the images
 
         Called before the dialog returns gtk.RESONSE_OK from run().
         """
-        # Test files (they should be provided by the nautilus extension)
-        files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
-        #files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
-        #files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
-        #files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
-
         # Determine the output filenames
         subdirectoryName = ""
         appendString = ""
@@ -125,7 +122,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             while gtk.events_pending():
                 gtk.main_iteration() # Used to refresh the UI
             # Resize the images
-            im = ImageManipulations(self, files, geometry, subdirectoryName, appendString)
+            im = ImageManipulations(self, self.files, geometry, subdirectoryName, appendString)
             im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
             gobject.idle_add(task.next)

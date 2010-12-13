@@ -42,18 +42,25 @@ if __name__ == "__main__":
     import logging
     import optparse
     parser = optparse.OptionParser(version="%prog %ver")
-    parser.add_option(
-        "-v", "--verbose", action="store_true", dest="verbose",
-        help=_("Show debug messages"))
+    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help=_("Show debug messages"))
+    parser.add_option("-f", "--file", action="append", dest="files", help=_("A file to be resized. Use multiple arguments to resize multiple files."))
     (options, args) = parser.parse_args()
 
     # Set the logging level to show debug messages.
     if options.verbose:
         logging.basicConfig(level=logging.DEBUG)
         logging.debug('logging enabled')
+    
+    if not options.files:
+        # Dummy files to test without having to use the Nautilus extension
+        options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+        #options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+        #options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+        #options.files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
 
     # Run the application.
     dialog = NautilusImageManipulatorDialog.NautilusImageManipulatorDialog()
+    dialog.set_files(options.files)
     dialog.show()
     try: gtk.main()
     except KeyboardInterrupt: pass
