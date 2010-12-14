@@ -15,7 +15,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import os, gettext, gobject, zipfile
+import os, gettext, gobject, zipfile, subprocess
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
@@ -86,9 +86,9 @@ class ImageManipulations(gobject.GObject):
         except: pass
         
         # Resize the image using ImageMagick
-        cmd = "/usr/bin/convert %(fileName)s -resize %(geometry)s %(newFileName)s" % {"fileName": fileName, "geometry": self.geometry, "newFileName": newFileName}
+        args = ["/usr/bin/convert", fileName, "-resize", self.geometry, newFileName]
         retVal = 0
-        retVal = os.system(cmd)
+        retVal = subprocess.call(args)
         if retVal != 0:
             # TODO: Better handling of this error (write to log?)
             print "Error while executing resize command:", retVal

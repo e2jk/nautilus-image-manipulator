@@ -53,7 +53,7 @@ if __name__ == "__main__":
     
     if not options.files:
         # Dummy files to test without having to use the Nautilus extension
-        options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
+        options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186 (copie).JPG"]
         #options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
         #options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
         #options.files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
