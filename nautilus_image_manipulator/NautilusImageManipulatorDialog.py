@@ -144,42 +144,63 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
     def on_packing_done(self, im, zipfile):
         """Triggered when all the images have been packed together"""
+        uploadSiteName = self.builder.get_object("upload_combobox").get_active_text()
         # Import the module that takes care of uploading to the selected website
-        import_string = "from upload.z%s import UploadSite" % self.builder.get_object("upload_combobox").get_active_text().replace(".", "").replace("/", "")
-        # TODO: make sure the import does not fail
-        exec import_string
+        import_string = "from upload.z%s import UploadSite" % uploadSiteName.replace(".", "").replace("/", "")
+        # Make sure the import does not fail
+        try:
+            exec import_string
+        except ImportError:
+            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + _("""Your images have not been sent, but have been zipped together into this file:
+%(filename)s""" % {"filename": zipfile}), (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
+            return
         # TODO: make sure this is properly initialized (no need to try to upload if we don't have upload urls for instance)
         u = None
-        try: u = UploadSite()
-        except urllib2.URLError: pass
-        if u:
-            self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Uploading images..."))
-            self.builder.get_object("progress_progressbar").set_fraction(0)
-            self.uploadPercent = 0
-            (downloadPage, deletePage) = u.upload(zipfile, self.uploading_callback)
-            #(downloadPage, deletePage) = ("http://TTTTT.1fichier.com", "http://www.1fichier.com/remove/TTTTT/VVVVV")
-            # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
-            # Note that the selection clipboard will be empty when the dialog gets closed.
-            # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
-            gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
-            gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
-            self.on_uploading_done(downloadPage, deletePage)
-        else:
+        try:
+            u = UploadSite()
+        except urllib2.URLError:
             # Impossible to contact the website (no network, site down, etc.)
-            # Hide the unneccessary sections
-            self.builder.get_object("parameters_vbox").hide()
-            self.builder.get_object("progress_progressbar").hide()
-            self.builder.get_object("upload_url_vbox").hide()
-            # Display the error message
-            self.builder.get_object("error_message_label").set_text(_("""The upload site could not be contacted, please check your internet connection.
-Your images have not been sent, but have been zipped together into this file:
+            self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + _("""Your images have not been sent, but have been zipped together into this file:
 %(filename)s""" % {"filename": zipfile}))
-            self.builder.get_object("error_vbox").show()
-            # Hide the cancel and resize button, and show the close button
-            self.builder.get_object("cancel_button").hide()
-            self.builder.get_object("resize_button").hide()
-            self.builder.get_object("close_button").show()
-            self.resize(1, 1)
+            return
+        
+        self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Uploading images..."))
+        self.builder.get_object("progress_progressbar").set_fraction(0)
+        self.uploadPercent = 0
+        (downloadPage, deletePage) = u.upload(zipfile, self.uploading_callback)
+        #(downloadPage, deletePage) = ("http://TTTTT.1fichier.com", "http://www.1fichier.com/remove/TTTTT/VVVVV")
+        # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
+        # Note that the selection clipboard will be empty when the dialog gets closed.
+        # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
+        gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
+        gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
+        self.on_uploading_done(downloadPage, deletePage)
+
+    def display_error(self, msg, urlInfo=None):
+        """Displays an error message.
+        
+        Using the option ``urlInfo`` parameter, you can diplay a link button to open a url.
+        This parameter is a tuple of the form (message, url)"""
+        # Hide the unneccessary sections
+        self.builder.get_object("parameters_vbox").hide()
+        self.builder.get_object("progress_progressbar").hide()
+        self.builder.get_object("upload_url_vbox").hide()
+        # Display the error message
+        self.builder.get_object("error_message_label").set_text(msg)
+        self.builder.get_object("error_vbox").show()
+        # Hide the cancel and resize button, and show the close button
+        self.builder.get_object("cancel_button").hide()
+        self.builder.get_object("resize_button").hide()
+        self.builder.get_object("close_button").show()
+        # Eventually display an url
+        if urlInfo:
+            self.builder.get_object("error_url_linkbutton").set_label(urlInfo[0])
+            self.builder.get_object("error_url_linkbutton").set_uri(urlInfo[1])
+            self.builder.get_object("error_url_hbox").show()
+        else:
+            self.builder.get_object("error_url_hbox").hide()
+        #TODO: Make the close button the default behavior (to respond to Enter)
+        self.resize(1, 1)
 
     def uploading_callback(self, param, current, total):
         """This function gets called when uploading the images.

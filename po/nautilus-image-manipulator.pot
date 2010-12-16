@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-16 08:20+0100\n"
+"POT-Creation-Date: 2010-12-16 14:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,46 +16,61 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:87
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:82
 msgid "Please enter a value for the subdirectory."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:94
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:89
 msgid "Please enter some text to append to the filename."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:120
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:115
 #: ../nautilus_image_manipulator/ImageManipulations.py:51
 msgid "Resizing images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:161
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:196
-msgid "Uploading images..."
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:154
+#, python-format
+msgid "The selected upload site %(site_name)s is not valid."
 msgstr ""
 
-#. Display the error message
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:179
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:154
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:163
 #, python-format
 msgid ""
-"The upload site could not be contacted, please check your internet "
-"connection.\n"
 "Your images have not been sent, but have been zipped together into this "
 "file:\n"
 "%(filename)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:270
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:155
+msgid "Please file a bug report on Launchpad"
+msgstr ""
+
+#. Impossible to contact the website (no network, site down, etc.)
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:163
+#, python-format
+msgid ""
+"The upload site %(site_name)s could not be contacted, please check your "
+"internet connection."
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:167
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:212
+msgid "Uploading images..."
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:286
 msgid "Invalid parameters"
 msgstr ""
 
 #. Default name of the subdirectory in which the resized images will be put
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:318
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:334
 msgid "resized"
 msgstr ""
 
 #. Default value of the string that will be appended to the filename of the resized images
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:320
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:336
 msgid "-resized"
 msgstr ""
 
