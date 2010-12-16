@@ -24,7 +24,9 @@
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes" comments="Use &quot;Title Case&quot; if used in your language">Image Size</property>
-                <property name="use_markup">True</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -247,7 +249,9 @@
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes" comments="Use &quot;Title Case&quot; if used in your language">Output Options</property>
-                <property name="use_markup">True</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -395,7 +399,9 @@
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes" comments="Use &quot;Title Case&quot; if used in your language">Sending Options</property>
-                <property name="use_markup">True</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -559,7 +565,9 @@
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Images successfully uploaded!</property>
-                <property name="use_markup">True</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -663,7 +671,9 @@
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">An error occurred!</property>
-                <property name="use_markup">True</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>

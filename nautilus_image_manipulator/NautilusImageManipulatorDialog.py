@@ -61,11 +61,6 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Get a reference to the builder and set up the signals.
         self.builder = builder
         self.builder.connect_signals(self)
-        
-        # Update the section titles to be bold
-        # Doing this from code hides this complexity for the translators
-        for l in ("image_size_label", "output_options_label", "sending_options_label", "images_uploaded_label", "error_title_label"):
-            self.builder.get_object(l).set_markup("<b>%s</b>" % self.builder.get_object(l).get_text())
 
         # Load the saved configuration
         self.loadConfig()
