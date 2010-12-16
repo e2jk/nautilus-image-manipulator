@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-13 19:34+0100\n"
+"POT-Creation-Date: 2010-12-16 08:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,35 +16,46 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:88
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:87
 msgid "Please enter a value for the subdirectory."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:95
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:94
 msgid "Please enter some text to append to the filename."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:121
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:120
 #: ../nautilus_image_manipulator/ImageManipulations.py:51
 msgid "Resizing images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:159
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:178
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:161
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:196
 msgid "Uploading images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:252
+#. Display the error message
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:179
+#, python-format
+msgid ""
+"The upload site could not be contacted, please check your internet "
+"connection.\n"
+"Your images have not been sent, but have been zipped together into this "
+"file:\n"
+"%(filename)s"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:270
 msgid "Invalid parameters"
 msgstr ""
 
 #. Default name of the subdirectory in which the resized images will be put
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:300
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:318
 msgid "resized"
 msgstr ""
 
 #. Default value of the string that will be appended to the filename of the resized images
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:302
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:320
 msgid "-resized"
 msgstr ""
 
@@ -68,100 +79,104 @@ msgstr ""
 msgid "A file to be resized. Use multiple arguments to resize multiple files."
 msgstr ""
 
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:1
+msgid "An error occurred!"
+msgstr ""
+
 #. Part of "Append XX to file name"
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:2
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:3
 msgid "Append"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:3
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:4
 msgid "Attach to an email message"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:4
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:5
 msgid "Custom size:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:5
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:6
 msgid "Delete url:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:6
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
 msgid "Download url:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:8
 msgid "Height:"
 msgstr ""
 
 #. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:9
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
 msgid "Image Size"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
 msgid "Images successfully uploaded!"
 msgstr ""
 
 #. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
 msgid "Output Options"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
 msgid "Put in subdirectory called"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:15
 msgid "Resize images"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:15
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
 msgid "Resize in place"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
 msgid "Scale:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
 msgid "Select a size:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
 msgid "Send the resized images"
 msgstr ""
 
 #. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
 msgid "Sending Options"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
 msgid "The download url has been copied in the clipboard"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
 msgid "This value will be appended before the image extension"
 msgstr ""
 
 #. After this text comes a combobox to select to which website to upload the images to. It will thus be like "Upload a .zip file to example.com"
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
 msgid "Upload a .zip file to"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
 msgid "Width:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
 msgid "percent"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
 msgid "pixels"
 msgstr ""
 
 #. Part of "Append XX to file name"
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
 msgid "to file name"
 msgstr ""

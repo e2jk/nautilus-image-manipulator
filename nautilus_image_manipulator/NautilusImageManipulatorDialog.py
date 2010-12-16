@@ -15,7 +15,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import gtk, gobject, ConfigParser, os
+import gtk, gobject, ConfigParser, os, urllib2
 
 from nautilus_image_manipulator.helpers import get_builder
 from ImageManipulations import ImageManipulations
@@ -64,7 +64,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         
         # Update the section titles to be bold
         # Doing this from code hides this complexity for the translators
-        for l in ("image_size_label", "output_options_label", "sending_options_label", "images_uploaded_label"):
+        for l in ("image_size_label", "output_options_label", "sending_options_label", "images_uploaded_label", "error_title_label"):
             self.builder.get_object(l).set_markup("<b>%s</b>" % self.builder.get_object(l).get_text())
 
         # Load the saved configuration
@@ -154,18 +154,37 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # TODO: make sure the import does not fail
         exec import_string
         # TODO: make sure this is properly initialized (no need to try to upload if we don't have upload urls for instance)
-        u = UploadSite()
-        self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Uploading images..."))
-        self.builder.get_object("progress_progressbar").set_fraction(0)
-        self.uploadPercent = 0
-        (downloadPage, deletePage) = u.upload(zipfile, self.uploading_callback)
-        #(downloadPage, deletePage) = ("http://TTTTT.1fichier.com", "http://www.1fichier.com/remove/TTTTT/VVVVV")
-        # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
-        # Note that the selection clipboard will be empty when the dialog gets closed.
-        # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
-        gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
-        gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
-        self.on_uploading_done(downloadPage, deletePage)
+        u = None
+        try: u = UploadSite()
+        except urllib2.URLError: pass
+        if u:
+            self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Uploading images..."))
+            self.builder.get_object("progress_progressbar").set_fraction(0)
+            self.uploadPercent = 0
+            (downloadPage, deletePage) = u.upload(zipfile, self.uploading_callback)
+            #(downloadPage, deletePage) = ("http://TTTTT.1fichier.com", "http://www.1fichier.com/remove/TTTTT/VVVVV")
+            # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
+            # Note that the selection clipboard will be empty when the dialog gets closed.
+            # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
+            gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
+            gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
+            self.on_uploading_done(downloadPage, deletePage)
+        else:
+            # Impossible to contact the website (no network, site down, etc.)
+            # Hide the unneccessary sections
+            self.builder.get_object("parameters_vbox").hide()
+            self.builder.get_object("progress_progressbar").hide()
+            self.builder.get_object("upload_url_vbox").hide()
+            # Display the error message
+            self.builder.get_object("error_message_label").set_text(_("""The upload site could not be contacted, please check your internet connection.
+Your images have not been sent, but have been zipped together into this file:
+%(filename)s""" % {"filename": zipfile}))
+            self.builder.get_object("error_vbox").show()
+            # Hide the cancel and resize button, and show the close button
+            self.builder.get_object("cancel_button").hide()
+            self.builder.get_object("resize_button").hide()
+            self.builder.get_object("close_button").show()
+            self.resize(1, 1)
 
     def uploading_callback(self, param, current, total):
         """This function gets called when uploading the images.
