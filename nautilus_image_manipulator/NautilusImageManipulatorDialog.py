@@ -65,6 +65,8 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Load the saved configuration
         self.loadConfig()
         
+        self.processingCanceled = False
+        
     def set_files(self, files):
         self.files = files
 
@@ -127,8 +129,8 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
     def on_resizing_done(self, im):
         """Triggered when all the images have been resized"""
-        # Check if the user wants to send the images
-        if self.builder.get_object("send_checkbutton").get_active():
+        # Only pack and send the images if the process was not canceled and if there is at least one image to pack
+        if self.builder.get_object("send_checkbutton").get_active() and not self.processingCanceled and len(im.newFiles) > 0:
             if self.builder.get_object("upload_radiobutton").get_active():
                 # The user wants to upload to a website, pack the modified images in a zip file
                 im.connect("packing_done", self.on_packing_done)
@@ -291,6 +293,27 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         label.show()
         response = dialog.run()
         dialog.destroy()
+
+    def error_resizing(self, filename):
+        """Displays an error message if ImageMagick returned an error while resizing one image."""
+        (folder, image) = os.path.split(filename)
+        label = gtk.Label(_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))
+        label.set_padding(10, 5)
+        dialog = gtk.Dialog(_("Could not resize image"),
+                           self,
+                           gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                           (_("_Skip"), 0,
+                           gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                           _("_Retry"), 1))
+        dialog.vbox.pack_start(label)
+        label.show()
+        response = dialog.run()
+        dialog.destroy()
+        # The values to be returned
+        skip = (response == 0)
+        self.processingCanceled = (response == gtk.RESPONSE_CANCEL)
+        retry = (response == 1)
+        return (skip, self.processingCanceled, retry)
 
     def loadConfig(self):
         """Read the ini file to get the previous configuration. The ini file is located at ~/.nautilus-image-manipulator.ini.

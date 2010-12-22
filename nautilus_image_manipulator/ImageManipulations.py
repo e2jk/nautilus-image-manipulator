@@ -43,9 +43,11 @@ class ImageManipulations(gobject.GObject):
         i = float(0)
         self.newFiles = []
         for f in self.origFiles:
-            (retVal, newFileName) = self.resize_one_image(f)
-            self.newFiles.append(newFileName)
-            # TODO: handle error in resizing image (ask to retry, ignore this image or cancel the whole operation)
+            (skip, cancel, newFileName) = self.resize_one_image(f)
+            if cancel:
+                break
+            if not skip:
+                self.newFiles.append(newFileName)
             i += 1
             percent = i / self.numFiles
             self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
@@ -62,6 +64,9 @@ class ImageManipulations(gobject.GObject):
         
         The return value indicates if this resizing operation was successful.
         """
+        skip = False
+        cancel = False
+        
         s = fileName.split("/")
         basePath = "/".join(s[:-1])
         name = s[-1]
@@ -87,12 +92,15 @@ class ImageManipulations(gobject.GObject):
         
         # Resize the image using ImageMagick
         args = ["/usr/bin/convert", fileName, "-resize", self.geometry, newFileName]
-        retVal = 0
         retVal = subprocess.call(args)
         if retVal != 0:
-            # TODO: Better handling of this error (write to log?)
+            # TODO: Write error value to log?
             print "Error while executing resize command:", retVal
-        return (retVal, newFileName)
+            (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
+            if retry:
+                # Retry with the same image
+                (skip, cancel, newFileName) = self.resize_one_image(fileName)
+        return (skip, cancel, newFileName)
 
     def pack_images(self):
         """Creates a zip file containing the modified files"""
