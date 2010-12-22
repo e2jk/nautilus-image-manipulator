@@ -67,9 +67,7 @@ class ImageManipulations(gobject.GObject):
         skip = False
         cancel = False
         
-        s = fileName.split("/")
-        basePath = "/".join(s[:-1])
-        name = s[-1]
+        (basePath, name) = os.path.split(fileName)
         
         if self.subdirectoryName:
             basePath = "%s/%s" % (basePath, self.subdirectoryName)
