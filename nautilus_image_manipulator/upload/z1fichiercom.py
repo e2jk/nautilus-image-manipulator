@@ -61,8 +61,13 @@ class UploadSite():
         
         # The return is like this:
         # filename;size;download identifier;deletion identifier;domain identifier;control hash
-        # TODO: if this regex fails, it means that the upload has failed
-        (filename, size, download_id, deletion_id, domain_id, control_hash) = re.search("(.*);(.*);(.*);(.*);(.*);(.*)", downloaded_page).groups()
+        
+        try:
+            (filename, size, download_id, deletion_id, domain_id, control_hash) = re.search("(.*);(.*);(.*);(.*);(.*);(.*)", downloaded_page).groups()
+        except:
+            # TODO: Better failed upload handling
+            print 'The upload has failed, this is the returned page:\n"%s"\n' % downloaded_page
+            raise
         
         downloadPage = "http://%s.1fichier.com" % download_id
         deletePage = "http://www.1fichier.com/remove/%s/%s" % (download_id, deletion_id)
