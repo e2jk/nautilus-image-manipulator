@@ -156,7 +156,6 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + _("""Your images have not been sent, but have been zipped together into this file:
 %(filename)s""" % {"filename": zipfile}), (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
             return
-        # TODO: make sure this is properly initialized (no need to try to upload if we don't have upload urls for instance)
         u = None
         try:
             u = UploadSite()
