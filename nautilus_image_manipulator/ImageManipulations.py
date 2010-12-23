@@ -109,6 +109,16 @@ class ImageManipulations(gobject.GObject):
             zipname = self.subdirectoryName
         if self.appendString:
             zipname = self.appendString
+        # Sanitize the name of the zipfile
+        zipname = zipname.strip() # Strip whitespace
+        # Remove starting non-alphabetic characters
+        i = 0
+        for c in zipname:
+            if c.isalpha():
+                break
+            i += 1
+        zipname = zipname[i:]
+        # Create the final zip file name
         self.zipfile = "%s/%s.zip" % (dirname, zipname)
         
         # Zip the files into a PKZIP format .zip file
