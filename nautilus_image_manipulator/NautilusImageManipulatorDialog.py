@@ -132,10 +132,15 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Only pack and send the images if the process was not canceled and if there is at least one image to pack
         if self.builder.get_object("send_checkbutton").get_active() and not self.processingCanceled and len(im.newFiles) > 0:
             if self.builder.get_object("upload_radiobutton").get_active():
-                # The user wants to upload to a website, pack the modified images in a zip file
-                im.connect("packing_done", self.on_packing_done)
-                task = im.pack_images()
-                gobject.idle_add(task.next)
+                # The user wants to upload to a website
+                if len(im.newFiles) > 1:
+                    # There are more than one image, zip the files together and upload the zipfile
+                    im.connect("packing_done", self.on_packing_done)
+                    task = im.pack_images()
+                    gobject.idle_add(task.next)
+                else:
+                    # There is only one image, send that image alone (don't zip the file)
+                    self.upload_file(im, im.newFiles[0])
             elif self.builder.get_object("send_email_radiobutton").get_active():
                 # The user wants to send the images via email, send them as attachments
                 # TODO: implement the sending as email attachments
@@ -145,7 +150,11 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             self.destroy()
 
     def on_packing_done(self, im, zipfile):
-        """Triggered when all the images have been packed together"""
+        """Triggered when all the images have been packed together."""
+        self.upload_file(im, zipfile)
+
+    def upload_file(self, im, fileToUpload):
+        """Uploads a file to a website."""
         uploadSiteName = self.builder.get_object("upload_combobox").get_active_text()
         # Import the module that takes care of uploading to the selected website
         import_string = "from upload.z%s import UploadSite" % uploadSiteName.replace(".", "").replace("/", "")
@@ -153,22 +162,28 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         try:
             exec import_string
         except ImportError:
-            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + _("""Your images have not been sent, but have been zipped together into this file:
-%(filename)s""" % {"filename": zipfile}), (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
+            if os.path.splitext(fileToUpload)[1] == ".zip":
+                extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
+            else:
+                extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
+            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + extraInfo, (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
             return
         u = None
         try:
             u = UploadSite()
         except urllib2.URLError:
             # Impossible to contact the website (no network, site down, etc.)
-            self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + _("""Your images have not been sent, but have been zipped together into this file:
-%(filename)s""" % {"filename": zipfile}))
+            if os.path.splitext(fileToUpload)[1] == ".zip":
+                extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
+            else:
+                extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
+            self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + extraInfo)
             return
         
         self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Uploading images..."))
         self.builder.get_object("progress_progressbar").set_fraction(0)
         self.uploadPercent = 0
-        (downloadPage, deletePage) = u.upload(zipfile, self.uploading_callback)
+        (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
         #(downloadPage, deletePage) = ("http://TTTTT.1fichier.com", "http://www.1fichier.com/remove/TTTTT/VVVVV")
         # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
         # Note that the selection clipboard will be empty when the dialog gets closed.
