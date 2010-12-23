@@ -117,9 +117,9 @@ class ImageManipulations(gobject.GObject):
             if c.isalpha():
                 break
             i += 1
-        zipname = zipname[i:]
+        zipname = "%s.zip" % zipname[i:]
         # Create the final zip file name
-        self.zipfile = "%s/%s.zip" % (dirname, zipname)
+        self.zipfile = os.path.join(dirname, zipname)
         
         # Zip the files into a PKZIP format .zip file
         zout = zipfile.ZipFile(self.zipfile, "w")
