@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-22 08:09+0100\n"
+"POT-Creation-Date: 2010-12-23 09:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,7 +103,15 @@ msgstr ""
 msgid "Resize and upload images from Nautilus"
 msgstr ""
 
-#: ../nautilus_image_manipulator/ImageManipulations.py:124
+#: ../nautilus_image_manipulator/nautilus-image-manipulator.py:56
+msgid "_Resize images..."
+msgstr ""
+
+#: ../nautilus_image_manipulator/nautilus-image-manipulator.py:57
+msgid "Resize each selected image"
+msgstr ""
+
+#: ../nautilus_image_manipulator/ImageManipulations.py:122
 msgid "Packing images..."
 msgstr ""
 

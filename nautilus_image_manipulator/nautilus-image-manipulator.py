@@ -25,7 +25,9 @@
 # or
 #     /usr/lib/nautilus/extensions-2.0/python/
 
-import nautilus, os, subprocess, urllib
+import nautilus, os, subprocess, urllib, gettext
+from gettext import gettext as _
+gettext.textdomain('nautilus-image-manipulator')
 
 class BackgroundImageExtension(nautilus.MenuProvider):
     def __init__(self):
@@ -50,9 +52,9 @@ class BackgroundImageExtension(nautilus.MenuProvider):
             return
         
         # TODO: Update the extension's menu label and tooltip message
-        item = nautilus.MenuItem('Nautilus::set_backgHGHGHround_image',
-                                 'Nautilus Image Manipulator',
-                                 'This is Nautilus Image Manipulator\'s tooltip')
+        item = nautilus.MenuItem('NautilusImageManipulator::resize',
+                                 _("_Resize images..."),
+                                 _("Resize each selected image"))
         item.connect('activate', self.menu_activate_cb, images)
         return item,
 
