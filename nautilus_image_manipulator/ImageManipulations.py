@@ -76,9 +76,9 @@ class ImageManipulations(gobject.GObject):
             # TODO: If the appendString ends in "/", the images will be called ".jpg" which is a
             # hidden file in it's own new folder (folder name == the image name).
             # What should we do about it?
-            n = name.split(".")
-            extension = n[-1].lower() # Also convert the extension to lower case
-            name = "%s%s.%s" % (".".join(n[:-1]), self.appendString, extension)
+            # Insert the append string and convert the extension to lower case
+            n = os.path.splitext(name)
+            name = "%s%s%s" % (n[0], self.appendString, n[1].lower())
         
         # This is the output filename
         newFileName = "%s/%s" % (basePath, name)
