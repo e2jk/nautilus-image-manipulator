@@ -40,20 +40,24 @@ class ImageManipulations(gobject.GObject):
 
     def resize_images(self):
         """Loops over all files to resize them."""
-        i = float(0)
-        self.newFiles = []
-        for f in self.origFiles:
-            (skip, cancel, newFileName) = self.resize_one_image(f)
-            if cancel:
-                break
-            if not skip:
-                self.newFiles.append(newFileName)
-            i += 1
-            percent = i / self.numFiles
-            self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
-            self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
-            # There's more work, return True
-            yield True
+        if self.geometry != "100%":
+            i = float(0)
+            self.newFiles = []
+            for f in self.origFiles:
+                (skip, cancel, newFileName) = self.resize_one_image(f)
+                if cancel:
+                    break
+                if not skip:
+                    self.newFiles.append(newFileName)
+                i += 1
+                percent = i / self.numFiles
+                self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
+                self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
+                # There's more work, return True
+                yield True
+        else:
+            # If scaling to 100%, don't actually resize files (it would just degrade the quality)
+            self.newFiles = self.origFiles
         # Signal we are done resizing
         self.emit("resizing_done")
         # No more work, return False
