@@ -108,6 +108,9 @@ class ImageManipulations(gobject.GObject):
         """Creates a zip file containing the modified files"""
         # Generate the name of the zipfile
         dirname = os.path.dirname(self.origFiles[0])
+        if not dirname:
+            # Put the zipfile in the user's home folder if no base directory name could be determined.
+            dirname = os.path.expanduser("~")
         zipname = "images" # Default filename
         if self.subdirectoryName:
             zipname = self.subdirectoryName
