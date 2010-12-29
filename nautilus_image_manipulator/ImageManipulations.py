@@ -130,6 +130,7 @@ class ImageManipulations(gobject.GObject):
         i = float(0)
         for fname in self.newFiles:
             # TODO: make sure the name of the images are unique (could not be true if using appendString)
+            # TODO: This will crash if an invalid filename is passed (can be the case with scale==100%)
             zout.write(fname, os.path.basename(fname), zipfile.ZIP_DEFLATED)
             i += 1
             percent = i / self.numFiles
