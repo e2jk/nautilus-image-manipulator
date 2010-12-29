@@ -106,6 +106,7 @@ class ImageManipulations(gobject.GObject):
 
     def pack_images(self):
         """Creates a zip file containing the modified files"""
+        # TODO: Verify that all the files to be zipped are valid files (can be untrue if scale==100%)
         # Generate the name of the zipfile
         dirname = os.path.dirname(self.origFiles[0])
         if not dirname:
