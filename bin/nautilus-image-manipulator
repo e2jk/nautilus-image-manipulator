@@ -52,15 +52,21 @@ if __name__ == "__main__":
         logging.debug('logging enabled')
     
     if not options.files:
-        # Dummy files to test without having to use the Nautilus extension
-        options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186 (copie).JPG"]
-        #options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
-        #options.files = ["/home/emilien/Bureau/test/IMG_0185.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG", "/home/emilien/Bureau/test/IMG_0186.JPG"]
-        #options.files = ["/home/emilien/Bureau/test/IMG_0186.JPG"]
-
-    # Run the application.
-    dialog = NautilusImageManipulatorDialog.NautilusImageManipulatorDialog()
-    dialog.set_files(options.files)
-    dialog.show()
-    try: gtk.main()
-    except KeyboardInterrupt: pass
+        # Display an error message since we don't have images to work on
+        label = gtk.Label(_('Nautilus Image Manipulator needs to be provided with a list of images to resize.\nPlease right-click on an image and select the "%(resizeImages)s" option.') % {"resizeImages": _("_Resize images...").replace("_", "")})
+        label.set_padding(10, 5)
+        dialog = gtk.Dialog(_("No images provided"),
+                           None,
+                           gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                           (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+        dialog.vbox.pack_start(label)
+        label.show()
+        response = dialog.run()
+        dialog.destroy()
+    else:
+        # Run the application.
+        dialog = NautilusImageManipulatorDialog.NautilusImageManipulatorDialog()
+        dialog.set_files(options.files)
+        dialog.show()
+        try: gtk.main()
+        except KeyboardInterrupt: pass
