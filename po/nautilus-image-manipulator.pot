@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-30 22:30+0100\n"
+"POT-Creation-Date: 2011-02-01 22:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,11 +124,11 @@ msgid "Packing images..."
 msgstr ""
 
 #: ../bin/nautilus-image-manipulator.py:45
-msgid "Show debug messages"
+msgid "show debug messages"
 msgstr ""
 
 #: ../bin/nautilus-image-manipulator.py:46
-msgid "A file to be resized. Use multiple arguments to resize multiple files."
+msgid "a file to be resized. Use multiple arguments to resize multiple files."
 msgstr ""
 
 #. Display an error message since we don't have images to work on
