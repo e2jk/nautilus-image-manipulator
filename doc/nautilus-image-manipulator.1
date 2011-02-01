@@ -1,0 +1,52 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" Process this file with
+.\" groff -man -Tascii nautilus-image-manipulator.1
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH NAUTILUS-IMAGE-MANIPULATOR SECTION "February 1, 2011"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+nautilus-image-manipulator \- resize and send images from Nautilus
+.SH SYNOPSIS
+.B nautilus-image-manipulator
+[\fIoptions\fR]
+.SH DESCRIPTION
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics,
+.\" respectively.
+\fBnautilus-image-manipulator\fP is a Nautilus extension that lets you
+resize images and send them to friends and family, right from Nautilus.
+.PP
+Just right-click on any photo or group of photos, and an option will appear
+that launches Nautilus Image Manipulator.
+.\" Options secction originally created using help2man
+.SH OPTIONS
+.TP
+\fB\-\-version\fR
+show program's version number and exit
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+show this help message and exit
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+show debug messages
+.TP
+\fB\-f\fR FILE, \fB\-\-file\fR=\fIFILE\fR
+a file to be resized. Use multiple arguments to resize
+multiple files.
+.SH AUTHOR
+nautilus-image-manipulator was written by Emilien Klein <emilien@klein.st>.
+.SH "SEE ALSO"
+.BR nautilus-image-converter (1)
