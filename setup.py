@@ -93,9 +93,16 @@ DistUtilsExtra.auto.setup(
     license='GPL-3',
     author='Emilien Klein',
     author_email='emilien _AT_ klein _DOT_ st',
-    #description='UI for managing …',
-    #long_description='Here a longer description',
-    #url='https://launchpad.net/nautilus-image-manipulator',
+    description='Resize and send images from Nautilus',
+    long_description="""This Nautilus extension lets you resize images and send them to friends
+and family, right from Nautilus.
+
+Just right-click on any photo or group of photos, and an option will
+appear that launches Nautilus Image Manipulator.
+
+It is highly inspirated by Nautilus Image Converter:
+    http://www.bitron.ch/software/nautilus-image-converter.php""",
+    url='https://launchpad.net/nautilus-image-manipulator',
     cmdclass={'install': InstallAndUpdateDataDirectory}
     )
 
