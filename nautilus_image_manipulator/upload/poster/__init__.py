@@ -26,7 +26,7 @@ New releases of poster will always have a version number that compares greater
 than an older version of poster.
 New in version 0.6."""
 
-import streaminghttp
-import encode
+import nautilus_image_manipulator.upload.poster.streaminghttp
+import nautilus_image_manipulator.upload.poster.encode
 
 version = (0, 7, 1) # Thanks JP!

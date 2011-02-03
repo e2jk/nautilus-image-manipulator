@@ -17,8 +17,8 @@
 ### END LICENSE
 
 import urllib2, re
-from poster.encode import multipart_encode
-from poster.streaminghttp import register_openers
+from nautilus_image_manipulator.upload.poster.encode import multipart_encode
+from nautilus_image_manipulator.upload.poster.streaminghttp import register_openers
 
 class UploadSite():
     def __init__(self):

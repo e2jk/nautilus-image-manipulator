@@ -18,7 +18,7 @@
 import gtk, gobject, ConfigParser, os, urllib2
 
 from nautilus_image_manipulator.helpers import get_builder
-from ImageManipulations import ImageManipulations
+from nautilus_image_manipulator.ImageManipulations import ImageManipulations
 
 import gettext
 from gettext import gettext as _
