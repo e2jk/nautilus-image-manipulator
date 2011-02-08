@@ -1,0 +1,64 @@
+This file serves as a reminder on how to build Python and Debian packages
+for Nautilus Image Manipulator.
+
+First, update the version number in 2 files:
+  ./setup.py
+      as "version" argument of "DistUtilsExtra.auto.setup"
+  ./bin/nautilus-image-manipulator
+      as argument of "optparse.OptionParser"
+
+
+Create the Python package. Place yourself in the root of the project
+and execute:
+  python setup.py sdist
+
+
+This will create a tarball of the source code:
+  ./dist/nautilus-image-manipulator-<VERSION>.tar.gz
+
+
+This file should be uploaded to Launchpad as the source package of this
+new release.
+
+
+Copy this tarball to a new location (for example ~/devel/deb).
+
+
+Unpack the source tarball
+  tar xzf nautilus-image-manipulator-<VERSION>.tar.gz
+
+
+Copy the source tarball to respect the debian format
+  cp nautilus-image-manipulator-<VERSION>.tar.gz nautilus-image-manipulator_<VERSION>.orig.tar.gz
+
+The vanilla source files are now in ./nautilus-image-manipulator-<VERSION>
+
+
+Restore the Debian package files from a previous package
+TODO: explain procedure to get the ./debian files from a previous package
+For now use the files packaged in the temporary tarball I made to test
+
+
+Create the Debian package
+  debuild
+
+
+TODO: Add info about publishing the package
+
+
+DONE!
+
+
+
+
+I've used the following resources to create this process:
+
+Python's "Distributing Python Modules" documentation
+  http://docs.python.org/distutils/index.html
+
+Debian New Maintainers' Guide
+  http://www.debian.org/doc/manuals/maint-guide/index.en.html
+
+The setup.py file of the bzr-gtk was helpful to handle the instalation of
+the Nautilus extension in the right place.
+  http://bazaar.launchpad.net/~bzr-gtk/bzr-gtk/trunk/view/head:/setup.py

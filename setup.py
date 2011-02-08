@@ -87,6 +87,20 @@ class InstallAndUpdateDataDirectory(DistUtilsExtra.auto.install_auto):
 ###################### YOU SHOULD MODIFY ONLY WHAT IS BELOW ######################
 ##################################################################################
 
+
+def nautilus_plugin():
+    """Inspired by bzr-gtk:
+    http://bazaar.launchpad.net/~bzr-gtk/bzr-gtk/trunk/view/head:/setup.py """
+    files = []
+    if sys.platform[:5] == 'linux':
+        cmd = os.popen('pkg-config --variable=pythondir nautilus-python', 'r')
+        res = cmd.readline().strip()
+        ret = cmd.close()
+        if ret is None:
+            dest = res[5:]
+            files.append((dest, ['nautilus_image_manipulator/nautilus-image-manipulator-extension.py']))
+    return files
+
 DistUtilsExtra.auto.setup(
     name='nautilus-image-manipulator',
     version='0.2',
@@ -100,9 +114,11 @@ and family, right from Nautilus.
 Just right-click on any photo or group of photos, and an option will
 appear that launches Nautilus Image Manipulator.
 
-It is highly inspirated by Nautilus Image Converter:
+It is highly inspired by Nautilus Image Converter:
     http://www.bitron.ch/software/nautilus-image-converter.php""",
     url='https://launchpad.net/nautilus-image-manipulator',
+    packages=["nautilus_image_manipulator", "nautilus_image_manipulator.upload", "nautilus_image_manipulator.upload.poster"],
+    data_files=nautilus_plugin(),
     cmdclass={'install': InstallAndUpdateDataDirectory}
     )
 

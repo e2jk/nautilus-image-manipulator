@@ -1,0 +1,9 @@
+include AUTHORS
+include COPYING
+include README
+include README.PACKAGING
+include data/ui/*
+include doc/*
+include po/*
+include MANIFEST.in
+include bin/*
