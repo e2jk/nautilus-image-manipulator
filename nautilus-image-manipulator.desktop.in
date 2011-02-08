@@ -1,8 +1,0 @@
-[Desktop Entry]
-_Name=Nautilus Image Manipulator
-_Comment=Resize and upload images from Nautilus
-Categories=GNOME;Utility;
-Exec=nautilus-image-manipulator
-Icon=/usr/share/nautilus-image-manipulator/media/icon.png
-Terminal=false
-Type=Application

@@ -16,8 +16,6 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-###################### DO NOT TOUCH THIS (HEAD TO THE SECOND PART) ######################
-
 import os
 import sys
 
@@ -55,37 +53,11 @@ def update_data_path(prefix, oldvalue=None):
     return oldvalue
 
 
-def update_desktop_file(datadir):
-
-    try:
-        fin = file('nautilus-image-manipulator.desktop.in', 'r')
-        fout = file(fin.name + '.new', 'w')
-
-        for line in fin:            
-            if 'Icon=' in line:
-                line = "Icon=%s\n" % (datadir + 'media/icon.png')
-            fout.write(line)
-        fout.flush()
-        fout.close()
-        fin.close()
-        os.rename(fout.name, fin.name)
-    except (OSError, IOError), e:
-        print ("ERROR: Can't find nautilus-image-manipulator.desktop.in")
-        sys.exit(1)
-
-
 class InstallAndUpdateDataDirectory(DistUtilsExtra.auto.install_auto):
     def run(self):
         previous_value = update_data_path(self.prefix + '/share/nautilus-image-manipulator/')
-        update_desktop_file(self.prefix + '/share/nautilus-image-manipulator/')
         DistUtilsExtra.auto.install_auto.run(self)
         update_data_path(self.prefix, previous_value)
-
-
-        
-##################################################################################
-###################### YOU SHOULD MODIFY ONLY WHAT IS BELOW ######################
-##################################################################################
 
 
 def nautilus_plugin():
