@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-01 22:10+0100\n"
+"POT-Creation-Date: 2011-05-08 01:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,27 +102,6 @@ msgstr ""
 msgid "-resized"
 msgstr ""
 
-#: ../nautilus-image-manipulator.desktop.in.h:1
-msgid "Nautilus Image Manipulator"
-msgstr ""
-
-#: ../nautilus-image-manipulator.desktop.in.h:2
-msgid "Resize and upload images from Nautilus"
-msgstr ""
-
-#: ../nautilus_image_manipulator/nautilus-image-manipulator.py:56
-#: ../bin/nautilus-image-manipulator.py:56
-msgid "_Resize images..."
-msgstr ""
-
-#: ../nautilus_image_manipulator/nautilus-image-manipulator.py:57
-msgid "Resize each selected image"
-msgstr ""
-
-#: ../nautilus_image_manipulator/ImageManipulations.py:141
-msgid "Packing images..."
-msgstr ""
-
 #: ../bin/nautilus-image-manipulator.py:45
 msgid "show debug messages"
 msgstr ""
@@ -140,8 +119,17 @@ msgid ""
 "Please right-click on an image and select the \"%(resizeImages)s\" option."
 msgstr ""
 
+#: ../bin/nautilus-image-manipulator.py:56
+#: ../nautilus_image_manipulator/nautilus-extension.py:56
+msgid "_Resize images..."
+msgstr ""
+
 #: ../bin/nautilus-image-manipulator.py:58
 msgid "No images provided"
+msgstr ""
+
+#: ../nautilus_image_manipulator/ImageManipulations.py:141
+msgid "Packing images..."
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:1
@@ -244,4 +232,8 @@ msgstr ""
 #. Part of "Append XX to file name"
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
 msgid "to file name"
+msgstr ""
+
+#: ../nautilus_image_manipulator/nautilus-extension.py:57
+msgid "Resize each selected image"
 msgstr ""
