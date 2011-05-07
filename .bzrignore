@@ -1,3 +1,7 @@
 MANIFEST
 dist/
 debian/
+.settings/
+.project
+.pydevproject
+
