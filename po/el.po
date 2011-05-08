@@ -1,0 +1,265 @@
+# Greek translation for nautilus-image-manipulator
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the nautilus-image-manipulator package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nautilus-image-manipulator\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-05-08 01:02+0200\n"
+"PO-Revision-Date: 2011-02-13 16:27+0000\n"
+"Last-Translator: Stefanos Kariotidis <Unknown>\n"
+"Language-Team: Greek <el@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-05-08 07:52+0000\n"
+"X-Generator: Launchpad (build 12981)\n"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:84
+msgid "Please enter a value for the subdirectory."
+msgstr "Παρακαλώ εισάγετε τιμή για τον υποκατάλογο."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:91
+msgid "Please enter some text to append to the filename."
+msgstr "Παρακαλώ εισάγετε κείμενο για προσάρτηση στο όνομα του αρχείου."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:117
+#: ../nautilus_image_manipulator/ImageManipulations.py:54
+msgid "Resizing images..."
+msgstr "Αλλαγή μεγέθους των εικόνων..."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:166
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:177
+#, python-format
+msgid ""
+"Your images have not been sent, but have been zipped together into this "
+"file:\n"
+"%(filename)s"
+msgstr ""
+"Οι εικόνες σας δεν έχουν αποσταλλεί, αλλά έχουν συμπιεσθεί σε αυτό το "
+"αρχείο:\n"
+"%(filename)s"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:168
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:179
+#, python-format
+msgid ""
+"Your image has not been sent, but has successfully been resized.\n"
+"You can find it at %(filename)s"
+msgstr ""
+"Οι εικόνες σας δεν έχουν αποσταλλεί, αλλά έχουν επιτυχώς αλλάξει μέγεθος.\n"
+"Μπορείτε να τις βρείτε στο %(filename)s"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:169
+#, python-format
+msgid "The selected upload site %(site_name)s is not valid."
+msgstr ""
+"Ο επιλεγμένος ιστοτόπος για μεταφόρτωση %(site_name)s δεν είναι έγκυρος."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:169
+msgid "Please file a bug report on Launchpad"
+msgstr "Παρακαλώ αρχειοθετήστε το λάθος στο Launchpad"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:180
+#, python-format
+msgid ""
+"The upload site %(site_name)s could not be contacted, please check your "
+"internet connection."
+msgstr ""
+"Ο ιστοτόπος %(site_name)s για την μεταφόρτωση δεν ηταν διαθέσιμος, παρακαλώ "
+"ελέγξτε την σύνδεση σας στο διαδίκτυο."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:183
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:228
+msgid "Uploading images..."
+msgstr "Μεταφόρτωση εικόνων..."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:302
+msgid "Invalid parameters"
+msgstr "Μη έγκυρες παραμέτροι"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:314
+#, python-format
+msgid ""
+"The image \"%(image)s\" could not be resized.\n"
+"\n"
+"Check whether you have permission to write to this folder:\n"
+"%(folder)s"
+msgstr ""
+"Δεν μπόρεσε να γίνει αλλαγή μεγέθους της εικόνας \"%(image)s\".\n"
+"Ελέγξτε αν έχετε άδεια να γράψετε σε αυτόν τον φάκελο:\n"
+"%(folder)s"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:316
+msgid "Could not resize image"
+msgstr "Δεν μπόρεσε να γίνει αλλαγή μεγέθους της εικόνας"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:319
+msgid "_Skip"
+msgstr "_Παράλειψη"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:321
+msgid "_Retry"
+msgstr "Επα_νάληψη"
+
+#. Default name of the subdirectory in which the resized images will be put
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:371
+msgid "resized"
+msgstr "με αλλαγή μεγέθους"
+
+#. Default value of the string that will be appended to the filename of the resized images
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:373
+msgid "-resized"
+msgstr "-με αλλαγή μεγέθους"
+
+#: ../bin/nautilus-image-manipulator.py:45
+msgid "show debug messages"
+msgstr "δείξε μηνύματα λαθών"
+
+#: ../bin/nautilus-image-manipulator.py:46
+msgid ""
+"a file to be resized. Use multiple arguments to resize multiple files."
+msgstr ""
+"αρχείο προς αλλαγή μεγέθους. Χρησιμοποιήστε πολλαπλές τιμές για αλλαγή "
+"μεγέθους σε πολλά αρχεία."
+
+#. Display an error message since we don't have images to work on
+#: ../bin/nautilus-image-manipulator.py:56
+#, python-format
+msgid ""
+"Nautilus Image Manipulator needs to be provided with a list of images to "
+"resize.\n"
+"Please right-click on an image and select the \"%(resizeImages)s\" option."
+msgstr ""
+"Ο Nautilus Image Manipulator χρειάζεται μία λίστα με αρχεία εικόνων για τη "
+"μετατροπή του μεγέθους τους.\n"
+"Παρακαλώ κάντε δεξί κλικ σε ένα αρχείο εικόνας και επιλέξτε την "
+"\"%(resizeImages)s\" επιλογή."
+
+#: ../bin/nautilus-image-manipulator.py:56
+#: ../nautilus_image_manipulator/nautilus-extension.py:56
+msgid "_Resize images..."
+msgstr "_Άλλαξε μέγεθος στις εικόνες..."
+
+#: ../bin/nautilus-image-manipulator.py:58
+msgid "No images provided"
+msgstr "Δέν έχουν επιλεχθεί εικόνες"
+
+#: ../nautilus_image_manipulator/ImageManipulations.py:141
+msgid "Packing images..."
+msgstr "Συσκευασία εικόνων..."
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:1
+msgid "An error occurred!"
+msgstr "Έχει προκύψει κάποιο λάθος!"
+
+#. Part of "Append XX to file name"
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:3
+msgid "Append"
+msgstr "Προσθήκη"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:4
+msgid "Attach to an email message"
+msgstr "Επισύναψη σε γράμμα ηλεκτρονικού ταχυδρομίου"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:5
+msgid "Custom size:"
+msgstr "Τροποποιημένο μέγεθος:"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:6
+msgid "Delete url:"
+msgstr "Διαγραφή διεύθυνσης ιστοτόπου"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
+msgid "Download url:"
+msgstr "Διεύθυνση Ιστού για Μεταφόρτωση:"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:8
+msgid "Height:"
+msgstr "Ύψος:"
+
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
+msgid "Image Size"
+msgstr "Μέγεθος Εικόνας"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
+msgid "Images successfully uploaded!"
+msgstr "Οι εικόνες έχουν μεταφορτωθεί με επιτυχία!"
+
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
+msgid "Output Options"
+msgstr "Επιλογές Εξόδου"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
+msgid "Put in subdirectory called"
+msgstr "Τοποθέτησε σε υποκατάλογο που ονομάζεται"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:15
+msgid "Resize images"
+msgstr "Αλλαγή μεγέθους εικόνων"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
+msgid "Resize in place"
+msgstr "Αλλαγή μεγέθους επι τόπου"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
+msgid "Scale:"
+msgstr "Κλίμακα:"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
+msgid "Select a size:"
+msgstr "Επιλέξτε μέγεθος:"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
+msgid "Send the resized images"
+msgstr "Αποστολή εικόνων των οποίων το μέγεθος έχει αλλάξει"
+
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
+msgid "Sending Options"
+msgstr "Επιλογές Αποστολής"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+msgid "The download url has been copied in the clipboard"
+msgstr "Η διεύθυνση αποστολής έχει αντιγραφεί στο πρόχειρο"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
+msgid "This value will be appended before the image extension"
+msgstr ""
+"Αυτή η τιμή πρέπει να εισαχθεί πρίν απο την επέκταση του αρχείου εικόνας"
+
+#. After this text comes a combobox to select to which website to upload the images to. It will thus be like "Upload a .zip file to example.com"
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
+msgid "Upload a .zip file to"
+msgstr "Μεταφόρτωση ενός .zip αρχείου στο"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+msgid "Width:"
+msgstr "Πλάτος:"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
+msgid "percent"
+msgstr "ποσοστό"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+msgid "pixels"
+msgstr "εικονοστοιχεία"
+
+#. Part of "Append XX to file name"
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
+msgid "to file name"
+msgstr "στο όνομα του αρχείου"
+
+#: ../nautilus_image_manipulator/nautilus-extension.py:57
+msgid "Resize each selected image"
+msgstr "Άλλαξε μέγεθος στις επιλεγμένες εικόνες"
+
+#~ msgid "Nautilus Image Manipulator"
+#~ msgstr "Μετατροπέας Εικόνων του Nautilus"
+
+#~ msgid "Resize and upload images from Nautilus"
+#~ msgstr "Αλλάξτε μέγεθος και μεταφορτώστε εικόνες απο τον Nautilus"
