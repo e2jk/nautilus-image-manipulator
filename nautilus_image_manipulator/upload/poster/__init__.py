@@ -1,4 +1,4 @@
-# Copyright (c) 2010 Chris AtLee
+# Copyright (c) 2011 Chris AtLee
 # 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ New releases of poster will always have a version number that compares greater
 than an older version of poster.
 New in version 0.6."""
 
-import nautilus_image_manipulator.upload.poster.streaminghttp
-import nautilus_image_manipulator.upload.poster.encode
+import poster.streaminghttp
+import poster.encode
 
-version = (0, 7, 1) # Thanks JP!
+version = (0, 8, 1) # Thanks JP!
