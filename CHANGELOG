@@ -1,0 +1,20 @@
+Changelog for nautilus-image-manipulator
+
+================================
+0.3 - 2011-05-17 (r90)
+  * New translations:
+    - Asturian
+    - Dutch
+    - Greek
+    - Spanish
+  
+  * Updated French translation
+  
+  * Update Poster to 0.8.1 and removed own customization (original bug fixed)
+  
+  * New scripts for internal project management (to get out of Quickly)
+
+
+================================
+0.2 - 2011-02-08 (r80)
+  * Initial release
