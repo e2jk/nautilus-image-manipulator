@@ -25,36 +25,41 @@
 # or
 #     /usr/lib/nautilus/extensions-2.0/python/
 
-import nautilus, os, subprocess, urllib, gettext
+
+import os, subprocess, urllib, gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
-class BackgroundImageExtension(nautilus.MenuProvider):
+from gi.repository import Nautilus, GObject
+
+
+class BackgroundImageExtension(GObject.GObject, Nautilus.MenuProvider):
     def __init__(self):
         pass
-    
+
     def menu_activate_cb(self, menu, images):
         args = ["nautilus-image-manipulator"]
         for ff in images:
             # Remove "file://" and unquote the filename
             args.extend(("-f", urllib.unquote(ff.get_uri()[7:])))
         retVal = subprocess.call(args)
-        
+
     def get_file_items(self, window, files):
         images = []
         # Extract only the images from the list of selected files
         for f in files:
             if f.get_mime_type()[:6] == "image/":
                 images.append(f)
-        
-        # Don't display this option in the menu if there is not a single image in the selection
+
+        # Don't display this option in the menu if there is not a single images
+        # in the selection
         if not images:
             return
-        
+
         # TODO: Update the extension's menu label and tooltip message
-        item = nautilus.MenuItem('NautilusImageManipulator::resize',
-                                 _("_Resize images..."),
-                                 _("Resize each selected image"))
+        item = Nautilus.MenuItem(name='NautilusImageManipulator::resize',
+                                 label=_("_Resize images..."),
+                                 tip=_("Resize each selected image"))
         item.connect('activate', self.menu_activate_cb, images)
         return item,
 
