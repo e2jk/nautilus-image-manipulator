@@ -16,6 +16,7 @@
 ### END LICENSE
 
 import os, gettext, gobject, zipfile, subprocess
+import logging
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
@@ -37,6 +38,11 @@ class ImageManipulations(gobject.GObject):
                 if i:
                     cleanSubdirectoryName.append(i)
             self.subdirectoryName = "/".join(cleanSubdirectoryName)
+        
+        logging.debug('files: %s' % self.origFiles)
+        logging.debug('geometry: %s' % self.geometry)
+        logging.debug('appendString: %s' % self.appendString)
+        logging.debug('subdirectoryName: %s' % self.subdirectoryName)
 
     def resize_images(self):
         """Loops over all files to resize them."""
@@ -68,6 +74,7 @@ class ImageManipulations(gobject.GObject):
         
         The return value indicates if this resizing operation was successful.
         """
+        logging.debug('resizing image: %s' % fileName)
         skip = False
         cancel = False
         
@@ -75,6 +82,8 @@ class ImageManipulations(gobject.GObject):
         
         if self.subdirectoryName:
             basePath = "%s/%s" % (basePath, self.subdirectoryName)
+        logging.debug('basePath: %s' % basePath)
+        logging.debug('name: %s' % name)
         
         if self.appendString:
             # TODO: If the appendString ends in "/", the images will be called ".jpg" which is a
@@ -86,6 +95,7 @@ class ImageManipulations(gobject.GObject):
         
         # This is the output filename
         newFileName = "%s/%s" % (basePath, name)
+        logging.debug('newFileName: %s' % newFileName)
         
         # Make sure the directory exists
         # Note: a new subdirectorie will also need to be created if a / was entered in the appendString
@@ -94,6 +104,7 @@ class ImageManipulations(gobject.GObject):
         
         # Resize the image using ImageMagick
         args = ["/usr/bin/convert", fileName, "-resize", self.geometry, newFileName]
+        logging.debug('args: %s' % args)
         retVal = subprocess.call(args)
         if retVal != 0:
             # TODO: Write error value to log?
