@@ -32,7 +32,7 @@ def main():
         files.append(ui_file)
     
     # Prepare the command to be run to launch Glade
-    cmd = "GLADE_CATALOG_PATH=" + uiFolder + " glade-3 " + " ".join(files)
+    cmd = "GLADE_CATALOG_PATH=" + uiFolder + " glade-gtk2 " + " ".join(files)
     
     # Run Glade
     subprocess.Popen(cmd, shell=True, stderr=file("/dev/null"))
