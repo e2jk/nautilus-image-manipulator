@@ -16,7 +16,8 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import urllib2, re
+import urllib2
+import re
 from nautilus_image_manipulator.upload.poster.encode import multipart_encode
 from nautilus_image_manipulator.upload.poster.streaminghttp import register_openers
 

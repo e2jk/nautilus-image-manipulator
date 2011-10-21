@@ -15,14 +15,18 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import os, gettext, gobject, zipfile, subprocess
+import os
+import gettext
+from gi.repository import GObject
+import zipfile
+import subprocess
 import logging
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
-class ImageManipulations(gobject.GObject):
+class ImageManipulations(GObject.GObject):
     def __init__(self, dialog, files, geometry, subdirectoryName, appendString):
-        self.__gobject_init__()
+        super(ImageManipulations, self).__init__()
         self.resizeDialog = dialog
         self.origFiles = files
         self.numFiles = len(self.origFiles)
@@ -163,9 +167,9 @@ class ImageManipulations(gobject.GObject):
         yield False
         
 
-gobject.type_register(ImageManipulations)
-gobject.signal_new("resizing_done", ImageManipulations, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ())
-gobject.signal_new("packing_done", ImageManipulations, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, (gobject.TYPE_STRING, ))
+GObject.type_register(ImageManipulations)
+GObject.signal_new("resizing_done", ImageManipulations, GObject.SignalFlags.RUN_FIRST, None, ())
+GObject.signal_new("packing_done", ImageManipulations, GObject.SignalFlags.RUN_FIRST, None, (GObject.TYPE_STRING, ))
 
 if __name__ == "__main__":
     pass

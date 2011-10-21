@@ -18,7 +18,7 @@
 
 import sys
 import os
-import gtk
+from gi.repository import Gtk
 
 import gettext
 from gettext import gettext as _
@@ -36,7 +36,6 @@ if (os.path.exists(os.path.join(PROJECT_ROOT_DIRECTORY, 'nautilus_image_manipula
 from nautilus_image_manipulator import NautilusImageManipulatorDialog
 from nautilus_image_manipulator.helpers import get_builder
 
-
 if __name__ == "__main__":
     # Support for command line options.
     import logging
@@ -53,13 +52,13 @@ if __name__ == "__main__":
     
     if not options.files:
         # Display an error message since we don't have images to work on
-        label = gtk.Label(_('Nautilus Image Manipulator needs to be provided with a list of images to resize.\nPlease right-click on an image and select the "%(resizeImages)s" option.') % {"resizeImages": _("_Resize images...").replace("_", "")})
+        label = Gtk.Label(label=_('Nautilus Image Manipulator needs to be provided with a list of images to resize.\nPlease right-click on an image and select the "%(resizeImages)s" option.') % {"resizeImages": _("_Resize images...").replace("_", "")})
         label.set_padding(10, 5)
-        dialog = gtk.Dialog(_("No images provided"),
+        dialog = Gtk.Dialog(_("No images provided"),
                            None,
-                           gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-                           (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-        dialog.vbox.pack_start(label)
+                           Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                           (Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT))
+        dialog.vbox.pack_start(label, True, True, 0)
         label.show()
         response = dialog.run()
         dialog.destroy()
@@ -68,5 +67,5 @@ if __name__ == "__main__":
         dialog = NautilusImageManipulatorDialog.NautilusImageManipulatorDialog()
         dialog.set_files(options.files)
         dialog.show()
-        try: gtk.main()
+        try: Gtk.main()
         except KeyboardInterrupt: pass

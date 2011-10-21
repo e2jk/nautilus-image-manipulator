@@ -15,7 +15,12 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-import gtk, gobject, ConfigParser, os, urllib2
+from gi.repository import Gtk
+from gi.repository import Gdk
+from gi.repository import GObject
+import ConfigParser
+import os
+import urllib2
 
 from nautilus_image_manipulator.helpers import get_builder
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
@@ -24,7 +29,7 @@ import gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
-class NautilusImageManipulatorDialog(gtk.Dialog):
+class NautilusImageManipulatorDialog(Gtk.Dialog):
     __gtype_name__ = "NautilusImageManipulatorDialog"
     
     # To construct a new instance of this method, the following notable 
@@ -73,7 +78,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
     def resize_images(self, widget, data=None):
         """The user has elected to resize the images
 
-        Called before the dialog returns gtk.RESONSE_OK from run().
+        Called before the dialog returns Gtk.RESONSE_OK from run().
         """
         # Determine the output filenames
         subdirectoryName = ""
@@ -100,7 +105,12 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         geometry = None # The size parameters for the resizing operation
         # Resize using default values
         if self.builder.get_object("default_size_radiobutton").get_active():
-            geometry = self.builder.get_object("size_combobox").get_active_text()
+            model = self.builder.get_object("size_combobox").get_model()
+            iterator = self.builder.get_object("size_combobox").get_active_iter()
+            geometry = model.get_value(iterator, 0)
+
+
+
 
         # Resize using a custom scale value
         elif self.builder.get_object("custom_scale_radiobutton").get_active():
@@ -116,13 +126,13 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
             self.builder.get_object("resize_button").set_sensitive(False)
             self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Resizing images..."))
             self.builder.get_object("progress_progressbar").show()
-            while gtk.events_pending():
-                gtk.main_iteration() # Used to refresh the UI
+            while Gtk.events_pending():
+                Gtk.main_iteration() # Used to refresh the UI
             # Resize the images
             im = ImageManipulations(self, self.files, geometry, subdirectoryName, appendString)
             im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
-            gobject.idle_add(task.next)
+            GObject.idle_add(task.next)
 
         # Remember the settings for next time
         self.saveConfig()
@@ -137,7 +147,7 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
                     # There are more than one image, zip the files together and upload the zipfile
                     im.connect("packing_done", self.on_packing_done)
                     task = im.pack_images()
-                    gobject.idle_add(task.next)
+                    GObject.idle_add(task.next)
                 else:
                     # There is only one image, send that image alone (don't zip the file)
                     self.upload_file(im, im.newFiles[0])
@@ -155,7 +165,9 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
     def upload_file(self, im, fileToUpload):
         """Uploads a file to a website."""
-        uploadSiteName = self.builder.get_object("upload_combobox").get_active_text()
+        model = self.builder.get_object("upload_combobox").get_model()
+        iterator = self.builder.get_object("upload_combobox").get_active_iter()
+        uploadSiteName = model.get_value(iterator, 0)
         # Import the module that takes care of uploading to the selected website
         import_string = "from upload.z%s import UploadSite" % uploadSiteName.replace(".", "").replace("/", "")
         # Make sure the import does not fail
@@ -188,8 +200,10 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
         # Note that the selection clipboard will be empty when the dialog gets closed.
         # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
-        gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
-        gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
+        
+        #TODO: Removed clipboard functionality when migrating to GTK+ 3. Will need to be updated to work again.
+        #gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
+        #gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
         self.on_uploading_done(downloadPage, deletePage)
 
     def display_error(self, msg, urlInfo=None):
@@ -227,8 +241,8 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
         if percent100 > self.uploadPercent:
             self.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
             self.builder.get_object("progress_progressbar").set_fraction(percent)
-            while gtk.events_pending():
-                gtk.main_iteration() # Used to refresh the UI
+            while Gtk.events_pending():
+                Gtk.main_iteration() # Used to refresh the UI
             self.uploadPercent = percent100
 
     def on_uploading_done(self, downloadPage, deletePage):
@@ -252,14 +266,14 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
     def cancel(self, widget, data=None):
         """The user has elected to cancel.
 
-        Called before the dialog returns gtk.RESPONSE_CANCEL for run()
+        Called before the dialog returns Gtk.ResponseType.CANCEL for run()
         """
         self.destroy()
 
     def on_destroy(self, widget, data=None):
         """Called when the NautilusImageManipulatorWindow is closed."""
         # Note: The parameters don't get saved when canceling. It is called at the end of self.resize().
-        gtk.main_quit()
+        Gtk.main_quit()
 
     def on_size_option_toggled(self, widget, data=None):
         """Updates the sensitiveness of the size option fields depending on which option is chosen."""
@@ -297,13 +311,13 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
 
     def error_with_parameters(self, error_message):
         """Displays an error message if the parameters given to resize the images are not valid."""
-        label = gtk.Label(error_message)
+        label = Gtk.Label(label=error_message)
         label.set_padding(10, 5)
-        dialog = gtk.Dialog(_("Invalid parameters"),
+        dialog = Gtk.Dialog(_("Invalid parameters"),
                            self,
-                           gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-                           (gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-        dialog.vbox.pack_start(label)
+                           Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
+                           (Gtk.STOCK_OK, Gtk.ResponseType.ACCEPT))
+        dialog.vbox.pack_start(label, True, True, 0)
         label.show()
         response = dialog.run()
         dialog.destroy()
@@ -311,21 +325,21 @@ class NautilusImageManipulatorDialog(gtk.Dialog):
     def error_resizing(self, filename):
         """Displays an error message if ImageMagick returned an error while resizing one image."""
         (folder, image) = os.path.split(filename)
-        label = gtk.Label(_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))
+        label = Gtk.Label(label=_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))
         label.set_padding(10, 5)
-        dialog = gtk.Dialog(_("Could not resize image"),
+        dialog = Gtk.Dialog(_("Could not resize image"),
                            self,
-                           gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                           Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
                            (_("_Skip"), 0,
-                           gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                           Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                            _("_Retry"), 1))
-        dialog.vbox.pack_start(label)
+        dialog.vbox.pack_start(label, True, True, 0)
         label.show()
         response = dialog.run()
         dialog.destroy()
         # The values to be returned
         skip = (response == 0)
-        self.processingCanceled = (response == gtk.RESPONSE_CANCEL)
+        self.processingCanceled = (response == Gtk.ResponseType.CANCEL)
         retry = (response == 1)
         return (skip, self.processingCanceled, retry)
 

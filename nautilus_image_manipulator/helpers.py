@@ -22,7 +22,7 @@ __all__ = [
     ]
 
 import os
-import gtk
+from gi.repository import Gtk
 
 from nautilus_image_manipulator.nautilus_image_manipulatorconfig import get_data_file
 
@@ -31,7 +31,7 @@ from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
 def get_builder(builder_file_name):
-    """Return a fully-instantiated gtk.Builder instance from specified ui 
+    """Return a fully-instantiated Gtk.Builder instance from specified ui 
     file
     
     :param builder_file_name: The name of the builder file, without extension.
@@ -42,7 +42,7 @@ def get_builder(builder_file_name):
     if not os.path.exists(ui_filename):
         ui_filename = None
 
-    builder = gtk.Builder()
+    builder = Gtk.Builder()
     builder.set_translation_domain('nautilus-image-manipulator')
     builder.add_from_file(ui_filename)
     return builder
