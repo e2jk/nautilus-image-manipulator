@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: nautilus-image-manipulator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-05-08 01:02+0200\n"
-"PO-Revision-Date: 2011-05-01 14:41+0000\n"
-"Last-Translator: Emilien Klein <emilien+ubuntu@klein.st>\n"
+"PO-Revision-Date: 2011-05-12 09:10+0000\n"
+"Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-08 07:52+0000\n"
-"X-Generator: Launchpad (build 12981)\n"
+"X-Launchpad-Export-Date: 2011-10-22 19:44+0000\n"
+"X-Generator: Launchpad (build 14170)\n"
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:84
 msgid "Please enter a value for the subdirectory."
@@ -97,7 +97,7 @@ msgstr "No se pudo redimensionar las imagen"
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:319
 msgid "_Skip"
-msgstr "_Saltar"
+msgstr "_Omitir"
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:321
 msgid "_Retry"
@@ -255,9 +255,3 @@ msgstr "al nombre de archivo"
 #: ../nautilus_image_manipulator/nautilus-extension.py:57
 msgid "Resize each selected image"
 msgstr "Redimensionar cada imagen seleccionada"
-
-#~ msgid "Resize and upload images from Nautilus"
-#~ msgstr "Redimensionar y enviar imágenes desde Nautilus"
-
-#~ msgid "Nautilus Image Manipulator"
-#~ msgstr "Nautilus Image Manipulator"
