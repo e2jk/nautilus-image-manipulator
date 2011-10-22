@@ -61,16 +61,8 @@ class InstallAndUpdateDataDirectory(DistUtilsExtra.auto.install_auto):
 
 
 def nautilus_plugin():
-    """Inspired by bzr-gtk:
-    http://bazaar.launchpad.net/~bzr-gtk/bzr-gtk/trunk/view/head:/setup.py """
     files = []
-    if sys.platform[:5] == 'linux':
-        cmd = os.popen('pkg-config --variable=pythondir nautilus-python', 'r')
-        res = cmd.readline().strip()
-        ret = cmd.close()
-        if ret is None:
-            dest = res[5:]
-            files.append((dest, ['nautilus_image_manipulator/nautilus-image-manipulator-extension.py']))
+    files.append(('share/nautilus-python/extensions', ['nautilus_image_manipulator/nautilus-image-manipulator-extension.py']))
     return files
 
 DistUtilsExtra.auto.setup(
