@@ -48,7 +48,9 @@ if __name__ == "__main__":
     # Set the logging level to show debug messages.
     if options.verbose:
         logging.basicConfig(level=logging.DEBUG)
-        logging.debug('logging enabled')
+        logging.debug('verbose logging enabled')
+    else:
+        logging.basicConfig(level=logging.INFO)
     
     if not options.files:
         # Display an error message since we don't have images to work on

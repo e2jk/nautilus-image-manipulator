@@ -21,6 +21,7 @@ from gi.repository import GObject
 import ConfigParser
 import os
 import urllib2
+import logging
 
 from nautilus_image_manipulator.helpers import get_builder
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
@@ -196,6 +197,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("progress_progressbar").set_fraction(0)
         self.uploadPercent = 0
         (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
+        logging.info('downloadPage: %s' % downloadPage)
+        logging.info('deletePage: %s' % deletePage)
         #(downloadPage, deletePage) = ("http://TTTTT.1fichier.com", "http://www.1fichier.com/remove/TTTTT/VVVVV")
         # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
         # Note that the selection clipboard will be empty when the dialog gets closed.
@@ -247,7 +250,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def on_uploading_done(self, downloadPage, deletePage):
         """Displays the url where the images can be downloaded from, or deleted."""
-        print "File uploaded successfully!\n%s\n%s" % (downloadPage, deletePage)
         self.builder.get_object("parameters_vbox").hide()
         self.builder.get_object("progress_progressbar").hide()
         # Update the link buttons with the urls

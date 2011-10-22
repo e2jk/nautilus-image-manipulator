@@ -111,8 +111,7 @@ class ImageManipulations(GObject.GObject):
         logging.debug('args: %s' % args)
         retVal = subprocess.call(args)
         if retVal != 0:
-            # TODO: Write error value to log?
-            print "Error while executing resize command:", retVal
+            logging.error('error while executing resize command: %d' % retVal)
             (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
             if retry:
                 # Retry with the same image

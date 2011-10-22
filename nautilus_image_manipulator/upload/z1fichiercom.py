@@ -18,6 +18,8 @@
 
 import urllib2
 import re
+import logging
+
 from nautilus_image_manipulator.upload.poster.encode import multipart_encode
 from nautilus_image_manipulator.upload.poster.streaminghttp import register_openers
 
@@ -39,8 +41,8 @@ class UploadSite():
         
         ``filename`` is the file to upload
         ``callback`` is the function that updates the progress bar while uploading"""
-        print "Uploading %s to %s" % (filename, self.uploadUrl)
-        print "End upload url: %s" % self.endUploadUrl
+        logging.debug('uploading %s to %s' % (filename, self.uploadUrl))
+        logging.debug('end upload url: %s' % self.endUploadUrl)
         
         # Register the streaming http handlers with urllib2
         register_openers()
@@ -67,7 +69,7 @@ class UploadSite():
             (filename, size, download_id, deletion_id, domain_id, control_hash) = re.search("(.*);(.*);(.*);(.*);(.*);(.*)", downloaded_page).groups()
         except:
             # TODO: Better failed upload handling
-            print 'The upload has failed, this is the returned page:\n"%s"\n' % downloaded_page
+            logging.error('the upload has failed, this is the returned page:\n"%s"\n' % downloaded_page)
             raise
         
         downloadPage = "http://%s.1fichier.com" % download_id
