@@ -146,6 +146,18 @@ class ImageManipulations(GObject.GObject):
                 break
             i += 1
         zipname = "%s.zip" % zipname[i:]
+        
+        # Make sure the zipfile will not be created in a subdirectory
+        # If that would have been the case, make sure we zip the files
+        # using the name relative to where the zipfile is made, so that the
+        # zipped files' names do not conflict (test with this string to
+        # append: `-resized/yy.jpg`)
+        useRelName = False
+        temp = os.path.basename(zipname)
+        if temp != zipname:
+            zipname = temp
+            useRelName = True
+        
         # Create the final zip file name
         self.zipfile = os.path.join(dirname, zipname)
         
@@ -153,8 +165,13 @@ class ImageManipulations(GObject.GObject):
         zout = zipfile.ZipFile(self.zipfile, "w")
         i = float(0)
         for fname in self.newFiles:
-            # TODO: make sure the name of the images are unique (could not be true if using appendString)
-            zout.write(fname, os.path.basename(fname), zipfile.ZIP_DEFLATED)
+            if useRelName:
+                # This is the filename relative to where the zipfile is created. 
+                fzname = os.path.relpath(fname, dirname)
+            else:
+                fzname = os.path.basename(fname)
+            #TODO: Check what to do with non-ASCII filenames
+            zout.write(fname, fzname, zipfile.ZIP_DEFLATED)
             i += 1
             percent = i / self.numFiles
             self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Packing images..."), int(percent * 100)))
