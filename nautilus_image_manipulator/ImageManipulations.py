@@ -127,7 +127,6 @@ class ImageManipulations(GObject.GObject):
 
     def pack_images(self):
         """Creates a zip file containing the modified files"""
-        # TODO: Verify that all the files to be zipped are valid files (can be untrue if scale==100%)
         # Generate the name of the zipfile
         dirname = os.path.dirname(self.origFiles[0])
         if not dirname:
@@ -155,7 +154,6 @@ class ImageManipulations(GObject.GObject):
         i = float(0)
         for fname in self.newFiles:
             # TODO: make sure the name of the images are unique (could not be true if using appendString)
-            # TODO: This will crash if an invalid filename is passed (can be the case with scale==100%)
             zout.write(fname, os.path.basename(fname), zipfile.ZIP_DEFLATED)
             i += 1
             percent = i / self.numFiles
