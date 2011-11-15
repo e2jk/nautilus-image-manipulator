@@ -107,15 +107,22 @@ class ImageManipulations(GObject.GObject):
         except: pass
         
         # Resize the image using ImageMagick
-        args = ["/usr/bin/convert", fileName, "-resize", self.geometry, newFileName]
-        logging.debug('args: %s' % args)
-        retVal = subprocess.call(args)
-        if retVal != 0:
-            logging.error('error while executing resize command: %d' % retVal)
-            (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
-            if retry:
-                # Retry with the same image
-                (skip, cancel, newFileName) = self.resize_one_image(fileName)
+        cmd = "/usr/bin/convert"
+        if not os.path.exists(cmd):
+            # ImageMagick is probably not installed
+            logging.error("Couldn't locate %s" % cmd)
+            (skip, cancel, retry) = self.resizeDialog.error_resizing(
+                                                dependencyMissing=True)
+        else:
+            args = [cmd, fileName, "-resize", self.geometry, newFileName]
+            logging.debug('args: %s' % args)
+            retVal = subprocess.call(args)
+            if retVal != 0:
+                logging.error('error while executing resize command: %d' % retVal)
+                (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
+                if retry:
+                    # Retry with the same image
+                    (skip, cancel, newFileName) = self.resize_one_image(fileName)
         return (skip, cancel, newFileName)
 
     def pack_images(self):

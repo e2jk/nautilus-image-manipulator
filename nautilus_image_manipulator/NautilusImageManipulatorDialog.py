@@ -324,10 +324,14 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         response = dialog.run()
         dialog.destroy()
 
-    def error_resizing(self, filename):
+    def error_resizing(self, filename=None, dependencyMissing=False):
         """Displays an error message if ImageMagick returned an error while resizing one image."""
-        (folder, image) = os.path.split(filename)
-        label = Gtk.Label(label=_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))
+        label = None
+        if filename:
+            (folder, image) = os.path.split(filename)
+            label = Gtk.Label(label=_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))
+        if dependencyMissing:
+            label = Gtk.Label(label=_("The image conversion program wasn't found on your system.\nHave you installed ImageMagick?"))
         label.set_padding(10, 5)
         dialog = Gtk.Dialog(_("Could not resize image"),
                            self,
