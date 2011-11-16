@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-22 21:51+0200\n"
+"POT-Creation-Date: 2011-11-16 22:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,7 +72,7 @@ msgstr ""
 msgid "Invalid parameters"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:330
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:332
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -81,25 +81,31 @@ msgid ""
 "%(folder)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:332
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:334
+msgid ""
+"The image conversion program wasn't found on your system.\n"
+"Have you installed ImageMagick?"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:336
 msgid "Could not resize image"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:335
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:339
 msgid "_Skip"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:337
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:341
 msgid "_Retry"
 msgstr ""
 
 #. Default name of the subdirectory in which the resized images will be put
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:387
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:391
 msgid "resized"
 msgstr ""
 
 #. Default value of the string that will be appended to the filename of the resized images
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:389
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:393
 msgid "-resized"
 msgstr ""
 
@@ -112,7 +118,7 @@ msgid "a file to be resized. Use multiple arguments to resize multiple files."
 msgstr ""
 
 #. Display an error message since we don't have images to work on
-#: ../bin/nautilus-image-manipulator.py:57
+#: ../bin/nautilus-image-manipulator.py:66
 #, python-format
 msgid ""
 "Nautilus Image Manipulator needs to be provided with a list of images to "
@@ -120,16 +126,16 @@ msgid ""
 "Please right-click on an image and select the \"%(resizeImages)s\" option."
 msgstr ""
 
-#: ../bin/nautilus-image-manipulator.py:57
+#: ../bin/nautilus-image-manipulator.py:66
 #: ../nautilus_image_manipulator/nautilus-extension.py:61
 msgid "_Resize images..."
 msgstr ""
 
-#: ../bin/nautilus-image-manipulator.py:59
+#: ../bin/nautilus-image-manipulator.py:68
 msgid "No images provided"
 msgstr ""
 
-#: ../nautilus_image_manipulator/ImageManipulations.py:155
+#: ../nautilus_image_manipulator/ImageManipulations.py:177
 msgid "Packing images..."
 msgstr ""
 
