@@ -18,6 +18,13 @@ import shutil
 
 def main():
     poFolder = "./po"
+    
+    try:
+        import DistUtilsExtra.auto
+    except ImportError:
+        print "ERROR: DistUtilsExtra is not installed."
+        exit(-1)
+    
     # Check if the folder exists, i.e. uiFolder is a valid folder
     if not os.path.isdir(poFolder):
         # The folder does not exist, we are probably not running the script from the root of the repository
