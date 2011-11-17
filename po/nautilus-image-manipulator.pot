@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-16 22:37+0100\n"
+"POT-Creation-Date: 2011-11-17 18:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,6 +73,15 @@ msgid "Invalid parameters"
 msgstr ""
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:332
+msgid "_Skip"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:334
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:338
+msgid "_Retry"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:335
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -81,31 +90,23 @@ msgid ""
 "%(folder)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:334
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:339
 msgid ""
 "The image conversion program wasn't found on your system.\n"
 "Have you installed ImageMagick?"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:336
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:341
 msgid "Could not resize image"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:339
-msgid "_Skip"
-msgstr ""
-
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:341
-msgid "_Retry"
-msgstr ""
-
 #. Default name of the subdirectory in which the resized images will be put
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:391
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:394
 msgid "resized"
 msgstr ""
 
 #. Default value of the string that will be appended to the filename of the resized images
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:393
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:396
 msgid "-resized"
 msgstr ""
 
@@ -135,7 +136,7 @@ msgstr ""
 msgid "No images provided"
 msgstr ""
 
-#: ../nautilus_image_manipulator/ImageManipulations.py:177
+#: ../nautilus_image_manipulator/ImageManipulations.py:178
 msgid "Packing images..."
 msgstr ""
 
