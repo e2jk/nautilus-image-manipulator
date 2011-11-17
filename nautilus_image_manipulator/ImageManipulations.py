@@ -90,9 +90,6 @@ class ImageManipulations(GObject.GObject):
         logging.debug('name: %s' % name)
         
         if self.appendString:
-            # TODO: If the appendString ends in "/", the images will be called ".jpg" which is a
-            # hidden file in it's own new folder (folder name == the image name).
-            # What should we do about it?
             # Insert the append string and convert the extension to lower case
             n = os.path.splitext(name)
             name = "%s%s%s" % (n[0], self.appendString, n[1].lower())

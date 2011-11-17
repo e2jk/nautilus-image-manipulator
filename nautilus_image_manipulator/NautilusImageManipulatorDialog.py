@@ -96,6 +96,13 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             if not appendString:
                 self.error_with_parameters(_("Please enter some text to append to the filename."))
                 return
+            if appendString[-1] == os.path.sep:
+                # If the appendString ends in "/", the image would be
+                # called ".EXT", which is a hidden file in it's own folder.
+                self.error_with_parameters(
+                       _("The string to append cannot end in %s" %
+                       os.path.sep))
+                return
             # TODO: Check that the value is valid to be appended to the filename
 
         elif self.builder.get_object("inplace_radiobutton").get_active():
