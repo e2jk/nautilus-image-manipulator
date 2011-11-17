@@ -22,6 +22,7 @@ from gi.repository import Gtk
 
 import gettext
 from gettext import gettext as _
+from gettext import ngettext
 gettext.textdomain('nautilus-image-manipulator')
 
 # Add project root directory (enable symlink, and trunk execution).
@@ -62,8 +63,9 @@ if __name__ == "__main__":
                 logging.info("File '%s' does not exist" % f)
     
     if not images:
+        optionName = ngettext("_Resize image", "_Resize images", 1)
         # Display an error message since we don't have images to work on
-        label = Gtk.Label(label=_('Nautilus Image Manipulator needs to be provided with a list of images to resize.\nPlease right-click on an image and select the "%(resizeImages)s" option.') % {"resizeImages": _("_Resize images...").replace("_", "")})
+        label = Gtk.Label(label=_('Nautilus Image Manipulator needs to be provided with a list of images to resize.\nPlease right-click on an image and select the "%(resizeImages)s" option.') % {"resizeImages": optionName.replace("_", "")})
         label.set_padding(10, 5)
         dialog = Gtk.Dialog(_("No images provided"),
                            None,

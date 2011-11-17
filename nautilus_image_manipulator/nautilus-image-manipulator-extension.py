@@ -28,6 +28,7 @@
 
 import os, subprocess, urllib, gettext
 from gettext import gettext as _
+from gettext import ngettext
 gettext.textdomain('nautilus-image-manipulator')
 
 from gi.repository import Nautilus, GObject
@@ -51,15 +52,19 @@ class BackgroundImageExtension(GObject.GObject, Nautilus.MenuProvider):
             if f.get_mime_type()[:6] == "image/":
                 images.append(f)
 
-        # Don't display this option in the menu if there is not a single images
-        # in the selection
+        # Don't display this option in the menu if there is not a single
+        # image in the selection
         if not images:
             return
-
-        # TODO: Update the extension's menu label and tooltip message
+        
+        extLabel = ngettext("_Resize image", "_Resize images", len(images))
+        extTip = ngettext("Resize the selected image",
+                          "Resize each selected image",
+                          len(images))
+        
         item = Nautilus.MenuItem(name='NautilusImageManipulator::resize',
-                                 label=_("_Resize images..."),
-                                 tip=_("Resize each selected image"))
+                                 label=extLabel,
+                                 tip=extTip)
         item.connect('activate', self.menu_activate_cb, images)
         return item,
 
