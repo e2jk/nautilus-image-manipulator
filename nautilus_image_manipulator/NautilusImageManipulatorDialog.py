@@ -329,16 +329,19 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         label = None
         if filename:
             (folder, image) = os.path.split(filename)
+            buttons =(_("_Skip"), 0,
+                   Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                   _("_Retry"), 1)
             label = Gtk.Label(label=_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))
         if dependencyMissing:
+            buttons =(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                   _("_Retry"), 1)
             label = Gtk.Label(label=_("The image conversion program wasn't found on your system.\nHave you installed ImageMagick?"))
         label.set_padding(10, 5)
         dialog = Gtk.Dialog(_("Could not resize image"),
                            self,
                            Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
-                           (_("_Skip"), 0,
-                           Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                           _("_Retry"), 1))
+                           buttons)
         dialog.vbox.pack_start(label, True, True, 0)
         label.show()
         response = dialog.run()

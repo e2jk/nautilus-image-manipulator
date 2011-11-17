@@ -108,6 +108,7 @@ class ImageManipulations(GObject.GObject):
         
         # Resize the image using ImageMagick
         cmd = "/usr/bin/convert"
+        retry = False
         if not os.path.exists(cmd):
             # ImageMagick is probably not installed
             logging.error("Couldn't locate %s" % cmd)
@@ -120,9 +121,9 @@ class ImageManipulations(GObject.GObject):
             if retVal != 0:
                 logging.error('error while executing resize command: %d' % retVal)
                 (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
-                if retry:
-                    # Retry with the same image
-                    (skip, cancel, newFileName) = self.resize_one_image(fileName)
+        if retry:
+            # Retry with the same image
+            (skip, cancel, newFileName) = self.resize_one_image(fileName)
         return (skip, cancel, newFileName)
 
     def pack_images(self):
