@@ -1,6 +1,19 @@
 Changelog for nautilus-image-manipulator
 
 ================================
+0.5 - 2011-11-22 (r113)
+  * Make sure that only valid filenames are passed (LP #711508 and
+      LP#711509)
+  * Better handling of zipfile creation
+  * Do not allow appendString to end in "/", because the image would be
+      called ".EXT", which is a hidden file in it's own folder
+  * Various lower-level enhancements
+    - Gracefully handle when ImageMagick is not installed (LP #877738)
+    - Display an error message is DistUtilsExtra is not installed when
+        updating the translations
+
+
+================================
 0.4 - 2011-10-22 (r100)
   * No new functionality. Code changes to:
     - Port to GTK+ 3

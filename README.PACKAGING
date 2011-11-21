@@ -7,6 +7,7 @@ First, update the version number in 2 files:
   ./bin/nautilus-image-manipulator
       as argument of "optparse.OptionParser"
 
+Make sure the CHANGELOG file also mentions the changes since last release.
 
 Create the Python package. Place yourself in the root of the project
 and execute:
