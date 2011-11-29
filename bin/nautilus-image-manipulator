@@ -41,7 +41,7 @@ if __name__ == "__main__":
     # Support for command line options.
     import logging
     import optparse
-    parser = optparse.OptionParser(version="%prog 0.5")
+    parser = optparse.OptionParser(version="%prog 0.6s")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help=_("show debug messages"))
     parser.add_option("-f", "--file", action="append", dest="files", help=_("a file to be resized. Use multiple arguments to resize multiple files."), metavar="FILE")
     (options, args) = parser.parse_args()
