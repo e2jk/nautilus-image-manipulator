@@ -2,7 +2,12 @@
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-requires nautilus_image_manipulator_dialog 1.0 -->
-  <!-- interface-naming-policy project-wide -->
+  <object class="GtkAdjustment" id="compression_adjustment">
+    <property name="lower">10</property>
+    <property name="upper">100</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
   <object class="GtkAdjustment" id="height_adjustment">
     <property name="lower">1</property>
     <property name="upper">9999</property>
@@ -18,18 +23,19 @@
     <property name="type_hint">normal</property>
     <signal name="destroy" handler="on_destroy" swapped="no"/>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">6</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
+          <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -46,6 +52,7 @@
             <child>
               <object class="GtkButton" id="resize_button">
                 <property name="label">Resize</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -63,6 +70,7 @@
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-close</property>
+                <property name="use_action_appearance">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_action_appearance">False</property>
@@ -133,6 +141,7 @@
                         <child>
                           <object class="GtkRadioButton" id="default_size_radiobutton">
                             <property name="label" translatable="yes">Select a size:</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -193,6 +202,7 @@
                         <child>
                           <object class="GtkRadioButton" id="custom_scale_radiobutton">
                             <property name="label" translatable="yes">Scale:</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -214,8 +224,6 @@
                             <property name="invisible_char">●</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">scale_adjustment</property>
                           </object>
                           <packing>
@@ -251,6 +259,7 @@
                         <child>
                           <object class="GtkRadioButton" id="custom_size_radiobutton">
                             <property name="label" translatable="yes">Custom size:</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -284,8 +293,6 @@
                             <property name="invisible_char">●</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">width_adjustment</property>
                           </object>
                           <packing>
@@ -313,8 +320,6 @@
                             <property name="invisible_char">●</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                             <property name="adjustment">height_adjustment</property>
                           </object>
                           <packing>
@@ -340,6 +345,55 @@
                         <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkBox" id="hbox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkLabel" id="custom_compression_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Compression:</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSpinButton" id="compression_spinbutton">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="invisible_char">•</property>
+                            <property name="adjustment">compression_adjustment</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="compression_percent_label">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">percent</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                   </object>
@@ -401,6 +455,7 @@
                         <child>
                           <object class="GtkRadioButton" id="subdirectory_radiobutton">
                             <property name="label" translatable="yes">Put in subdirectory called</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -422,8 +477,6 @@
                             <property name="invisible_char">●</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -446,6 +499,7 @@
                         <child>
                           <object class="GtkRadioButton" id="append_radiobutton">
                             <property name="label" translatable="yes" comments="Part of &quot;Append XX to file name&quot;">Append</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -469,8 +523,6 @@
                             <property name="invisible_char">●</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>
@@ -504,6 +556,7 @@
                         <child>
                           <object class="GtkRadioButton" id="inplace_radiobutton">
                             <property name="label" translatable="yes">Resize in place</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -583,6 +636,7 @@
                         <child>
                           <object class="GtkCheckButton" id="send_checkbutton">
                             <property name="label" translatable="yes">Send the resized images</property>
+                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -631,6 +685,7 @@
                                 <child>
                                   <object class="GtkRadioButton" id="upload_radiobutton">
                                     <property name="label" translatable="yes" comments="After this text comes a combobox to select to which website to upload the images to. It will thus be like &quot;Upload a .zip file to example.com&quot;">Upload a .zip file to</property>
+                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
@@ -673,6 +728,7 @@
                             <child>
                               <object class="GtkRadioButton" id="send_email_radiobutton">
                                 <property name="label" translatable="yes">Attach to an email message</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="use_action_appearance">False</property>
@@ -800,11 +856,11 @@
                     <child>
                       <object class="GtkLinkButton" id="download_linkbutton">
                         <property name="label">download</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="has_tooltip">True</property>
-                        <!-- <property name="tooltip_text" translatable="yes">The download url has been copied in the clipboard</property> -->
                         <property name="use_action_appearance">False</property>
                         <property name="relief">none</property>
                       </object>
@@ -816,6 +872,7 @@
                     <child>
                       <object class="GtkLinkButton" id="delete_linkbutton">
                         <property name="label">delete</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -925,6 +982,7 @@
                 <child>
                   <object class="GtkLinkButton" id="error_url_linkbutton">
                     <property name="label">delete</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>

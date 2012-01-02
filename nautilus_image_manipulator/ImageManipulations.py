@@ -25,12 +25,13 @@ from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
 class ImageManipulations(GObject.GObject):
-    def __init__(self, dialog, files, geometry, subdirectoryName, appendString):
+    def __init__(self, dialog, files, geometry, compression, subdirectoryName, appendString):
         super(ImageManipulations, self).__init__()
         self.resizeDialog = dialog
         self.origFiles = files
         self.numFiles = len(self.origFiles)
         self.geometry = geometry
+        self.compression = compression
         self.subdirectoryName = None
         self.appendString = appendString
         
@@ -45,6 +46,7 @@ class ImageManipulations(GObject.GObject):
         
         logging.debug('files: %s' % self.origFiles)
         logging.debug('geometry: %s' % self.geometry)
+        logging.debug('compression: %s' % self.compression)
         logging.debug('appendString: %s' % self.appendString)
         logging.debug('subdirectoryName: %s' % self.subdirectoryName)
 
@@ -112,7 +114,7 @@ class ImageManipulations(GObject.GObject):
             (skip, cancel, retry) = self.resizeDialog.error_resizing(
                                                 dependencyMissing=True)
         else:
-            args = [cmd, fileName, "-resize", self.geometry, newFileName]
+            args = [cmd, fileName, "-resize", self.geometry, "-quality", self.compression, newFileName]
             logging.debug('args: %s' % args)
             retVal = subprocess.call(args)
             if retVal != 0:
