@@ -117,9 +117,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             iterator = self.builder.get_object("size_combobox").get_active_iter()
             geometry = model.get_value(iterator, 0)
 
-
-
-
         # Resize using a custom scale value
         elif self.builder.get_object("custom_scale_radiobutton").get_active():
             geometry = "%d%%" % int(self.builder.get_object("scale_spinbutton").get_value())
@@ -127,6 +124,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Resize using custom scale values
         elif self.builder.get_object("custom_size_radiobutton").get_active():
             geometry = "%dx%d" % (int(self.builder.get_object("width_spinbutton").get_value()), int(self.builder.get_object("height_spinbutton").get_value()))
+        
+        # Compression level
+        compression = "%d" % (int(self.builder.get_object("compression_spinbutton").get_value()))
         
         if geometry:
             # Disable the parameter UI elements and display the progress bar
@@ -137,11 +137,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             # Resize the images
-            im = ImageManipulations(self, self.files, geometry, subdirectoryName, appendString)
+            im = ImageManipulations(self, self.files, geometry, compression, subdirectoryName, appendString)
             im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
             GObject.idle_add(task.next)
-
+        
         # Remember the settings for next time
         self.saveConfig()
 
@@ -373,6 +373,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             scale_adjustment_value = self.config.getint("Resize", "scale_adjustment")
             width_adjustment_value = self.config.getint("Resize", "width_adjustment")
             height_adjustment_value = self.config.getint("Resize", "height_adjustment")
+            compression_adjustement_value = self.config.getint("Resize", "compression_adjustment")
             toggled_size_radiobutton = self.config.get("Resize", "toggled_size_radiobutton")
             
             # Output
@@ -393,6 +394,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             scale_adjustment_value = 50
             width_adjustment_value = 1000
             height_adjustment_value = 1000
+            compression_adjustement_value = 90
             toggled_size_radiobutton = "default_size_radiobutton"
             
             # Output
@@ -413,6 +415,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("scale_adjustment").set_value(scale_adjustment_value)
         self.builder.get_object("width_adjustment").set_value(width_adjustment_value)
         self.builder.get_object("height_adjustment").set_value(height_adjustment_value)
+        self.builder.get_object("compression_adjustment").set_value(compression_adjustement_value)
         self.builder.get_object(toggled_size_radiobutton).set_active(True)
         
         # Output parameters
@@ -432,7 +435,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         if not self.config.has_section("Resize"):
             self.config.add_section("Resize")
         self.config.set("Resize", "size_combobox", int(self.builder.get_object("size_combobox").get_active()))
-        for v in ("scale_adjustment", "width_adjustment", "height_adjustment"):
+        for v in ("scale_adjustment", "width_adjustment", "height_adjustment", "compression_adjustment"):
             self.config.set("Resize", v, int(self.builder.get_object(v).get_value()))
         for b in ("default_size_radiobutton", "custom_scale_radiobutton", "custom_size_radiobutton"):
             if self.builder.get_object(b).get_active():
