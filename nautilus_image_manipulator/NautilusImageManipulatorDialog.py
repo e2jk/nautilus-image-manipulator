@@ -401,13 +401,13 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                                                 "default_size_radiobutton")
         
         # Output
+        toggled_output_radiobutton = self.readConfigValue("Output",
+                                              "toggled_output_radiobutton",
+                                              "subdirectory_radiobutton")
         # Default name of the subdirectory in which the resized images will be put
         subdirectory_name_entry_value = self.readConfigValue("Output", "subdirectory_name_entry", _("resized"))
         # Default value of the string that will be appended to the filename of the resized images
         append_name_entry_value = self.readConfigValue("Output", "append_name_entry", _("-resized"))
-        toggled_output_radiobutton = self.readConfigValue("Output",
-                                              "toggled_output_radiobutton",
-                                              "subdirectory_radiobutton")
         
         # Sending
         is_send_checkbutton_toggled = self.readConfigValue("Sending",
