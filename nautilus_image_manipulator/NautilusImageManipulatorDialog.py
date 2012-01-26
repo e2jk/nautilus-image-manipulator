@@ -359,6 +359,18 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         retry = (response == 1)
         return (skip, self.processingCanceled, retry)
 
+    def readConfigValue(self, section, name, defaultValue=None, type=None):
+        value = defaultValue
+        try:
+            if type == "int":
+                value = self.config.getint(section, name)
+            elif type == "boolean":
+                value = self.config.getboolean(section, name)
+            else:
+                value = self.config.get(section, name)
+        except ConfigParser.NoOptionError: pass
+        return value
+
     def loadConfig(self):
         """Read the ini file to get the previous configuration. The ini file is located at ~/.nautilus-image-manipulator.ini.
         
@@ -366,48 +378,47 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.configFilename = os.path.expanduser("~/.nautilus-image-manipulator.ini")
         self.config = ConfigParser.ConfigParser()
         self.config.read(self.configFilename)
-        if len(self.config.sections()) > 0:
-            # TODO: take care of eventual exceptions if a value is not set
-            # Resize
-            size_combobox_value = self.config.getint("Resize", "size_combobox")
-            scale_adjustment_value = self.config.getint("Resize", "scale_adjustment")
-            width_adjustment_value = self.config.getint("Resize", "width_adjustment")
-            height_adjustment_value = self.config.getint("Resize", "height_adjustment")
-            compression_adjustement_value = self.config.getint("Resize", "compression_adjustment")
-            toggled_size_radiobutton = self.config.get("Resize", "toggled_size_radiobutton")
-            
-            # Output
-            subdirectory_name_entry_value = self.config.get("Output", "subdirectory_name_entry")
-            append_name_entry_value = self.config.get("Output", "append_name_entry")
-            toggled_output_radiobutton = self.config.get("Output", "toggled_output_radiobutton")
-            
-            # Sending
-            is_send_checkbutton_toggled = self.config.getboolean("Sending", "is_send_checkbutton_toggled")
-            toggled_sending_option_radiobutton = self.config.get("Sending", "toggled_sending_option_radiobutton")
-            upload_combobox_value = self.config.getint("Sending", "upload_combobox")
-            
-            # TODO: Make sure that the values read from the ini file are valid, else use default values
-        else:
-            # Default parameters
-            # Resize
-            size_combobox_value = 4
-            scale_adjustment_value = 50
-            width_adjustment_value = 1000
-            height_adjustment_value = 1000
-            compression_adjustement_value = 90
-            toggled_size_radiobutton = "default_size_radiobutton"
-            
-            # Output
-            toggled_output_radiobutton = "subdirectory_radiobutton"
-            # Default name of the subdirectory in which the resized images will be put
-            subdirectory_name_entry_value = _("resized")
-            # Default value of the string that will be appended to the filename of the resized images
-            append_name_entry_value = _("-resized")
-            
-            # Sending
-            is_send_checkbutton_toggled = False
-            toggled_sending_option_radiobutton = "upload_radiobutton"
-            upload_combobox_value = 0
+        
+        # TODO: Make sure that the values read from the ini file are valid, else use default values
+        
+        # Resize
+        size_combobox_value = self.readConfigValue("Resize",
+                                                   "size_combobox",4, "int")
+        scale_adjustment_value = self.readConfigValue("Resize",
+                                                      "scale_adjustment",
+                                                      50, "int")
+        width_adjustment_value = self.readConfigValue("Resize",
+                                                      "width_adjustment",
+                                                      1000, "int")
+        height_adjustment_value = self.readConfigValue("Resize",
+                                                       "height_adjustment",
+                                                       1000, "int")
+        compression_adjustement_value = self.readConfigValue("Resize",
+                                                "compression_adjustment",
+                                                95, "int")
+        toggled_size_radiobutton = self.readConfigValue("Resize",
+                                                "toggled_size_radiobutton",
+                                                "default_size_radiobutton")
+        
+        # Output
+        # Default name of the subdirectory in which the resized images will be put
+        subdirectory_name_entry_value = self.readConfigValue("Output", "subdirectory_name_entry", _("resized"))
+        # Default value of the string that will be appended to the filename of the resized images
+        append_name_entry_value = self.readConfigValue("Output", "append_name_entry", _("-resized"))
+        toggled_output_radiobutton = self.readConfigValue("Output",
+                                              "toggled_output_radiobutton",
+                                              "subdirectory_radiobutton")
+        
+        # Sending
+        is_send_checkbutton_toggled = self.readConfigValue("Sending",
+                                           "is_send_checkbutton_toggled",
+                                           False,"boolean")
+        toggled_sending_option_radiobutton = self.readConfigValue("Sending",
+                                       "toggled_sending_option_radiobutton",
+                                       "upload_radiobutton")
+        upload_combobox_value = self.readConfigValue("Sending",
+                                                     "upload_combobox",
+                                                     0, "int")
         
         # Update the UI with the previous (or default) values
         # Size parameters
