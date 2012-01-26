@@ -1,6 +1,13 @@
 Changelog for nautilus-image-manipulator
 
 ================================
+0.6 - TBD (rTBD)
+  * Add custom compression level (merge branch from lp:~razerraz)
+  * Take care of eventual exceptions if a value is not set when loading
+      configuration from the ini file
+  * Added Brazilian Portuguese translation (Thanks Renan)
+
+================================
 0.5 - 2011-11-22 (r113)
   * Make sure that only valid filenames are passed (LP #711508 and
       LP#711509)
