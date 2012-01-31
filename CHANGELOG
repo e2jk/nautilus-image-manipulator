@@ -1,7 +1,7 @@
 Changelog for nautilus-image-manipulator
 
 ================================
-0.6 - TBD (rTBD)
+0.6 - 2012-01-31 (r122)
   * Add custom compression level (merge branch from lp:~razerraz)
   * Take care of eventual exceptions if a value is not set when loading
       configuration from the ini file
