@@ -19,7 +19,19 @@ This will create a tarball of the source code:
 
 
 This file should be uploaded to Launchpad as the source package of this
-new release.
+new release:
+- Go to https://launchpad.net/nautilus-image-manipulator/trunk/+addrelease
+- Click on "Create release"
+- Click on "Create milestone", enter the version number (for instance "0.6")
+    as the name
+- Enter today's date in "Date released"
+- Add that release's text from the CHANGELOG in the "Changelog" section
+- Click on "Create Release"
+- Click on "Add download file"
+- Enter "Source tarball" in "Description", select the tarball create in the
+    previous step, and select "Code Release Tarball" as "File content type"
+- Upload the new release!
+
 
 
 Copy this tarball to a new location (for example ~/devel/deb).
