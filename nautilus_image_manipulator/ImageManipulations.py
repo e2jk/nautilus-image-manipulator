@@ -20,17 +20,20 @@ import gettext
 from gi.repository import GObject
 import zipfile
 import subprocess
+import Image, pyexiv2
+import re, string
 import logging
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
 class ImageManipulations(GObject.GObject):
-    def __init__(self, dialog, files, geometry, compression, subdirectoryName, appendString):
+    def __init__(self, dialog, files, geometry, aspect, compression, subdirectoryName, appendString):
         super(ImageManipulations, self).__init__()
         self.resizeDialog = dialog
         self.origFiles = files
         self.numFiles = len(self.origFiles)
         self.geometry = geometry
+        self.aspect = aspect
         self.compression = compression
         self.subdirectoryName = None
         self.appendString = appendString
@@ -52,24 +55,20 @@ class ImageManipulations(GObject.GObject):
 
     def resize_images(self):
         """Loops over all files to resize them."""
-        if self.geometry != "100%":
-            i = float(0)
-            self.newFiles = []
-            for f in self.origFiles:
-                (skip, cancel, newFileName) = self.resize_one_image(f)
-                if cancel:
-                    break
-                if not skip:
-                    self.newFiles.append(newFileName)
-                i += 1
-                percent = i / self.numFiles
-                self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
-                self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
-                # There's more work, return True
-                yield True
-        else:
-            # If scaling to 100%, don't actually resize files (it would just degrade the quality)
-            self.newFiles = self.origFiles
+        i = float(0)
+        self.newFiles = []
+        for f in self.origFiles:
+            (skip, cancel, newFileName) = self.resize_one_image(f)
+            if cancel:
+                break
+            if not skip:
+                self.newFiles.append(newFileName)
+            i += 1
+            percent = i / self.numFiles
+            self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
+            self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
+            # There's more work, return True
+            yield True
         # Signal we are done resizing
         self.emit("resizing_done")
         # No more work, return False
@@ -104,25 +103,45 @@ class ImageManipulations(GObject.GObject):
         # Note: a new subdirectorie will also need to be created if a / was entered in the appendString
         try: os.makedirs("/".join(newFileName.split("/")[:-1]))
         except: pass
-        
-        # Resize the image using ImageMagick
-        cmd = "/usr/bin/convert"
-        retry = False
-        if not os.path.exists(cmd):
-            # ImageMagick is probably not installed
-            logging.error("Couldn't locate %s" % cmd)
-            (skip, cancel, retry) = self.resizeDialog.error_resizing(
-                                                dependencyMissing=True)
+
+        # Open Image with PIL
+        im = Image.open(fileName)
+        # Get original geometry
+        (w, h) = im.size
+        # New geometry is a %
+        if re.search ("%", self.geometry):
+            factor = int(string.replace(self.geometry,'%',''))/100.0
+            width = int(w*factor)
+            height = int(h*factor)
+        # New geometry is in pixels
+        elif (re.search ("x", self.geometry) and not self.aspect):
+            # Image is vertical
+            if (h > w):
+                (height, width) = self.geometry.split ('x')
+                factor = int(height) / float(h)
+                width = int(w * factor)
+            else:
+                (width, height) = self.geometry.split ('x')
+                factor = int(width) / float(w)
+                height = int(h * factor)
         else:
-            args = [cmd, fileName, "-resize", self.geometry, "-quality", self.compression, newFileName]
-            logging.debug('args: %s' % args)
-            retVal = subprocess.call(args)
-            if retVal != 0:
-                logging.error('error while executing resize command: %d' % retVal)
-                (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
-        if retry:
-            # Retry with the same image
-            (skip, cancel, newFileName) = self.resize_one_image(fileName)
+            (height, width) = self.geometry.split ('x')
+            
+        logging.debug('New image size %sx%s' % (width, height))
+        # Resize & save image
+        im = im.resize((int(width),int(height)))
+        im.save(newFileName, "JPEG", quality=int(self.compression))
+        # load EXIF data
+        exif = pyexiv2.ImageMetadata(fileName)
+        exif.read()
+        # change EXIF image size to reduced size
+        exif["Exif.Photo.PixelXDimension"] = int(width)
+        exif["Exif.Photo.PixelYDimension"] = int(height)
+        # copy to EXIF data to the new image
+        newExif = pyexiv2.ImageMetadata(newFileName)
+        newExif.read()
+        exif.copy(newExif)
+        newExif.write()
         return (skip, cancel, newFileName)
 
     def pack_images(self):
