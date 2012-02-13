@@ -111,6 +111,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         
         # Determine the resizing parameters
         geometry = None # The size parameters for the resizing operation
+        aspect = False # Custom aspect ratio disabled
         # Resize using default values
         if self.builder.get_object("default_size_radiobutton").get_active():
             model = self.builder.get_object("size_combobox").get_model()
@@ -123,6 +124,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
         # Resize using custom scale values
         elif self.builder.get_object("custom_size_radiobutton").get_active():
+            aspect = self.builder.get_object("aspect_checkbutton").get_active()
             geometry = "%dx%d" % (int(self.builder.get_object("width_spinbutton").get_value()), int(self.builder.get_object("height_spinbutton").get_value()))
         
         # Compression level
@@ -137,7 +139,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             # Resize the images
-            im = ImageManipulations(self, self.files, geometry, compression, subdirectoryName, appendString)
+            im = ImageManipulations(self, self.files, geometry, aspect, compression, subdirectoryName, appendString)
             im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
             GObject.idle_add(task.next)
@@ -296,9 +298,23 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             isCustomSize = (widget == self.builder.get_object("custom_size_radiobutton"))
             self.builder.get_object("custom_width_label").set_sensitive(isCustomSize)
             self.builder.get_object("width_spinbutton").set_sensitive(isCustomSize)
-            self.builder.get_object("custom_height_label").set_sensitive(isCustomSize)
-            self.builder.get_object("height_spinbutton").set_sensitive(isCustomSize)
+            self.builder.get_object("aspect_frame").set_sensitive(isCustomSize)
+            is_aspect_checkbutton_toggled = self.builder.get_object(
+                                        "aspect_checkbutton").get_active()
+            self.builder.get_object("custom_height_label").set_sensitive(
+                    isCustomSize and is_aspect_checkbutton_toggled)
+            self.builder.get_object("height_spinbutton").set_sensitive(
+                    isCustomSize and is_aspect_checkbutton_toggled)
             self.builder.get_object("custom_pixels_label").set_sensitive(isCustomSize)
+            
+    def on_aspect_toggled(self, widget, data=None):
+        """Updates the sensitiveness of the elements involved with aspect ratio."""
+        is_aspect_checkbutton_toggled = self.builder.get_object(
+                                        "aspect_checkbutton").get_active()
+        self.builder.get_object("custom_height_label").set_sensitive(
+                                             is_aspect_checkbutton_toggled)
+        self.builder.get_object("height_spinbutton").set_sensitive(
+                                             is_aspect_checkbutton_toggled)
 
     def on_filename_toggled(self, widget, data=None):
         """Updates the sensitiveness of the filename entry boxes depending on which option is chosen."""
@@ -331,19 +347,15 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         response = dialog.run()
         dialog.destroy()
 
-    def error_resizing(self, filename=None, dependencyMissing=False):
-        """Displays an error message if ImageMagick returned an error while resizing one image."""
+    def error_resizing(self, filename):
+        """Displays an error message if an error got detected while
+        resizing one image."""
         label = None
-        if filename:
-            (folder, image) = os.path.split(filename)
-            buttons =(_("_Skip"), 0,
-                   Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                   _("_Retry"), 1)
-            label = Gtk.Label(label=_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))
-        if dependencyMissing:
-            buttons =(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                   _("_Retry"), 1)
-            label = Gtk.Label(label=_("The image conversion program wasn't found on your system.\nHave you installed ImageMagick?"))
+        (folder, image) = os.path.split(filename)
+        buttons =(_("_Skip"), 0,
+               Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+               _("_Retry"), 1)
+        label = Gtk.Label(label=_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))
         label.set_padding(10, 5)
         dialog = Gtk.Dialog(_("Could not resize image"),
                            self,
@@ -393,6 +405,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         height_adjustment_value = self.readConfigValue("Resize",
                                                        "height_adjustment",
                                                        1000, "int")
+        is_aspect_checkbutton_toggled = self.readConfigValue("Resize",
+                                           "is_aspect_checkbutton_toggled",
+                                           False, "boolean")
         compression_adjustement_value = self.readConfigValue("Resize",
                                                 "compression_adjustment",
                                                 95, "int")
@@ -412,7 +427,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Sending
         is_send_checkbutton_toggled = self.readConfigValue("Sending",
                                            "is_send_checkbutton_toggled",
-                                           False,"boolean")
+                                           False, "boolean")
         toggled_sending_option_radiobutton = self.readConfigValue("Sending",
                                        "toggled_sending_option_radiobutton",
                                        "upload_radiobutton")
@@ -426,6 +441,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("scale_adjustment").set_value(scale_adjustment_value)
         self.builder.get_object("width_adjustment").set_value(width_adjustment_value)
         self.builder.get_object("height_adjustment").set_value(height_adjustment_value)
+        self.builder.get_object("aspect_checkbutton").set_active(is_aspect_checkbutton_toggled)
         self.builder.get_object("compression_adjustment").set_value(compression_adjustement_value)
         self.builder.get_object(toggled_size_radiobutton).set_active(True)
         
@@ -440,7 +456,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("upload_combobox").set_active(upload_combobox_value)
 
     def saveConfig(self):
-        """Save the current configuration in the ini file"""
+        """Save the current configuration to the ini file"""
         f = open(self.configFilename, "w")
         
         if not self.config.has_section("Resize"):
@@ -448,6 +464,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.config.set("Resize", "size_combobox", int(self.builder.get_object("size_combobox").get_active()))
         for v in ("scale_adjustment", "width_adjustment", "height_adjustment", "compression_adjustment"):
             self.config.set("Resize", v, int(self.builder.get_object(v).get_value()))
+        self.config.set("Resize", "is_aspect_checkbutton_toggled", self.builder.get_object("aspect_checkbutton").get_active())
         for b in ("default_size_radiobutton", "custom_scale_radiobutton", "custom_size_radiobutton"):
             if self.builder.get_object(b).get_active():
                 self.config.set("Resize", "toggled_size_radiobutton", b)
