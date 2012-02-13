@@ -8,6 +8,8 @@ Changelog for nautilus-image-manipulator
         the images (merge branch from lp:~razerraz)
     - Update the image metadata (Exif) after resizing the images (merge
         branch from lp:~razerraz)
+  * Take care of preserving aspect ratio (changeable via ui) (thanks again
+      lp:~razerraz)
 
 ================================
 0.6 - 2012-01-31 (r122)
