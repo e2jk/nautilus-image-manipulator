@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-13 22:53+0100\n"
+"POT-Creation-Date: 2012-02-13 23:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -197,57 +197,61 @@ msgid "Put in subdirectory called"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
-msgid "Resize images"
+msgid "Resize"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
-msgid "Resize in place"
+msgid "Resize images"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
-msgid "Scale:"
+msgid "Resize in place"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
-msgid "Select a size:"
+msgid "Scale:"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
+msgid "Select a size:"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
 msgid "Send the resized images"
 msgstr ""
 
 #. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
 msgid "Sending Options"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
 msgid "The download url has been copied in the clipboard"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
 msgid "This value will be appended before the image extension"
 msgstr ""
 
 #. After this text comes a combobox to select to which website to upload the images to. It will thus be like "Upload a .zip file to example.com"
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
 msgid "Upload a .zip file to"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
 msgid "Width:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
 msgid "percent"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
 msgid "pixels"
 msgstr ""
 
 #. Part of "Append XX to file name"
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
 msgid "to file name"
 msgstr ""
 
