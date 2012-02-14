@@ -1,7 +1,7 @@
 Changelog for nautilus-image-manipulator
 
 ================================
-0.7 - TBD (rXXX)
+0.7 - 2012-02-14 (r132)
   * N I M now depends on the pil and pyexiv2 packages, and not anymore on
       ImageMagick:
     - Use the Python Imaging Library (PIL) instead of ImageMagick to resize
@@ -12,6 +12,7 @@ Changelog for nautilus-image-manipulator
       lp:~razerraz)
   * Handle an exception when reading preferences when the preferences file
       does not exist
+  * Automate the updating of new translations
 
 ================================
 0.6 - 2012-01-31 (r122)
