@@ -12,6 +12,12 @@ It is highly inspirated by Nautilus Image Converter:
 
 
 
+You will need Python's Imaging module and pyexiv2. On Debian and
+derivatives, those packages can be installed with this command:
+    sudo apt-get install python-imaging python-pyexiv2
+
+
+
 Copyright:
 
     Copyright (C) 2010-2011 Emilien Klein
