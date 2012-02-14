@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nautilus-image-manipulator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-01-26 21:04+0100\n"
-"PO-Revision-Date: 2012-01-27 21:24+0000\n"
+"POT-Creation-Date: 2012-02-13 23:34+0100\n"
+"PO-Revision-Date: 2012-02-14 10:37+0000\n"
 "Last-Translator: Emilien Klein <emilien+ubuntu@klein.st>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2012-01-31 20:40+0000\n"
-"X-Generator: Launchpad (build 14734)\n"
+"X-Launchpad-Export-Date: 2012-02-14 20:52+0000\n"
+"X-Generator: Launchpad (build 14781)\n"
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:90
 msgid "Please enter a value for the subdirectory."
@@ -32,13 +32,13 @@ msgid "The string to append cannot end in %s"
 msgstr ""
 "De tekst dat aan de bestandsnaam toegevoegd wordt kan niet in %s eindigen"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:135
-#: ../nautilus_image_manipulator/ImageManipulations.py:66
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:137
+#: ../nautilus_image_manipulator/ImageManipulations.py:77
 msgid "Resizing images..."
 msgstr "Beelden aan het verkleinen..."
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:186
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:197
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:188
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:199
 #, python-format
 msgid ""
 "Your images have not been sent, but have been zipped together into this "
@@ -49,8 +49,8 @@ msgstr ""
 "bestand:\n"
 "%(filename)s"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:188
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:199
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:190
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:201
 #, python-format
 msgid ""
 "Your image has not been sent, but has successfully been resized.\n"
@@ -59,16 +59,16 @@ msgstr ""
 "Uw afbeelding is niet verzonden, maar is met succes aangepast.\n"
 "U kunt deze hier vinden: %(filename)s"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:189
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:191
 #, python-format
 msgid "The selected upload site %(site_name)s is not valid."
 msgstr "De geselecteerde upload site %(site_name)s is niet geldig."
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:189
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:191
 msgid "Please file a bug report on Launchpad"
 msgstr "Gelieve een bug report op Launchpad in te dienen"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:200
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:202
 #, python-format
 msgid ""
 "The upload site %(site_name)s could not be contacted, please check your "
@@ -77,25 +77,24 @@ msgstr ""
 "De upload site %(site_name)s kon niet worden gecontacteerd, controleer uw "
 "internet verbinding."
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:203
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:252
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:205
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:254
 msgid "Uploading images..."
 msgstr "Beelden aan het uploaden..."
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:325
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:341
 msgid "Invalid parameters"
 msgstr "Ongeldige parameters"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:339
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:355
 msgid "_Skip"
 msgstr "Over_slaan"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:341
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:345
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:357
 msgid "_Retry"
 msgstr "Opnieuw p_roberen"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:342
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:358
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -108,25 +107,17 @@ msgstr ""
 "Controleer of u de rechten heeft om in deze map te kunnen schrijven:\n"
 "%(folder)s"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:346
-msgid ""
-"The image conversion program wasn't found on your system.\n"
-"Have you installed ImageMagick?"
-msgstr ""
-"Het beeld conversie programma werd niet op uw systeem gevonden.\n"
-"Heeft u ImageMagick geïnstalleerd?"
-
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:348
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:360
 msgid "Could not resize image"
 msgstr "Kon het beeld niet verkleinen"
 
 #. Default name of the subdirectory in which the resized images will be put
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:408
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:423
 msgid "resized"
 msgstr "aangepast"
 
 #. Default value of the string that will be appended to the filename of the resized images
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:410
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:425
 msgid "-resized"
 msgstr "-aangepast"
 
@@ -165,7 +156,7 @@ msgstr ""
 msgid "No images provided"
 msgstr "Geen beelden aangeboden"
 
-#: ../nautilus_image_manipulator/ImageManipulations.py:177
+#: ../nautilus_image_manipulator/ImageManipulations.py:219
 msgid "Packing images..."
 msgstr "Beelden aan het verpakken..."
 
@@ -199,79 +190,87 @@ msgid "Download url:"
 msgstr "Download adres:"
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:9
+msgid "Force aspect ratio"
+msgstr "Aspect ratio forceren"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
 msgid "Height:"
 msgstr "Hoogte:"
 
 #. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
 msgid "Image Size"
 msgstr "Afbeeldingsgrootte"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
 msgid "Images successfully uploaded!"
 msgstr "Beelden geüpload!"
 
 #. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:15
 msgid "Output Options"
 msgstr "Uitvoeropties"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:15
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
 msgid "Put in subdirectory called"
 msgstr "Zet in de subdirectory"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
+msgid "Resize"
+msgstr "Schalen"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
 msgid "Resize images"
 msgstr "Beelden verkleinen"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
 msgid "Resize in place"
 msgstr "Originele beelden vervangen"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
 msgid "Scale:"
 msgstr "Schalen:"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
 msgid "Select a size:"
 msgstr "Kies een formaat:"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
 msgid "Send the resized images"
 msgstr "De verkleinde beelden versturen"
 
 #. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
 msgid "Sending Options"
 msgstr "Verzendopties"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
 msgid "The download url has been copied in the clipboard"
 msgstr "De download adres is naar het klembord gekopieerd"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
 msgid "This value will be appended before the image extension"
 msgstr "Deze waarde zal voor het beeld extensie worden toegevoegd"
 
 #. After this text comes a combobox to select to which website to upload the images to. It will thus be like "Upload a .zip file to example.com"
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
 msgid "Upload a .zip file to"
 msgstr "Upload een zipbestand naar"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
 msgid "Width:"
 msgstr "Breedte:"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
 msgid "percent"
 msgstr "procent"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
 msgid "pixels"
 msgstr "pixels"
 
 #. Part of "Append XX to file name"
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
 msgid "to file name"
 msgstr "aan de bestandsnaam toe"
 
