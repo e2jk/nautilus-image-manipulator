@@ -380,7 +380,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 value = self.config.getboolean(section, name)
             else:
                 value = self.config.get(section, name)
-        except ConfigParser.NoOptionError: pass
+        except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
+            pass
         return value
 
     def loadConfig(self):
