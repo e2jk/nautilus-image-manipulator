@@ -105,7 +105,7 @@ class ImageManipulations(GObject.GObject):
             name = "%s%s%s" % (n[0], self.appendString, n[1].lower())
         
         # This is the output filename
-        newFileName = "%s/%s" % (basePath, name)
+        newFileName = "%s/%s.%s" % (basePath, os.path.splitext(name)[0], "jpg")
         logging.debug('newFileName: %s' % newFileName)
         
         # Make sure the directory exists
