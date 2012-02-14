@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ### BEGIN LICENSE
-# Copyright (C) 2010-2011 Emilien Klein <emilien _AT_ klein _DOT_ st>
+# Copyright (C) 2010-2012 Emilien Klein <emilien _AT_ klein _DOT_ st>
 # 
 # This program is free software: you can redistribute it and/or modify it 
 # under the terms of the GNU General Public License version 3, as published 
