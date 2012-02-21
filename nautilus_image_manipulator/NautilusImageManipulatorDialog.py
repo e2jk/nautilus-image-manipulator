@@ -385,10 +385,25 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         return value
 
     def loadConfig(self):
-        """Read the ini file to get the previous configuration. The ini file is located at ~/.nautilus-image-manipulator.ini.
+        """Read the config file to get the previous configuration. It is
+        located at ~/.config/nautilus-image-manipulator/config.
         
         If no previous values are found, sets the UI to default values."""
-        self.configFilename = os.path.expanduser("~/.nautilus-image-manipulator.ini")
+        self.configFilename = os.path.expanduser(
+                            "~/.config/nautilus-image-manipulator/config")
+        if not os.path.exists(self.configFilename):
+            # If the config file does not exist, check if it exists in the
+            # old location
+            self.oldConfigFilename = os.path.expanduser(
+                                "~/.nautilus-image-manipulator.ini")
+            if os.path.exists(self.oldConfigFilename):
+                # The old config file exists, move it to the new location
+                if not os.path.isdir(os.path.dirname(self.configFilename)):
+                    # Create the folder to contain the new config file
+                    os.makedirs(os.path.dirname(self.configFilename))
+                # Move the old config file to the new location
+                os.rename(self.oldConfigFilename, self.configFilename)
+        
         self.config = ConfigParser.ConfigParser()
         self.config.read(self.configFilename)
         
@@ -458,6 +473,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def saveConfig(self):
         """Save the current configuration to the ini file"""
+        if not os.path.isdir(os.path.dirname(self.configFilename)):
+            # Create the folder that will contain the config file
+            os.makedirs(os.path.dirname(self.configFilename))
         f = open(self.configFilename, "w")
         
         if not self.config.has_section("Resize"):
