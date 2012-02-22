@@ -43,7 +43,7 @@ class BackgroundImageExtension(GObject.GObject, Nautilus.MenuProvider):
         for ff in images:
             # Remove "file://" and unquote the filename
             args.extend(("-f", urllib.unquote(ff.get_uri()[7:])))
-        retVal = subprocess.call(args)
+        subprocess.Popen(args)
 
     def get_file_items(self, window, files):
         images = []
