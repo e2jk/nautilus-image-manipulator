@@ -1,6 +1,12 @@
 Changelog for nautilus-image-manipulator
 
 ================================
+0.9 - TBD (rXXX)
+  * Prevent Nautilus from freezing when Nautilus Image Manipulator is
+      launched
+  * Move the config file to ~/.config/nautilus-image-manipulator/config
+
+================================
 0.8 - 2012-02-14 (r139)
   * Force .jpg extension on resized images filenames (LP #931975)
 
