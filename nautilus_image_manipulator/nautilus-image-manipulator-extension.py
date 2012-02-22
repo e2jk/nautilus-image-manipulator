@@ -15,15 +15,22 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-# Nautilus extension to launch Nautilus Image Manipulator
-# Some useful resources about Nautilus extensions:
-#     http://live.gnome.org/Nautilus/Development/Extensions
-#     http://svn.gnome.org/viewvc/nautilus-python/trunk/examples/
-#     
-# Place a copy of the extension in
-#     ~/.nautilus/python-extensions/
+# Nautilus extension to launch Nautilus Image Manipulator.
+#
+# Place a copy of this extension in
+#   /usr/share/nautilus-python/extensions
 # or
-#     /usr/lib/nautilus/extensions-2.0/python/
+#   ~/.local/share/nautilus-python/extensions/
+#
+# Some useful resources about Nautilus extensions:
+#   http://projects.gnome.org/nautilus-python/
+#   http://git.gnome.org/browse/nautilus-python/tree/examples
+#   http://git.gnome.org/browse/nautilus-python/tree/examples?h=nautilus-3.0
+#
+# Note that as of nautilus-python 0.7.0 the path from where the extensions
+# are loaded has been changed:
+#   http://git.gnome.org/browse/nautilus-python/commit/?id=c97253104e7d6b88803cbef529bd9e298fa8d9e3
+#   http://git.gnome.org/browse/nautilus-python/commit/?h=nautilus-3.0&id=73d2739c4a91d80710b14ff5f192875a34f10a94
 
 
 import os, subprocess, urllib, gettext
