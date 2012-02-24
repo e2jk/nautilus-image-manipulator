@@ -69,14 +69,14 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.connect_signals(self)
 
         # Load the saved configuration
-        self.loadConfig()
+        #self.loadConfig()
         
         self.processingCanceled = False
         
     def set_files(self, files):
         self.files = files
 
-    def resize_images(self, widget, data=None):
+    def resize_button_clicked(self, widget, data=None):
         """The user has elected to resize the images
 
         Called before the dialog returns Gtk.RESONSE_OK from run().
@@ -134,8 +134,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             # Disable the parameter UI elements and display the progress bar
             self.builder.get_object("parameters_vbox").set_sensitive(False)
             self.builder.get_object("resize_button").set_sensitive(False)
-            self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Resizing images..."))
-            self.builder.get_object("progress_progressbar").show()
+            self.builder.get_object("progressbar").set_text("%s 0%%" % _("Resizing images..."))
+            self.builder.get_object("progressbar").show()
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             # Resize the images
@@ -202,8 +202,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + extraInfo)
             return
         
-        self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Uploading images..."))
-        self.builder.get_object("progress_progressbar").set_fraction(0)
+        self.builder.get_object("progressbar").set_text("%s 0%%" % _("Uploading images..."))
+        self.builder.get_object("progressbar").set_fraction(0)
         self.uploadPercent = 0
         (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
         logging.info('downloadPage: %s' % downloadPage)
@@ -225,7 +225,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         This parameter is a tuple of the form (message, url)"""
         # Hide the unneccessary sections
         self.builder.get_object("parameters_vbox").hide()
-        self.builder.get_object("progress_progressbar").hide()
+        self.builder.get_object("progressbar").hide()
         self.builder.get_object("upload_url_vbox").hide()
         # Display the error message
         self.builder.get_object("error_message_label").set_text(msg)
@@ -251,8 +251,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         percent = float(current)/total
         percent100 = int(percent * 100)
         if percent100 > self.uploadPercent:
-            self.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
-            self.builder.get_object("progress_progressbar").set_fraction(percent)
+            self.builder.get_object("progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
+            self.builder.get_object("progressbar").set_fraction(percent)
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             self.uploadPercent = percent100
@@ -260,7 +260,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def on_uploading_done(self, downloadPage, deletePage):
         """Displays the url where the images can be downloaded from, or deleted."""
         self.builder.get_object("parameters_vbox").hide()
-        self.builder.get_object("progress_progressbar").hide()
+        self.builder.get_object("progressbar").hide()
         # Update the link buttons with the urls
         self.builder.get_object("download_linkbutton").set_label(downloadPage)
         self.builder.get_object("download_linkbutton").set_uri(downloadPage)
@@ -273,8 +273,12 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("close_button").show()
         self.resize(1, 1)
         
-
-    def cancel(self, widget, data=None):
+    def advanced_check_toggled(self, widget, data=None):
+        # Make sure Advanced UI is updated with current profile
+        self.profiles_combo_changed(self)
+        self.builder.get_object("parameters_box").set_visible(widget.get_active())
+            
+    def cancel_button_clicked(self, widget, data=None):
         """The user has elected to cancel.
 
         Called before the dialog returns Gtk.ResponseType.CANCEL for run()
@@ -285,37 +289,84 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         """Called when the NautilusImageManipulatorWindow is closed."""
         # Note: The parameters don't get saved when canceling. It is called at the end of self.resize().
         Gtk.main_quit()
-
-    def on_size_option_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the size option fields depending on which option is chosen."""
+        
+    def profiles_combo_changed(self, widget, data=None):
+        pro_model = self.builder.get_object("profiles_combo").get_model()
+        pro_iter = self.builder.get_object("profiles_combo").get_active_iter()
+        # UI UPDATE
+        # Size is in percent
+        if pro_model.get_value(pro_iter, 3):
+            self.builder.get_object("percent_radio").set_active(True)
+            self.builder.get_object("percent_scale").set_value(pro_model.get_value(pro_iter, 6))
+        # Size is in pixels
+        else:
+            self.builder.get_object("pixels_radio").set_active(True)
+            self.builder.get_object("width_spin").set_value(pro_model.get_value(pro_iter, 4))
+            #self.builder.get_object("height_spin").set_value(pro_model.get_value(pro_iter, 5))
+        # Quality
+        self.builder.get_object("quality_scale").set_value(pro_model.get_value(pro_iter, 7))
+        # Destination
+        dest_model = self.builder.get_object("destination_combo").get_model()
+        dest_iter = dest_model.get_iter_first()
+        while dest_iter is not None:
+            dest = dest_model.get(dest_iter, 1)[0]
+            if dest == pro_model.get_value(pro_iter, 8):
+                self.builder.get_object("destination_combo").set_active_iter(dest_iter)
+                break
+            dest_iter = dest_model.iter_next(dest_iter)
+        self.builder.get_object("append_entry").set_text(pro_model.get_value(pro_iter, 9))
+        self.builder.get_object("subfolder_entry").set_text(pro_model.get_value(pro_iter, 10))
+        url_model = self.builder.get_object("upload_combo").get_model()
+        url_iter = url_model.get_iter_first()
+        while url_iter is not None:
+            url = url_model.get(url_iter, 0)[0]
+            if url == pro_model.get_value(pro_iter, 11):
+                self.builder.get_object("upload_combo").set_active_iter(url_iter)
+                return True
+            url_iter = url_model.iter_next(url_iter)
+        
+    def pixels_radio_toggled(self, widget, data=None):
         if widget.get_active():
-            isDefaultSize = (widget == self.builder.get_object("default_size_radiobutton"))
-            self.builder.get_object("size_combobox").set_sensitive(isDefaultSize)
-            self.builder.get_object("def_size_pixels_label").set_sensitive(isDefaultSize)
-            isScale = (widget == self.builder.get_object("custom_scale_radiobutton"))
-            self.builder.get_object("scale_spinbutton").set_sensitive(isScale)
-            self.builder.get_object("scale_percent_label").set_sensitive(isScale)
-            isCustomSize = (widget == self.builder.get_object("custom_size_radiobutton"))
-            self.builder.get_object("custom_width_label").set_sensitive(isCustomSize)
-            self.builder.get_object("width_spinbutton").set_sensitive(isCustomSize)
-            self.builder.get_object("aspect_frame").set_sensitive(isCustomSize)
-            is_aspect_checkbutton_toggled = self.builder.get_object(
-                                        "aspect_checkbutton").get_active()
-            self.builder.get_object("custom_height_label").set_sensitive(
-                    isCustomSize and is_aspect_checkbutton_toggled)
-            self.builder.get_object("height_spinbutton").set_sensitive(
-                    isCustomSize and is_aspect_checkbutton_toggled)
-            self.builder.get_object("custom_pixels_label").set_sensitive(isCustomSize)
+            self.builder.get_object("width_spin").set_sensitive(True)
+            #self.builder.get_object("height_spin").set_sensitive(True)
+            self.builder.get_object("percent_box1").set_sensitive(False)
+    
+    def percent_radio_toggled(self, widget, data=None):
+        if widget.get_active():
+            self.builder.get_object("width_spin").set_sensitive(False)
+            #self.builder.get_object("height_spin").set_sensitive(False)
+            self.builder.get_object("percent_box1").set_sensitive(True)            
+    
+    def destination_combo_changed(self, widget, data=None):
+        dest_model = widget.get_model()
+        dest_iter = widget.get_active_iter()
+        dest = dest_model.get_value(dest_iter, 1)
+        if dest == 'folder':
+            self.builder.get_object("subfolder_box").show()
+            self.builder.get_object("append_box").hide()
+            self.builder.get_object("upload_box").hide()
+            self.builder.get_object("mailer_box").hide()
+        elif dest == 'append':
+            self.builder.get_object("subfolder_box").hide()
+            self.builder.get_object("append_box").show()
+            self.builder.get_object("upload_box").hide()
+            self.builder.get_object("mailer_box").hide()
+        elif dest == 'upload':
+            self.builder.get_object("subfolder_box").hide()
+            self.builder.get_object("append_box").hide()
+            self.builder.get_object("upload_box").show()
+            self.builder.get_object("mailer_box").hide()
+        elif dest == 'email':
+            self.builder.get_object("subfolder_box").hide()
+            self.builder.get_object("append_box").hide()
+            self.builder.get_object("upload_box").hide()
+            self.builder.get_object("mailer_box").show()
+        else:
+            self.builder.get_object("subfolder_box").hide()
+            self.builder.get_object("append_box").hide()
+            self.builder.get_object("upload_box").hide()
+            self.builder.get_object("mailer_box").hide()  
             
-    def on_aspect_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the elements involved with aspect ratio."""
-        is_aspect_checkbutton_toggled = self.builder.get_object(
-                                        "aspect_checkbutton").get_active()
-        self.builder.get_object("custom_height_label").set_sensitive(
-                                             is_aspect_checkbutton_toggled)
-        self.builder.get_object("height_spinbutton").set_sensitive(
-                                             is_aspect_checkbutton_toggled)
-
     def on_filename_toggled(self, widget, data=None):
         """Updates the sensitiveness of the filename entry boxes depending on which option is chosen."""
         if widget.get_active():
