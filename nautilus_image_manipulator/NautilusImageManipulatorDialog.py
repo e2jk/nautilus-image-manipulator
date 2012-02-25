@@ -188,12 +188,12 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Using the option ``urlInfo`` parameter, you can diplay a link button to open a url.
         This parameter is a tuple of the form (message, url)"""
         # Hide the unneccessary sections
-        self.builder.get_object("parameters_vbox").hide()
+        self.builder.get_object("parameters_box").hide()
         self.builder.get_object("progressbar").hide()
-        self.builder.get_object("upload_url_vbox").hide()
+        self.builder.get_object("url_box").hide()
         # Display the error message
         self.builder.get_object("error_message_label").set_text(msg)
-        self.builder.get_object("error_vbox").show()
+        self.builder.get_object("error_box").show()
         # Hide the cancel and resize button, and show the close button
         self.builder.get_object("cancel_button").hide()
         self.builder.get_object("resize_button").hide()
@@ -290,19 +290,19 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def newprofile_button_clicked(self, widget, data=None):
         p = Profile(self.builder)
-        p.loadfromui()
+        p.create()
         print p.width,p.percent,p.destination,p.foldername,p.appendstring
         
     def pixels_radio_toggled(self, widget, data=None):
         if widget.get_active():
             self.builder.get_object("width_spin").set_sensitive(True)
-            #self.builder.get_object("height_spin").set_sensitive(True)
+            self.builder.get_object("width_combo").set_sensitive(True)
             self.builder.get_object("percent_box1").set_sensitive(False)
     
     def percent_radio_toggled(self, widget, data=None):
         if widget.get_active():
             self.builder.get_object("width_spin").set_sensitive(False)
-            #self.builder.get_object("height_spin").set_sensitive(False)
+            self.builder.get_object("width_combo").set_sensitive(False)
             self.builder.get_object("percent_box1").set_sensitive(True)            
     
     def destination_combo_changed(self, widget, data=None):

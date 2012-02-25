@@ -47,8 +47,6 @@
       <column type="gboolean"/>
       <!-- column-name width -->
       <column type="gint"/>
-      <!-- column-name height -->
-      <column type="gint"/>
       <!-- column-name percent -->
       <column type="gint"/>
       <!-- column-name quality -->
@@ -66,86 +64,88 @@
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">Make small images</col>
+        <col id="0" translatable="yes">Small images</col>
         <col id="1">0</col>
         <col id="2">True</col>
         <col id="3">False</col>
         <col id="4">640</col>
         <col id="5">0</col>
         <col id="6">0</col>
-        <col id="7">95</col>
-        <col id="8" translatable="yes">append</col>
-        <col id="9" translatable="yes">resized</col>
+        <col id="7" translatable="yes">append</col>
+        <col id="8" translatable="yes"></col>
+        <col id="9" translatable="yes"></col>
         <col id="10" translatable="yes"></col>
         <col id="11" translatable="yes"></col>
-        <col id="12" translatable="yes"></col>
       </row>
       <row>
-        <col id="0" translatable="yes">Make small images and upload them to 1fichier.com</col>
+        <col id="0" translatable="yes">Small images send to 1fichier.com</col>
         <col id="1">1</col>
         <col id="2">True</col>
         <col id="3">False</col>
         <col id="4">640</col>
         <col id="5">0</col>
         <col id="6">0</col>
-        <col id="7">95</col>
-        <col id="8" translatable="yes">upload</col>
+        <col id="7" translatable="yes">upload</col>
+        <col id="8" translatable="yes"></col>
         <col id="9" translatable="yes"></col>
         <col id="10" translatable="yes"></col>
-        <col id="11" translatable="yes">1fichier.com</col>
-        <col id="12" translatable="yes"></col>
+        <col id="11" translatable="yes"></col>
       </row>
       <row>
-        <col id="0" translatable="yes">Make small images in a new email</col>
+        <col id="0" translatable="yes">Small images send by email</col>
         <col id="1">2</col>
         <col id="2">True</col>
         <col id="3">False</col>
         <col id="4">640</col>
         <col id="5">0</col>
         <col id="6">0</col>
-        <col id="7">95</col>
-        <col id="8" translatable="yes">email</col>
+        <col id="7" translatable="yes">email</col>
+        <col id="8" translatable="yes"></col>
         <col id="9" translatable="yes"></col>
         <col id="10" translatable="yes"></col>
         <col id="11" translatable="yes"></col>
-        <col id="12" translatable="yes">thunderbird</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Make large images</col>
+        <col id="0" translatable="yes">Large images in a folder</col>
         <col id="1">3</col>
         <col id="2">True</col>
         <col id="3">False</col>
         <col id="4">1280</col>
         <col id="5">0</col>
-        <col id="6">0</col>
-        <col id="7">90</col>
-        <col id="8" translatable="yes">append</col>
+        <col id="6">90</col>
+        <col id="7" translatable="yes">folder</col>
+        <col id="8" translatable="yes"></col>
         <col id="9" translatable="yes">resized</col>
         <col id="10" translatable="yes"></col>
         <col id="11" translatable="yes"></col>
-        <col id="12" translatable="yes"></col>
       </row>
       <row>
-        <col id="0" translatable="yes">Make 50% size images</col>
+        <col id="0" translatable="yes">50% scaled images</col>
         <col id="1">4</col>
         <col id="2">False</col>
         <col id="3">True</col>
         <col id="4">0</col>
-        <col id="5">0</col>
-        <col id="6">50</col>
-        <col id="7">95</col>
-        <col id="8" translatable="yes">append</col>
-        <col id="9" translatable="yes">scaled</col>
+        <col id="5">50</col>
+        <col id="6">0</col>
+        <col id="7" translatable="yes">append</col>
+        <col id="8" translatable="yes">-rescaled</col>
+        <col id="9" translatable="yes"></col>
         <col id="10" translatable="yes"></col>
         <col id="11" translatable="yes"></col>
-        <col id="12" translatable="yes"></col>
       </row>
     </data>
+  </object>
+  <object class="GtkAdjustment" id="quality_adjust">
+    <property name="lower">10</property>
+    <property name="upper">100</property>
+    <property name="value">95</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="NautilusImageManipulatorDialog" id="nautilus_image_manipulator_dialog">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="border_width">12</property>
+    <property name="border_width">6</property>
     <property name="title" translatable="yes">Resize images</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
@@ -155,12 +155,15 @@
       <object class="GtkBox" id="internal_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_left">4</property>
+        <property name="margin_top">4</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkBox" id="profiles_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_right">5</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
@@ -183,7 +186,7 @@
               <object class="GtkBox" id="profiles_box1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
+                <property name="margin_left">12</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkComboBox" id="profiles_combo">
@@ -255,6 +258,7 @@
         <child>
           <object class="GtkBox" id="parameters_box">
             <property name="can_focus">False</property>
+            <property name="margin_right">5</property>
             <property name="orientation">vertical</property>
             <property name="spacing">6</property>
             <child>
@@ -265,6 +269,7 @@
                 <property name="tooltip_markup" translatable="yes">Manage provioulsy created profiles</property>
                 <property name="tooltip_text" translatable="yes">Manage provioulsy created profiles</property>
                 <property name="halign">end</property>
+                <property name="margin_left">12</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkButton" id="deleteprofile_button">
@@ -313,6 +318,7 @@
               <object class="GtkBox" id="imagesize_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_top">6</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
@@ -335,10 +341,9 @@
                   <object class="GtkBox" id="imagesize_box1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">10</property>
-                    <property name="margin_right">5</property>
+                    <property name="margin_left">12</property>
                     <property name="orientation">vertical</property>
-                    <property name="spacing">4</property>
+                    <property name="spacing">6</property>
                     <child>
                       <object class="GtkBox" id="pixels_box">
                         <property name="visible">True</property>
@@ -359,9 +364,30 @@
                             <signal name="toggled" handler="pixels_radio_toggled" swapped="no"/>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkComboBox" id="width_combo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="valign">center</property>
+                            <property name="border_width">1</property>
+                            <property name="model">width_list</property>
+                            <property name="active">0</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="cellrenderertext3"/>
+                              <attributes>
+                                <attribute name="text">0</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
@@ -371,7 +397,9 @@
                             <property name="has_tooltip">True</property>
                             <property name="tooltip_markup" translatable="yes">Width of image in pixels</property>
                             <property name="tooltip_text" translatable="yes">Width of image in pixels</property>
+                            <property name="max_length">4</property>
                             <property name="invisible_char">●</property>
+                            <property name="width_chars">4</property>
                             <property name="invisible_char_set">True</property>
                             <property name="progress_pulse_step">0.030000003054738045</property>
                             <property name="primary_icon_activatable">False</property>
@@ -379,9 +407,9 @@
                             <property name="adjustment">width_adjust</property>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
-                            <property name="position">1</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </object>
@@ -537,13 +565,13 @@
               <object class="GtkBox" id="destination_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="margin_top">6</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="destination_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_top">6</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes" comments="Use &quot;Title Case&quot; if used in your language">Destination</property>
                     <attributes>
@@ -560,10 +588,9 @@
                   <object class="GtkBox" id="destination_box1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">10</property>
-                    <property name="margin_right">5</property>
+                    <property name="margin_left">12</property>
                     <property name="orientation">vertical</property>
-                    <property name="spacing">4</property>
+                    <property name="spacing">6</property>
                     <child>
                       <object class="GtkComboBox" id="destination_combo">
                         <property name="visible">True</property>
@@ -786,6 +813,7 @@
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="halign">end</property>
+            <property name="margin_right">5</property>
             <property name="use_action_appearance">False</property>
             <property name="draw_indicator">True</property>
             <signal name="toggled" handler="advanced_check_toggled" swapped="no"/>
@@ -799,6 +827,8 @@
         <child>
           <object class="GtkProgressBar" id="progressbar">
             <property name="can_focus">False</property>
+            <property name="margin_left">6</property>
+            <property name="margin_right">6</property>
             <property name="show_text">True</property>
           </object>
           <packing>
@@ -810,6 +840,7 @@
         <child>
           <object class="GtkBox" id="error_box">
             <property name="can_focus">False</property>
+            <property name="margin_right">5</property>
             <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
@@ -912,6 +943,7 @@
         <child>
           <object class="GtkBox" id="url_box">
             <property name="can_focus">False</property>
+            <property name="margin_right">5</property>
             <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
@@ -1053,6 +1085,22 @@
               </packing>
             </child>
             <child>
+              <object class="GtkButton" id="close_button">
+                <property name="label">gtk-close</property>
+                <property name="use_action_appearance">False</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="cancel_button_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton" id="resize_button">
                 <property name="label" translatable="yes">Resize</property>
                 <property name="use_action_appearance">False</property>
@@ -1067,7 +1115,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </object>
@@ -1082,15 +1130,9 @@
     </child>
     <action-widgets>
       <action-widget response="-6">cancel_button</action-widget>
+      <action-widget response="0">close_button</action-widget>
       <action-widget response="-5">resize_button</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="quality_adjust">
-    <property name="lower">10</property>
-    <property name="upper">100</property>
-    <property name="value">95</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="scale_adjust">
     <property name="lower">5</property>
@@ -1116,5 +1158,31 @@
     <property name="value">640</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+  </object>
+  <object class="GtkListStore" id="width_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name value -->
+      <column type="gint"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">small</col>
+        <col id="1">640</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">default</col>
+        <col id="1">1024</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">large</col>
+        <col id="1">1280</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">custom</col>
+        <col id="1">0</col>
+      </row>
+    </data>
   </object>
 </interface>
