@@ -27,36 +27,41 @@ from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
 class ImageManipulations(GObject.GObject):
-    def __init__(self, dialog, files, geometry, aspect, compression, subdirectoryName, appendString):
+    def __init__(self, dialog, files, inpercent, width, percent, quality, 
+                                    destination, appendstring, foldername):
         super(ImageManipulations, self).__init__()
         self.resizeDialog = dialog
         self.origFiles = files
         self.numFiles = len(self.origFiles)
-        self.geometry = geometry
-        self.aspect = aspect
-        self.compression = compression
-        self.subdirectoryName = None
-        self.appendString = appendString
+        self.inpercent = inpercent
+        self.width = width
+        self.percent = percent
+        self.quality = quality
+        self.destination = destination
+        self.appendstring = appendstring
+        self.foldername = foldername
         
         # Clean the subdirectory name input
-        if subdirectoryName:
+        if foldername:
             # Remove eventual slashes at the beginning or end of the subdirectory name
-            cleanSubdirectoryName = []
-            for i in subdirectoryName.split("/"):
+            cleanfoldername = []
+            for i in foldername.split("/"):
                 if i:
-                    cleanSubdirectoryName.append(i)
-            self.subdirectoryName = "/".join(cleanSubdirectoryName)
+                    cleanfoldername.append(i)
+            self.foldername = "/".join(cleanfoldername)
         
         logging.debug('files: %s' % self.origFiles)
-        logging.debug('geometry: %s - %s aspect ratio' % (self.geometry,
-                                          "Force" if aspect else "Respect"))
-        logging.debug('compression: %s' % self.compression)
-        logging.debug('appendString: %s' % self.appendString)
-        logging.debug('subdirectoryName: %s' % self.subdirectoryName)
+        logging.debug('inpercent: %s' % self.inpercent)
+        logging.debug('width: %s' % self.width)
+        logging.debug('percent: %s' % self.percent)
+        logging.debug('quality: %s' % self.quality)
+        logging.debug('destination: %s' % self.quality)
+        logging.debug('appendstring: %s' % self.appendstring)
+        logging.debug('foldername: %s' % self.foldername)
 
     def resize_images(self):
         """Loops over all files to resize them."""
-        if self.geometry == "100%" and self.compression == "100":
+        if self.inpercent and self.percent == "100" and self.quality == "100":
             # If scaling to 100% with a compression of 100%, don't
             # actually resize files (it would just degrade the quality)
             # This configuration might be used if the user just wants to
@@ -74,8 +79,8 @@ class ImageManipulations(GObject.GObject):
                     self.newFiles.append(newFileName)
                 i += 1
                 percent = i / self.numFiles
-                self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
-                self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
+                self.resizeDialog.builder.get_object("progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
+                self.resizeDialog.builder.get_object("progressbar").set_fraction(percent)
                 # There's more work, return True
                 yield True
         # Signal we are done resizing
@@ -94,15 +99,15 @@ class ImageManipulations(GObject.GObject):
         
         (basePath, name) = os.path.split(fileName)
         
-        if self.subdirectoryName:
-            basePath = "%s/%s" % (basePath, self.subdirectoryName)
+        if self.destination == 'folder':
+            basePath = "%s/%s" % (basePath, self.foldername)
         logging.debug('basePath: %s' % basePath)
         logging.debug('name: %s' % name)
         
-        if self.appendString:
+        if self.destination == 'append':
             # Insert the append string and convert the extension to lower case
             n = os.path.splitext(name)
-            name = "%s%s%s" % (n[0], self.appendString, n[1].lower())
+            name = "%s%s%s" % (n[0], self.appendstring, n[1].lower())
         
         # This is the output filename
         newFileName = "%s/%s.%s" % (basePath, os.path.splitext(name)[0], "jpg")
@@ -119,39 +124,35 @@ class ImageManipulations(GObject.GObject):
         # Get original geometry
         (w, h) = im.size
         logging.debug('Original image size %sx%s' % (w, h))
-        if "%" in self.geometry:
+        if self.inpercent:
             # New geometry is a %
-            factor = int(self.geometry.replace("%", "")) / 100.0
+            factor = int(self.percent) / 100.0
             width = int(w*factor)
             height = int(h*factor)
-        elif "x" in self.geometry and not self.aspect:
+        else:
             # New geometry is in pixels and aspect ratio is respected
             if (h > w):
                 # Image is vertical
-                (height, width) = self.geometry.split('x')
+                height = self.width
                 factor = int(height) / float(h)
                 width = int(w * factor)
             else:
-                (width, height) = self.geometry.split('x')
-                factor = int(width) / float(w)
+                width = self.width
+                factor = int(self.width) / float(w)
                 height = int(h * factor)
-        else:
-            # New geometry is in pixels and aspect ratio is not respected
-            (height, width) = self.geometry.split('x')
-            
+           
         logging.debug('New image size %sx%s' % (width, height))
         # Resize and save image
         im = im.resize((int(width),int(height)))
         retry = False
         try:
-            im.save(newFileName, "JPEG", quality=int(self.compression))
+            im.save(newFileName, "JPEG", quality=int(self.quality))
         except IOError as (errno, strerror):
             logging.error("I/O error({0}): {1}".format(errno, strerror))
             (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
         if retry:
             # Retry with the same image
             (skip, cancel, newFileName) = self.resize_one_image(fileName)
-
 
         if not (skip or retry or cancel):
             # Load EXIF data
@@ -216,8 +217,8 @@ class ImageManipulations(GObject.GObject):
             zout.write(fname, fzname, zipfile.ZIP_DEFLATED)
             i += 1
             percent = i / self.numFiles
-            self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Packing images..."), int(percent * 100)))
-            self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
+            self.resizeDialog.builder.get_object("progressbar").set_text("%s %d%%" % (_("Packing images..."), int(percent * 100)))
+            self.resizeDialog.builder.get_object("progressbar").set_fraction(percent)
             # There's more work, return True
             yield True
         zout.close() # Close the zip file

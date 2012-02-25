@@ -137,8 +137,8 @@
         <col id="8" translatable="yes">append</col>
         <col id="9" translatable="yes">scaled</col>
         <col id="10" translatable="yes"></col>
-        <col id="11" translatable="yes"/>
-        <col id="12" translatable="yes"/>
+        <col id="11" translatable="yes"></col>
+        <col id="12" translatable="yes"></col>
       </row>
     </data>
   </object>

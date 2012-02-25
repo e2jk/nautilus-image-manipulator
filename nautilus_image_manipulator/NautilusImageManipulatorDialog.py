@@ -25,10 +25,7 @@ import logging
 
 from nautilus_image_manipulator.helpers import get_builder
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
-
-import gettext
-from gettext import gettext as _
-gettext.textdomain('nautilus-image-manipulator')
+from ProfileSettings import Profile
 
 class NautilusImageManipulatorDialog(Gtk.Dialog):
     __gtype_name__ = "NautilusImageManipulatorDialog"
@@ -81,90 +78,60 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
         Called before the dialog returns Gtk.RESONSE_OK from run().
         """
-        # Determine the output filenames
-        subdirectoryName = ""
-        appendString = ""
-        if self.builder.get_object("subdirectory_radiobutton").get_active():
-            subdirectoryName = self.builder.get_object("subdirectory_name_entry").get_text()
-            if not subdirectoryName:
-                self.error_with_parameters(_("Please enter a value for the subdirectory."))
-                return
-            # TODO: Check that the value is a valid subdirectory name
-
-        elif self.builder.get_object("append_radiobutton").get_active():
-            appendString = self.builder.get_object("append_name_entry").get_text()
-            if not appendString:
-                self.error_with_parameters(_("Please enter some text to append to the filename."))
-                return
-            if appendString[-1] == os.path.sep:
-                # If the appendString ends in "/", the image would be
-                # called ".EXT", which is a hidden file in it's own folder.
-                self.error_with_parameters(
-                       _("The string to append cannot end in %s") %
-                       os.path.sep)
-                return
+        p = Profile(self.builder)
+        p.loadfromui()
+        if not p.appendstring:
+            self.error_with_parameters(_("Please enter some text to append to the filename."))
+            return
+        if p.appendstring[-1] == os.path.sep:
+            # If the appendString ends in "/", the image would be
+            # called ".EXT", which is a hidden file in it's own folder.
+            self.error_with_parameters(
+                _("The string to append cannot end in %s") %
+                os.path.sep)
+            return
             # TODO: Check that the value is valid to be appended to the filename
 
-        elif self.builder.get_object("inplace_radiobutton").get_active():
-            # Nothing to do
-            pass
-        
-        # Determine the resizing parameters
-        geometry = None # The size parameters for the resizing operation
-        aspect = False # Custom aspect ratio disabled
-        # Resize using default values
-        if self.builder.get_object("default_size_radiobutton").get_active():
-            model = self.builder.get_object("size_combobox").get_model()
-            iterator = self.builder.get_object("size_combobox").get_active_iter()
-            geometry = model.get_value(iterator, 0)
-
-        # Resize using a custom scale value
-        elif self.builder.get_object("custom_scale_radiobutton").get_active():
-            geometry = "%d%%" % int(self.builder.get_object("scale_spinbutton").get_value())
-
-        # Resize using custom scale values
-        elif self.builder.get_object("custom_size_radiobutton").get_active():
-            aspect = self.builder.get_object("aspect_checkbutton").get_active()
-            geometry = "%dx%d" % (int(self.builder.get_object("width_spinbutton").get_value()), int(self.builder.get_object("height_spinbutton").get_value()))
-        
-        # Compression level
-        compression = "%d" % (int(self.builder.get_object("compression_spinbutton").get_value()))
-        
-        if geometry:
+                
+        if p.width:
             # Disable the parameter UI elements and display the progress bar
-            self.builder.get_object("parameters_vbox").set_sensitive(False)
+            self.builder.get_object("profiles_box").set_sensitive(False)
+            self.builder.get_object("parameters_box").set_sensitive(False)
+            self.builder.get_object("advanced_check").set_sensitive(False)
             self.builder.get_object("resize_button").set_sensitive(False)
-            self.builder.get_object("progressbar").set_text("%s 0%%" % _("Resizing images..."))
+            self.builder.get_object("progressbar").set_text("%s 0%%" % ("Resizing images..."))
             self.builder.get_object("progressbar").show()
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             # Resize the images
-            im = ImageManipulations(self, self.files, geometry, aspect, compression, subdirectoryName, appendString)
+            im = ImageManipulations(self, self.files, p.inpercent, p.width, p.percent, p.quality, 
+                                    p.destination, p.appendstring, p.foldername)
             im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
             GObject.idle_add(task.next)
         
         # Remember the settings for next time
-        self.saveConfig()
+        #self.saveConfig()
 
     def on_resizing_done(self, im):
+        p = Profile(self.builder)
+        p.loadfromui()
         """Triggered when all the images have been resized"""
         # Only pack and send the images if the process was not canceled and if there is at least one image to pack
-        if self.builder.get_object("send_checkbutton").get_active() and not self.processingCanceled and len(im.newFiles) > 0:
-            if self.builder.get_object("upload_radiobutton").get_active():
-                # The user wants to upload to a website
-                if len(im.newFiles) > 1:
-                    # There are more than one image, zip the files together and upload the zipfile
-                    im.connect("packing_done", self.on_packing_done)
-                    task = im.pack_images()
-                    GObject.idle_add(task.next)
-                else:
-                    # There is only one image, send that image alone (don't zip the file)
-                    self.upload_file(im, im.newFiles[0])
-            elif self.builder.get_object("send_email_radiobutton").get_active():
-                # The user wants to send the images via email, send them as attachments
-                # TODO: implement the sending as email attachments
-                pass
+        if p.destination == 'upload' and not self.processingCanceled and len(im.newFiles) > 0:
+            # The user wants to upload to a website
+            if len(im.newFiles) > 1:
+                # There are more than one image, zip the files together and upload the zipfile
+                im.connect("packing_done", self.on_packing_done)
+                task = im.pack_images()
+                GObject.idle_add(task.next)
+            else:
+                # There is only one image, send that image alone (don't zip the file)
+                self.upload_file(im, im.newFiles[0], url)
+        elif p.destination == 'email' and not self.processingCanceled and len(im.newFiles) > 0:
+            # The user wants to send the images via email, send them as attachments
+            # TODO: implement the sending as email attachments
+            pass
         else:
             # The user doesn't want to send the images, we're done!
             self.destroy()
@@ -173,13 +140,10 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         """Triggered when all the images have been packed together."""
         self.upload_file(im, zipfile)
 
-    def upload_file(self, im, fileToUpload):
+    def upload_file(self, im, fileToUpload, url):
         """Uploads a file to a website."""
-        model = self.builder.get_object("upload_combobox").get_model()
-        iterator = self.builder.get_object("upload_combobox").get_active_iter()
-        uploadSiteName = model.get_value(iterator, 0)
         # Import the module that takes care of uploading to the selected website
-        import_string = "from upload.z%s import UploadSite" % uploadSiteName.replace(".", "").replace("/", "")
+        import_string = "from upload.z%s import url" % url.replace(".", "").replace("/", "")
         # Make sure the import does not fail
         try:
             exec import_string
@@ -188,7 +152,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
             else:
                 extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
-            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + extraInfo, (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
+            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % url}) + "\n\n" + extraInfo, (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
             return
         u = None
         try:
@@ -291,39 +255,43 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Gtk.main_quit()
         
     def profiles_combo_changed(self, widget, data=None):
-        pro_model = self.builder.get_object("profiles_combo").get_model()
-        pro_iter = self.builder.get_object("profiles_combo").get_active_iter()
+        p = Profile(self.builder)
+        p.loadfromprofile()
         # UI UPDATE
         # Size is in percent
-        if pro_model.get_value(pro_iter, 3):
+        if p.inpercent:
             self.builder.get_object("percent_radio").set_active(True)
-            self.builder.get_object("percent_scale").set_value(pro_model.get_value(pro_iter, 6))
+            self.builder.get_object("percent_scale").set_value(p.percent)
         # Size is in pixels
         else:
             self.builder.get_object("pixels_radio").set_active(True)
-            self.builder.get_object("width_spin").set_value(pro_model.get_value(pro_iter, 4))
-            #self.builder.get_object("height_spin").set_value(pro_model.get_value(pro_iter, 5))
+            self.builder.get_object("width_spin").set_value(p.width)
         # Quality
-        self.builder.get_object("quality_scale").set_value(pro_model.get_value(pro_iter, 7))
+        self.builder.get_object("quality_scale").set_value(p.quality)
         # Destination
         dest_model = self.builder.get_object("destination_combo").get_model()
         dest_iter = dest_model.get_iter_first()
         while dest_iter is not None:
             dest = dest_model.get(dest_iter, 1)[0]
-            if dest == pro_model.get_value(pro_iter, 8):
+            if dest == p.destination:
                 self.builder.get_object("destination_combo").set_active_iter(dest_iter)
                 break
             dest_iter = dest_model.iter_next(dest_iter)
-        self.builder.get_object("append_entry").set_text(pro_model.get_value(pro_iter, 9))
-        self.builder.get_object("subfolder_entry").set_text(pro_model.get_value(pro_iter, 10))
+        self.builder.get_object("append_entry").set_text(p.appendstring)
+        self.builder.get_object("subfolder_entry").set_text(p.foldername)
         url_model = self.builder.get_object("upload_combo").get_model()
         url_iter = url_model.get_iter_first()
         while url_iter is not None:
             url = url_model.get(url_iter, 0)[0]
-            if url == pro_model.get_value(pro_iter, 11):
+            if url == p.url:
                 self.builder.get_object("upload_combo").set_active_iter(url_iter)
                 return True
             url_iter = url_model.iter_next(url_iter)
+
+    def newprofile_button_clicked(self, widget, data=None):
+        p = Profile(self.builder)
+        p.loadfromui()
+        print p.width,p.percent,p.destination,p.foldername,p.appendstring
         
     def pixels_radio_toggled(self, widget, data=None):
         if widget.get_active():
@@ -367,24 +335,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("upload_box").hide()
             self.builder.get_object("mailer_box").hide()  
             
-    def on_filename_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the filename entry boxes depending on which option is chosen."""
-        if widget.get_active():
-            self.builder.get_object("subdirectory_name_entry").set_sensitive(widget == self.builder.get_object("subdirectory_radiobutton"))
-            self.builder.get_object("append_name_entry").set_sensitive(widget == self.builder.get_object("append_radiobutton"))
-
-    def on_send_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the elements involved with sending the images."""
-        if widget.get_active():
-            self.builder.get_object("send_options_hbox").show()
-        else:
-            self.builder.get_object("send_options_hbox").hide()
-            self.resize(1, 1)
-
-    def on_send_type_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the upload combobox when changing the sending options."""
-        self.builder.get_object("upload_combobox").set_sensitive(self.builder.get_object("upload_radiobutton").get_active())
-
     def error_with_parameters(self, error_message):
         """Displays an error message if the parameters given to resize the images are not valid."""
         label = Gtk.Label(label=error_message)
