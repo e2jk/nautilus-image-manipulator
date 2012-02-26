@@ -25,7 +25,7 @@ import logging
 
 from nautilus_image_manipulator.helpers import get_builder
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
-from ProfileSettings import Profile
+from ProfileSettings import Profile,Config
 
 class NautilusImageManipulatorDialog(Gtk.Dialog):
     __gtype_name__ = "NautilusImageManipulatorDialog"
@@ -66,8 +66,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.connect_signals(self)
 
         # Load the saved configuration
-        #self.loadConfig()
-        
+        self.loadConfig()
         self.processingCanceled = False
         
     def set_files(self, files):
@@ -91,7 +90,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 os.path.sep)
             return
             # TODO: Check that the value is valid to be appended to the filename
-
                 
         if p.width:
             # Disable the parameter UI elements and display the progress bar
@@ -111,7 +109,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             GObject.idle_add(task.next)
         
         # Remember the settings for next time
-        #self.saveConfig()
+        self.saveConfig()
 
     def on_resizing_done(self, im):
         p = Profile(self.builder)
@@ -247,6 +245,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
         Called before the dialog returns Gtk.ResponseType.CANCEL for run()
         """
+        # Remember the settings for next time - DEBUG
+        self.saveConfig()
         self.destroy()
 
     def on_destroy(self, widget, data=None):
@@ -255,9 +255,20 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Gtk.main_quit()
         
     def profiles_combo_changed(self, widget, data=None):
+        model = self.builder.get_object("profiles_combo").get_model()
+        iter = self.builder.get_object("profiles_combo").get_active_iter()
+        id = model.get_value(iter, 1)
         p = Profile(self.builder)
-        p.loadfromprofile()
+        p.load(id)
+        self.ui_update(p)
+        
+    def ui_update (self, p, data=None):
         # UI UPDATE
+        # Delete profile button state
+        if p.default:
+            self.builder.get_object("deleteprofile_button").set_sensitive(False)
+        else:
+            self.builder.get_object("deleteprofile_button").set_sensitive(True)
         # Size is in percent
         if p.inpercent:
             self.builder.get_object("percent_radio").set_active(True)
@@ -291,7 +302,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def newprofile_button_clicked(self, widget, data=None):
         p = Profile(self.builder)
         p.create()
-        print p.width,p.percent,p.destination,p.foldername,p.appendstring
+            
+    def deleteprofile_button_clicked(self, widget, data=None):
+        Profile(self.builder).delete()
         
     def pixels_radio_toggled(self, widget, data=None):
         if widget.get_active():
@@ -305,6 +318,27 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("width_combo").set_sensitive(False)
             self.builder.get_object("percent_box1").set_sensitive(True)            
     
+    def width_combo_changed(self, widget, data=None):
+        model = widget.get_model()
+        iter = widget.get_active_iter()
+        choice = model.get_value(iter, 0)
+        if not choice == 'custom':
+            self.builder.get_object("width_spin").set_value(model.get_value(iter, 1))
+    
+    def width_spin_changed(self, widget, data=None):
+        spinvalue = int(widget.get_value())
+        model = self.builder.get_object("width_combo").get_model()
+        iter = model.get_iter_first()
+        iteradapt = None
+        while iter is not None:
+            value = model.get(iter, 1)[0]
+            if value == spinvalue:
+                iteradapt = iter
+                break
+            iteradapt = iter
+            iter = model.iter_next(iter)
+        self.builder.get_object("width_combo").set_active_iter(iteradapt)
+        
     def destination_combo_changed(self, widget, data=None):
         dest_model = widget.get_model()
         dest_iter = widget.get_active_iter()
@@ -372,140 +406,25 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         retry = (response == 1)
         return (skip, self.processingCanceled, retry)
 
-    def readConfigValue(self, section, name, defaultValue=None, type=None):
-        value = defaultValue
-        try:
-            if type == "int":
-                value = self.config.getint(section, name)
-            elif type == "boolean":
-                value = self.config.getboolean(section, name)
-            else:
-                value = self.config.get(section, name)
-        except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
-            pass
-        return value
-
     def loadConfig(self):
-        """Read the config file to get the previous configuration. It is
-        located at ~/.config/nautilus-image-manipulator/config.
-        
-        If no previous values are found, sets the UI to default values."""
-        self.configFilename = os.path.expanduser(
-                            "~/.config/nautilus-image-manipulator/config")
-        if not os.path.exists(self.configFilename):
-            # If the config file does not exist, check if it exists in the
-            # old location
-            self.oldConfigFilename = os.path.expanduser(
-                                "~/.nautilus-image-manipulator.ini")
-            if os.path.exists(self.oldConfigFilename):
-                # The old config file exists, move it to the new location
-                if not os.path.isdir(os.path.dirname(self.configFilename)):
-                    # Create the folder to contain the new config file
-                    os.makedirs(os.path.dirname(self.configFilename))
-                # Move the old config file to the new location
-                os.rename(self.oldConfigFilename, self.configFilename)
-        
-        self.config = ConfigParser.ConfigParser()
-        self.config.read(self.configFilename)
-        
+        Config().restoreprofiles(self.builder)
+        (activeprofile, advancedcheck) = Config().restorestate()
         # TODO: Make sure that the values read from the ini file are valid, else use default values
-        
-        # Resize
-        size_combobox_value = self.readConfigValue("Resize",
-                                                   "size_combobox",4, "int")
-        scale_adjustment_value = self.readConfigValue("Resize",
-                                                      "scale_adjustment",
-                                                      50, "int")
-        width_adjustment_value = self.readConfigValue("Resize",
-                                                      "width_adjustment",
-                                                      1000, "int")
-        height_adjustment_value = self.readConfigValue("Resize",
-                                                       "height_adjustment",
-                                                       1000, "int")
-        is_aspect_checkbutton_toggled = self.readConfigValue("Resize",
-                                           "is_aspect_checkbutton_toggled",
-                                           False, "boolean")
-        compression_adjustement_value = self.readConfigValue("Resize",
-                                                "compression_adjustment",
-                                                95, "int")
-        toggled_size_radiobutton = self.readConfigValue("Resize",
-                                                "toggled_size_radiobutton",
-                                                "default_size_radiobutton")
-        
-        # Output
-        toggled_output_radiobutton = self.readConfigValue("Output",
-                                              "toggled_output_radiobutton",
-                                              "subdirectory_radiobutton")
-        # Default name of the subdirectory in which the resized images will be put
-        subdirectory_name_entry_value = self.readConfigValue("Output", "subdirectory_name_entry", _("resized"))
-        # Default value of the string that will be appended to the filename of the resized images
-        append_name_entry_value = self.readConfigValue("Output", "append_name_entry", _("-resized"))
-        
-        # Sending
-        is_send_checkbutton_toggled = self.readConfigValue("Sending",
-                                           "is_send_checkbutton_toggled",
-                                           False, "boolean")
-        toggled_sending_option_radiobutton = self.readConfigValue("Sending",
-                                       "toggled_sending_option_radiobutton",
-                                       "upload_radiobutton")
-        upload_combobox_value = self.readConfigValue("Sending",
-                                                     "upload_combobox",
-                                                     0, "int")
-        
-        # Update the UI with the previous (or default) values
-        # Size parameters
-        self.builder.get_object("size_combobox").set_active(size_combobox_value)
-        self.builder.get_object("scale_adjustment").set_value(scale_adjustment_value)
-        self.builder.get_object("width_adjustment").set_value(width_adjustment_value)
-        self.builder.get_object("height_adjustment").set_value(height_adjustment_value)
-        self.builder.get_object("aspect_checkbutton").set_active(is_aspect_checkbutton_toggled)
-        self.builder.get_object("compression_adjustment").set_value(compression_adjustement_value)
-        self.builder.get_object(toggled_size_radiobutton).set_active(True)
-        
-        # Output parameters
-        self.builder.get_object("subdirectory_name_entry").set_text(subdirectory_name_entry_value)
-        self.builder.get_object("append_name_entry").set_text(append_name_entry_value)
-        self.builder.get_object(toggled_output_radiobutton).set_active(True)
-        
-        # Sending parameters
-        self.builder.get_object("send_checkbutton").set_active(is_send_checkbutton_toggled)
-        self.builder.get_object(toggled_sending_option_radiobutton).set_active(True)
-        self.builder.get_object("upload_combobox").set_active(upload_combobox_value)
+        model = self.builder.get_object("profiles_combo").get_model()
+        iter = model.get_iter_first()
+        while iter is not None:
+            if model.get(iter, 1)[0] == activeprofile:
+                self.builder.get_object("profiles_combo").set_active_iter(iter)
+                break
+            iter = model.iter_next(iter)
+        self.builder.get_object("advanced_check").set_active(advancedcheck)
 
     def saveConfig(self):
-        """Save the current configuration to the ini file"""
-        if not os.path.isdir(os.path.dirname(self.configFilename)):
-            # Create the folder that will contain the config file
-            os.makedirs(os.path.dirname(self.configFilename))
-        f = open(self.configFilename, "w")
-        
-        if not self.config.has_section("Resize"):
-            self.config.add_section("Resize")
-        self.config.set("Resize", "size_combobox", int(self.builder.get_object("size_combobox").get_active()))
-        for v in ("scale_adjustment", "width_adjustment", "height_adjustment", "compression_adjustment"):
-            self.config.set("Resize", v, int(self.builder.get_object(v).get_value()))
-        self.config.set("Resize", "is_aspect_checkbutton_toggled", self.builder.get_object("aspect_checkbutton").get_active())
-        for b in ("default_size_radiobutton", "custom_scale_radiobutton", "custom_size_radiobutton"):
-            if self.builder.get_object(b).get_active():
-                self.config.set("Resize", "toggled_size_radiobutton", b)
-        
-        if not self.config.has_section("Output"):
-            self.config.add_section("Output")
-        for v in ("subdirectory_name_entry", "append_name_entry"):
-            self.config.set("Output", v, self.builder.get_object(v).get_text())
-        for b in ("subdirectory_radiobutton", "append_radiobutton", "inplace_radiobutton"):
-            if self.builder.get_object(b).get_active():
-                self.config.set("Output", "toggled_output_radiobutton", b)
-        
-        if not self.config.has_section("Sending"):
-            self.config.add_section("Sending")
-        self.config.set("Sending", "is_send_checkbutton_toggled", self.builder.get_object("send_checkbutton").get_active())
-        for b in ("upload_radiobutton", "send_email_radiobutton"):
-            if self.builder.get_object(b).get_active():
-                self.config.set("Sending", "toggled_sending_option_radiobutton", b)
-        self.config.set("Sending", "upload_combobox", int(self.builder.get_object("upload_combobox").get_active()))
-        
-        self.config.write(f)
+        model = self.builder.get_object("profiles_combo").get_model()
+        iter = self.builder.get_object("profiles_combo").get_active_iter()
+        activeprofile = model.get_value(iter, 1)
+        advancedcheck = int(self.builder.get_object("advanced_check").get_active())
+        Config().writestate(activeprofile, advancedcheck)
 
 
 if __name__ == "__main__":

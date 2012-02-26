@@ -276,6 +276,7 @@
                     <property name="label" translatable="yes">Remove this profile</property>
                     <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
@@ -377,6 +378,7 @@
                             <property name="border_width">1</property>
                             <property name="model">width_list</property>
                             <property name="active">0</property>
+                            <signal name="changed" handler="width_combo_changed" swapped="no"/>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext3"/>
                               <attributes>
@@ -405,6 +407,7 @@
                             <property name="primary_icon_activatable">False</property>
                             <property name="secondary_icon_activatable">False</property>
                             <property name="adjustment">width_adjust</property>
+                            <signal name="value-changed" handler="width_spin_changed" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1172,7 +1175,7 @@
         <col id="1">640</col>
       </row>
       <row>
-        <col id="0" translatable="yes">default</col>
+        <col id="0" translatable="yes">normal</col>
         <col id="1">1024</col>
       </row>
       <row>
