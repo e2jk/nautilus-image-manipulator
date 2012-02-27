@@ -176,10 +176,10 @@ class ImageManipulations(GObject.GObject):
             # Put the zipfile in the user's home folder if no base directory name could be determined.
             dirname = os.path.expanduser("~")
         zipname = "images" # Default filename
-        if self.subdirectoryName:
-            zipname = self.subdirectoryName
-        if self.appendString:
-            zipname = self.appendString
+        if self.foldername:
+            zipname = self.foldername
+        if self.appendstring:
+            zipname = self.appendstring
         # Sanitize the name of the zipfile
         zipname = zipname.strip() # Strip whitespace
         # Remove starting non-alphabetic characters
