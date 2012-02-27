@@ -368,6 +368,16 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").hide()
             self.builder.get_object("mailer_box").hide()  
+        
+    def mailer_combo_changed(self, widget, data=None):
+        #TODO: implement this stub
+        logging.info('mailer_combo_changed not yet implemented')
+        pass
+        
+    def upload_combo_changed(self, widget, data=None):
+        #TODO: implement this stub
+        logging.info('upload_combo_changed not yet implemented')
+        pass
             
     def error_with_parameters(self, error_message):
         """Displays an error message if the parameters given to resize the images are not valid."""
