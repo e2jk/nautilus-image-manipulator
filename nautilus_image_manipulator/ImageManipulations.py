@@ -16,13 +16,14 @@
 ### END LICENSE
 
 import os
-import gettext
 from gi.repository import GObject
 import zipfile
 import subprocess
 import Image
 import pyexiv2
 import logging
+
+import gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 

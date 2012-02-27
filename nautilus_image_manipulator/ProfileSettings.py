@@ -15,11 +15,12 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
+import os
+import ConfigParser
+
 import gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
-import os
-import ConfigParser
 
 class Config:
     def __init__(self):
