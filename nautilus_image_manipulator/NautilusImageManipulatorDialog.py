@@ -245,8 +245,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
         Called before the dialog returns Gtk.ResponseType.CANCEL for run()
         """
-        # Remember the settings for next time - DEBUG
-        self.saveConfig()
         self.destroy()
 
     def on_destroy(self, widget, data=None):
