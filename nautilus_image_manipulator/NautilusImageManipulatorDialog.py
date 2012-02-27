@@ -59,7 +59,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         finish initializing the start of the new NautilusImageManipulatorDialog
         instance.
         
-        Put your initilization code in here and leave __init__ undefined.
+        Put your initialization code in here and leave __init__ undefined.
         """
         # Get a reference to the builder and set up the signals.
         self.builder = builder
