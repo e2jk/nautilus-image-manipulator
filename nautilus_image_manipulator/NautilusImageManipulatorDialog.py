@@ -25,7 +25,7 @@ import logging
 
 from nautilus_image_manipulator.helpers import get_builder
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
-from ProfileSettings import Profile,Config
+from ProfileSettings import Profile, Config
 
 class NautilusImageManipulatorDialog(Gtk.Dialog):
     __gtype_name__ = "NautilusImageManipulatorDialog"
