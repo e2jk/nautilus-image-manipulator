@@ -15,7 +15,6 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
-
 import gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
@@ -35,7 +34,7 @@ class Config:
         activeprofile = self.readvalue("Saved state","activeprofile",0,"int")
         advancedcheck = self.readvalue("Saved state","advancedcheck",0,"int")
         return (activeprofile, advancedcheck)
-        
+
     def restoreprofiles(self, builder):
         p = Profile(builder)
         p.id = 10
@@ -54,7 +53,7 @@ class Config:
                 p.mailer = self.readvalue(section, "mailer", p.mailer, "str")
                 p.uiaddprofile()
             p.id = p.id + 1
-        
+
     def writeprofile(self, profile):
         p = profile
         section = "Profile %i" % p.id
@@ -72,13 +71,13 @@ class Config:
         self.config.set(section, "url", p.url)
         self.config.set(section, "mailer", p.mailer)
         self.write()
-    
+
     def deleteprofile(self, id):
         section = "Profile %i" % id
         if self.config.has_section(section):
             self.config.remove_section(section)
             self.write()
-            
+
     def writestate(self, activeprofile, advancedcheck):
         p = activeprofile
         a = advancedcheck
@@ -87,13 +86,13 @@ class Config:
             self.config.add_section(section)
         self.config.set(section, "activeprofile", p)
         self.config.set(section, "advancedcheck", a)
-        self.write()  
-          
+        self.write()
+
     def write(self):
         f = open(self.file, "w")
         self.config.write(f)
         f.close()
-        
+
     def readvalue(self, section, name, value=None, type=None):
         try:
             if type == "int":
@@ -105,7 +104,8 @@ class Config:
         except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
             pass
         return value
-        
+
+
 class Profile:
     def __init__(self, builder, name='Unnamed profile', id=0, default=False, inpercent=False, width=int(640), 
                 percent=50, quality=95, destination='append', appendstring='-resized', foldername='resized',
@@ -144,8 +144,7 @@ class Profile:
                 if model.get_value(iter, 11): self.mailer = model.get_value(iter, 11)
                 break
             iter = model.iter_next(iter)
-                
-        
+
     def loadfromui(self):
         """ Load UI state in the profile instance """
         self.inpercent = self.builder.get_object("percent_radio").get_active()
@@ -154,14 +153,14 @@ class Profile:
         self.quality = int(self.builder.get_object("quality_scale").get_value())
         iter = self.builder.get_object("destination_combo").get_active_iter()
         self.destination = self.builder.get_object("destination_combo").get_model().get_value(iter, 1)
-        self.builder.get_object("width_spin").get_text()        
+        self.builder.get_object("width_spin").get_text()
         self.appendstring = self.builder.get_object("append_entry").get_text()
         self.foldername = self.builder.get_object("subfolder_entry").get_text()
         iter = self.builder.get_object("upload_combo").get_active_iter()
         self.url = self.builder.get_object("upload_combo").get_model().get_value(iter, 0)
         iter = self.builder.get_object("mailer_combo").get_active_iter()
         self.mailer = self.builder.get_object("mailer_combo").get_model().get_value(iter, 0)
-   
+
     def create(self):
         """ Create a new gtktree iter with the current profile set """
         # At first load settings from the ui
@@ -175,24 +174,24 @@ class Profile:
         while self.id < 30:
             iter = model.get_iter_first()
             while iter is not None:
-                if model.get_value(iter, 1) == self.id: 
+                if model.get_value(iter, 1) == self.id:
                     find = True
                     break
                 iter = model.iter_next(iter)
-            if find == False: 
+            if find == False:
                 break
             find = False
             self.id = self.id + 1
         # Make the profile name reflect on the settings
-        if self.inpercent: 
+        if self.inpercent:
             self.name = "%s %% scaled" % self.percent
         elif self.width == 640:
             self.name = "Small"
-        elif self.width == 1024:   
+        elif self.width == 1024:
             self.name = "Normal"
-        elif self.width == 1280:   
+        elif self.width == 1280:
             self.name = "Large"
-        else:        
+        else:
             self.name = "%s pixels" % int(self.width)
         self.name = "%s images" % self.name
         if self.destination == 'folder':
@@ -216,7 +215,7 @@ class Profile:
         self.builder.get_object("profiles_combo").set_active_iter(first)
         model.remove(iter)
         Config().deleteprofile(id)
-        
+
     def uiaddprofile(self):
         """ Put the profile settings in a new gtktree item """
         model = self.builder.get_object("profiles_combo").get_model()

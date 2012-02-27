@@ -68,7 +68,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Load the saved configuration
         self.loadConfig()
         self.processingCanceled = False
-        
+
     def set_files(self, files):
         self.files = files
 
@@ -90,7 +90,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 os.path.sep)
             return
             # TODO: Check that the value is valid to be appended to the filename
-                
+        
         if p.width:
             # Disable the parameter UI elements and display the progress bar
             self.builder.get_object("profiles_box").set_sensitive(False)
@@ -234,12 +234,12 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("resize_button").hide()
         self.builder.get_object("close_button").show()
         self.resize(1, 1)
-        
+
     def advanced_check_toggled(self, widget, data=None):
         # Make sure Advanced UI is updated with current profile
         self.profiles_combo_changed(self)
         self.builder.get_object("parameters_box").set_visible(widget.get_active())
-            
+
     def cancel_button_clicked(self, widget, data=None):
         """The user has elected to cancel.
 
@@ -251,7 +251,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         """Called when the NautilusImageManipulatorWindow is closed."""
         # Note: The parameters don't get saved when canceling. It is called at the end of self.resize().
         Gtk.main_quit()
-        
+
     def profiles_combo_changed(self, widget, data=None):
         model = self.builder.get_object("profiles_combo").get_model()
         iter = self.builder.get_object("profiles_combo").get_active_iter()
@@ -259,7 +259,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         p = Profile(self.builder)
         p.load(id)
         self.ui_update(p)
-        
+
     def ui_update (self, p, data=None):
         # UI UPDATE
         # Delete profile button state
@@ -300,29 +300,29 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def newprofile_button_clicked(self, widget, data=None):
         p = Profile(self.builder)
         p.create()
-            
+
     def deleteprofile_button_clicked(self, widget, data=None):
         Profile(self.builder).delete()
-        
+
     def pixels_radio_toggled(self, widget, data=None):
         if widget.get_active():
             self.builder.get_object("width_spin").set_sensitive(True)
             self.builder.get_object("width_combo").set_sensitive(True)
             self.builder.get_object("percent_box1").set_sensitive(False)
-    
+
     def percent_radio_toggled(self, widget, data=None):
         if widget.get_active():
             self.builder.get_object("width_spin").set_sensitive(False)
             self.builder.get_object("width_combo").set_sensitive(False)
-            self.builder.get_object("percent_box1").set_sensitive(True)            
-    
+            self.builder.get_object("percent_box1").set_sensitive(True)
+
     def width_combo_changed(self, widget, data=None):
         model = widget.get_model()
         iter = widget.get_active_iter()
         choice = model.get_value(iter, 0)
         if not choice == 'custom':
             self.builder.get_object("width_spin").set_value(model.get_value(iter, 1))
-    
+
     def width_spin_changed(self, widget, data=None):
         spinvalue = int(widget.get_value())
         model = self.builder.get_object("width_combo").get_model()
@@ -336,7 +336,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             iteradapt = iter
             iter = model.iter_next(iter)
         self.builder.get_object("width_combo").set_active_iter(iteradapt)
-        
+
     def destination_combo_changed(self, widget, data=None):
         dest_model = widget.get_model()
         dest_iter = widget.get_active_iter()
@@ -365,18 +365,18 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("subfolder_box").hide()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").hide()
-            self.builder.get_object("mailer_box").hide()  
-        
+            self.builder.get_object("mailer_box").hide()
+
     def mailer_combo_changed(self, widget, data=None):
         #TODO: implement this stub
         logging.info('mailer_combo_changed not yet implemented')
         pass
-        
+
     def upload_combo_changed(self, widget, data=None):
         #TODO: implement this stub
         logging.info('upload_combo_changed not yet implemented')
         pass
-            
+
     def error_with_parameters(self, error_message):
         """Displays an error message if the parameters given to resize the images are not valid."""
         label = Gtk.Label(label=error_message)
