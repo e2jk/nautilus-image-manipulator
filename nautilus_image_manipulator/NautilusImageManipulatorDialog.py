@@ -125,7 +125,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 GObject.idle_add(task.next)
             else:
                 # There is only one image, send that image alone (don't zip the file)
-                self.upload_file(im, im.newFiles[0], url)
+                self.upload_file(im, im.newFiles[0])
         elif p.destination == 'email' and not self.processingCanceled and len(im.newFiles) > 0:
             # The user wants to send the images via email, send them as attachments
             # TODO: implement the sending as email attachments
@@ -138,10 +138,13 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         """Triggered when all the images have been packed together."""
         self.upload_file(im, zipfile)
 
-    def upload_file(self, im, fileToUpload, url):
+    def upload_file(self, im, fileToUpload):
         """Uploads a file to a website."""
+        #TODO: determine the upload website from the combobox/default value
+        url = "1fichier.com"
         # Import the module that takes care of uploading to the selected website
-        import_string = "from upload.z%s import url" % url.replace(".", "").replace("/", "")
+        import_string = "from upload.z%s import UploadSite" % url.replace(".", "").replace("/", "")
+        print import_string
         # Make sure the import does not fail
         try:
             exec import_string
