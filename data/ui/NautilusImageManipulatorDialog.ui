@@ -199,7 +199,7 @@
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="pixels_radio">
-                                <property name="label" translatable="yes">Width in pixels : </property>
+                                <property name="label" translatable="yes">Width in pixels:</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -274,7 +274,7 @@
                             <property name="spacing">1</property>
                             <child>
                               <object class="GtkRadioButton" id="percent_radio">
-                                <property name="label" translatable="yes">Scale in percent : </property>
+                                <property name="label" translatable="yes">Scale in percent:</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -351,7 +351,7 @@
                                 <property name="has_tooltip">True</property>
                                 <property name="tooltip_markup" translatable="yes">JPEG quality factor (10/100%)</property>
                                 <property name="tooltip_text" translatable="yes">JPEG quality factor (10/100%)</property>
-                                <property name="label" translatable="yes">Quality :</property>
+                                <property name="label" translatable="yes">Quality:</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -467,7 +467,7 @@
                               <object class="GtkLabel" id="subfolder_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Subfolder name :</property>
+                                <property name="label" translatable="yes">Subfolder name:</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -507,7 +507,7 @@
                               <object class="GtkLabel" id="append_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">String to append to filename :</property>
+                                <property name="label" translatable="yes">String to append to filename:</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -550,7 +550,7 @@
                               <object class="GtkLabel" id="upload_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Upload the .zip file to :</property>
+                                <property name="label" translatable="yes">Upload the .zip file to:</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
