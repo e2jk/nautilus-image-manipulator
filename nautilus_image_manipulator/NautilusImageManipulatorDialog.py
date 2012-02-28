@@ -228,14 +228,13 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def on_uploading_done(self, downloadPage, deletePage):
         """Displays the url where the images can be downloaded from, or deleted."""
-        self.builder.get_object("parameters_vbox").hide()
-        self.builder.get_object("progressbar").hide()
+        self.builder.get_object("details_box").hide()
         # Update the link buttons with the urls
         self.builder.get_object("download_linkbutton").set_label(downloadPage)
         self.builder.get_object("download_linkbutton").set_uri(downloadPage)
         self.builder.get_object("delete_linkbutton").set_label(deletePage)
         self.builder.get_object("delete_linkbutton").set_uri(deletePage)
-        self.builder.get_object("upload_url_vbox").show()
+        self.builder.get_object("url_box").show()
         # Hide the cancel and resize button, and show the close button
         self.builder.get_object("cancel_button").hide()
         self.builder.get_object("resize_button").hide()
