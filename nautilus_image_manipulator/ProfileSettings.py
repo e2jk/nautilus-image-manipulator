@@ -51,7 +51,6 @@ class Config:
                 p.appendstring = self.readvalue(section, "appendstring", p.appendstring, "str")
                 p.foldername = self.readvalue(section, "foldername", p.foldername, "str")
                 p.url = self.readvalue(section, "url", p.url, "str")
-                p.mailer = self.readvalue(section, "mailer", p.mailer, "str")
                 p.uiaddprofile()
             p.id = p.id + 1
 
@@ -70,7 +69,6 @@ class Config:
         self.config.set(section, "appendstring", p.appendstring)
         self.config.set(section, "foldername", p.foldername)
         self.config.set(section, "url", p.url)
-        self.config.set(section, "mailer", p.mailer)
         self.write()
 
     def deleteprofile(self, id):
@@ -110,7 +108,7 @@ class Config:
 class Profile:
     def __init__(self, builder, name='Unnamed profile', id=0, default=False, inpercent=False, width=int(640), 
                 percent=50, quality=95, destination='append', appendstring='-resized', foldername='resized',
-                url='1Fichier.com', mailer='thunderbird'):
+                url='1Fichier.com'):
         self.builder = builder
         self.name = name
         self.id = id
@@ -123,7 +121,6 @@ class Profile:
         self.appendstring = appendstring
         self.foldername = foldername
         self.url = url
-        self.mailer = mailer
 
     def load(self, id):
         """ Load Gtktree iter in the profile instance """
@@ -142,7 +139,6 @@ class Profile:
                 if model.get_value(iter, 8): self.appendstring = model.get_value(iter, 8)
                 if model.get_value(iter, 9): self.foldername = model.get_value(iter, 9)
                 if model.get_value(iter, 10): self.url = model.get_value(iter, 10)
-                if model.get_value(iter, 11): self.mailer = model.get_value(iter, 11)
                 break
             iter = model.iter_next(iter)
 
@@ -159,8 +155,6 @@ class Profile:
         self.foldername = self.builder.get_object("subfolder_entry").get_text()
         iter = self.builder.get_object("upload_combo").get_active_iter()
         self.url = self.builder.get_object("upload_combo").get_model().get_value(iter, 0)
-        iter = self.builder.get_object("mailer_combo").get_active_iter()
-        self.mailer = self.builder.get_object("mailer_combo").get_model().get_value(iter, 0)
 
     def create(self):
         """ Create a new gtktree iter with the current profile set """
@@ -199,8 +193,6 @@ class Profile:
             self.name = "%s in a folder" % self.name
         elif self.destination == 'upload':
             self.name = "%s send to %s" % (self.name, self.url)
-        elif self.destination == 'email':
-            self.name = "%s send by email" % self.name
         # Put the profile settings in a new gtktree item
         iter = self.uiaddprofile()
         # Select the profile in the ui
@@ -232,5 +224,4 @@ class Profile:
         model.set_value(iter, 8, self.appendstring)
         model.set_value(iter, 9, self.foldername)
         model.set_value(iter, 10, self.url)
-        model.set_value(iter, 11, self.mailer)
         return iter

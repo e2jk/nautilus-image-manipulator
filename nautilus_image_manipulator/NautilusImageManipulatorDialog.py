@@ -128,10 +128,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             else:
                 # There is only one image, send that image alone (don't zip the file)
                 self.upload_file(im, im.newFiles[0])
-        elif p.destination == 'email' and not self.processingCanceled and len(im.newFiles) > 0:
-            # The user wants to send the images via email, send them as attachments
-            # TODO: implement the sending as email attachments
-            pass
         else:
             # The user doesn't want to send the images, we're done!
             self.destroy()
@@ -350,32 +346,18 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("subfolder_box").show()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").hide()
-            self.builder.get_object("mailer_box").hide()
         elif dest == 'append':
             self.builder.get_object("subfolder_box").hide()
             self.builder.get_object("append_box").show()
             self.builder.get_object("upload_box").hide()
-            self.builder.get_object("mailer_box").hide()
         elif dest == 'upload':
             self.builder.get_object("subfolder_box").hide()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").show()
-            self.builder.get_object("mailer_box").hide()
-        elif dest == 'email':
-            self.builder.get_object("subfolder_box").hide()
-            self.builder.get_object("append_box").hide()
-            self.builder.get_object("upload_box").hide()
-            self.builder.get_object("mailer_box").show()
         else:
             self.builder.get_object("subfolder_box").hide()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").hide()
-            self.builder.get_object("mailer_box").hide()
-
-    def mailer_combo_changed(self, widget, data=None):
-        #TODO: implement this stub
-        logging.info('mailer_combo_changed not yet implemented')
-        pass
 
     def upload_combo_changed(self, widget, data=None):
         #TODO: implement this stub
