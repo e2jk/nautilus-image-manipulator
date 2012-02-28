@@ -106,9 +106,10 @@ class Config:
 
 
 class Profile:
-    def __init__(self, builder, name='Unnamed profile', id=0, default=False, inpercent=False, width=int(640), 
-                percent=50, quality=95, destination='append', appendstring='-resized', foldername='resized',
-                url='1Fichier.com'):
+    def __init__(self, builder, name=_('Unnamed profile'), id=0,
+                 default=False, inpercent=False, width=int(640), percent=50,
+                 quality=95, destination='append', appendstring=_('-resized'),
+                 foldername=_('resized'), url='1fichier.com'):
         self.builder = builder
         self.name = name
         self.id = id
