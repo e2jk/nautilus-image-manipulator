@@ -97,9 +97,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         
         if p.width:
             # Disable the parameter UI elements and display the progress bar
-            self.builder.get_object("profiles_box").set_sensitive(False)
-            self.builder.get_object("parameters_box").set_sensitive(False)
-            self.builder.get_object("advanced_check").set_sensitive(False)
+            self.builder.get_object("details_box").set_sensitive(False)
             self.builder.get_object("resize_button").set_sensitive(False)
             self.builder.get_object("progressbar").set_text("%s 0%%" % ("Resizing images..."))
             self.builder.get_object("progressbar").show()
