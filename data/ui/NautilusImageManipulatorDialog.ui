@@ -81,69 +81,24 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="profiles_box1">
+                  <object class="GtkComboBox" id="profiles_combo">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="margin_left">12</property>
-                    <property name="orientation">vertical</property>
+                    <property name="border_width">1</property>
+                    <property name="model">profiles_list</property>
+                    <property name="active">0</property>
+                    <signal name="changed" handler="profiles_combo_changed" swapped="no"/>
                     <child>
-                      <object class="GtkComboBox" id="profiles_combo">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="border_width">1</property>
-                        <property name="model">profiles_list</property>
-                        <property name="active">0</property>
-                        <signal name="changed" handler="profiles_combo_changed" swapped="no"/>
-                        <child>
-                          <object class="GtkCellRendererText" id="cellrenderertext1"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="profilesize_label">
-                        <property name="can_focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="margin_top">2</property>
-                        <property name="label" translatable="yes">Image : 1024x768 pixels - Quality 95%</property>
-                        <attributes>
-                          <attribute name="style" value="italic"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="profiledest_label">
-                        <property name="can_focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="margin_top">2</property>
-                        <property name="label" translatable="yes">Destination : Subfolder named RESIZED</property>
-                        <attributes>
-                          <attribute name="style" value="italic"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
+                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
