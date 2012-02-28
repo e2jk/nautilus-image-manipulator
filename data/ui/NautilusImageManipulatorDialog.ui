@@ -35,113 +35,6 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkListStore" id="profiles_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name id -->
-      <column type="gint"/>
-      <!-- column-name default -->
-      <column type="gboolean"/>
-      <!-- column-name inpercent -->
-      <column type="gboolean"/>
-      <!-- column-name width -->
-      <column type="gint"/>
-      <!-- column-name percent -->
-      <column type="gint"/>
-      <!-- column-name quality -->
-      <column type="gint"/>
-      <!-- column-name destination -->
-      <column type="gchararray"/>
-      <!-- column-name appendstring -->
-      <column type="gchararray"/>
-      <!-- column-name foldername -->
-      <column type="gchararray"/>
-      <!-- column-name url -->
-      <column type="gchararray"/>
-      <!-- column-name mailer -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Small images</col>
-        <col id="1">0</col>
-        <col id="2">True</col>
-        <col id="3">False</col>
-        <col id="4">640</col>
-        <col id="5">0</col>
-        <col id="6">0</col>
-        <col id="7" translatable="yes">append</col>
-        <col id="8" translatable="yes"></col>
-        <col id="9" translatable="yes"></col>
-        <col id="10" translatable="yes"></col>
-        <col id="11" translatable="yes"></col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Small images send to 1fichier.com</col>
-        <col id="1">1</col>
-        <col id="2">True</col>
-        <col id="3">False</col>
-        <col id="4">640</col>
-        <col id="5">0</col>
-        <col id="6">0</col>
-        <col id="7" translatable="yes">upload</col>
-        <col id="8" translatable="yes"></col>
-        <col id="9" translatable="yes"></col>
-        <col id="10" translatable="yes"></col>
-        <col id="11" translatable="yes"></col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Small images send by email</col>
-        <col id="1">2</col>
-        <col id="2">True</col>
-        <col id="3">False</col>
-        <col id="4">640</col>
-        <col id="5">0</col>
-        <col id="6">0</col>
-        <col id="7" translatable="yes">email</col>
-        <col id="8" translatable="yes"></col>
-        <col id="9" translatable="yes"></col>
-        <col id="10" translatable="yes"></col>
-        <col id="11" translatable="yes"></col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Large images in a folder</col>
-        <col id="1">3</col>
-        <col id="2">True</col>
-        <col id="3">False</col>
-        <col id="4">1280</col>
-        <col id="5">0</col>
-        <col id="6">90</col>
-        <col id="7" translatable="yes">folder</col>
-        <col id="8" translatable="yes"></col>
-        <col id="9" translatable="yes">resized</col>
-        <col id="10" translatable="yes"></col>
-        <col id="11" translatable="yes"></col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">50% scaled images</col>
-        <col id="1">4</col>
-        <col id="2">False</col>
-        <col id="3">True</col>
-        <col id="4">0</col>
-        <col id="5">50</col>
-        <col id="6">0</col>
-        <col id="7" translatable="yes">append</col>
-        <col id="8" translatable="yes">-rescaled</col>
-        <col id="9" translatable="yes"></col>
-        <col id="10" translatable="yes"></col>
-        <col id="11" translatable="yes"></col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkAdjustment" id="quality_adjust">
-    <property name="lower">10</property>
-    <property name="upper">100</property>
-    <property name="value">95</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
   <object class="NautilusImageManipulatorDialog" id="nautilus_image_manipulator_dialog">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -274,7 +167,6 @@
                 <child>
                   <object class="GtkButton" id="deleteprofile_button">
                     <property name="label" translatable="yes">Remove this profile</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
@@ -291,7 +183,6 @@
                 <child>
                   <object class="GtkButton" id="newprofile_button">
                     <property name="label" translatable="yes">Create profile</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -353,7 +244,6 @@
                         <child>
                           <object class="GtkRadioButton" id="pixels_radio">
                             <property name="label" translatable="yes">Width in pixels : </property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -430,7 +320,6 @@
                         <child>
                           <object class="GtkRadioButton" id="percent_radio">
                             <property name="label" translatable="yes">Scale in percent : </property>
-                            <property name="use_action_appearance">False</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -811,7 +700,6 @@
         <child>
           <object class="GtkCheckButton" id="advanced_check">
             <property name="label" translatable="yes">Advanced settings</property>
-            <property name="use_action_appearance">False</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -916,7 +804,6 @@
                 <child>
                   <object class="GtkLinkButton" id="error_url_linkbutton">
                     <property name="label">delete</property>
-                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -1013,7 +900,6 @@
                     <child>
                       <object class="GtkLinkButton" id="download_linkbutton">
                         <property name="label">download</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1029,7 +915,6 @@
                     <child>
                       <object class="GtkLinkButton" id="delete_linkbutton">
                         <property name="label">delete</property>
-                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -1073,7 +958,6 @@
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label">gtk-cancel</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -1090,7 +974,6 @@
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-close</property>
-                <property name="use_action_appearance">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_action_appearance">False</property>
@@ -1106,7 +989,6 @@
             <child>
               <object class="GtkButton" id="resize_button">
                 <property name="label" translatable="yes">Resize</property>
-                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
@@ -1136,6 +1018,113 @@
       <action-widget response="0">close_button</action-widget>
       <action-widget response="-5">resize_button</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkListStore" id="profiles_list">
+    <columns>
+      <!-- column-name name -->
+      <column type="gchararray"/>
+      <!-- column-name id -->
+      <column type="gint"/>
+      <!-- column-name default -->
+      <column type="gboolean"/>
+      <!-- column-name inpercent -->
+      <column type="gboolean"/>
+      <!-- column-name width -->
+      <column type="gint"/>
+      <!-- column-name percent -->
+      <column type="gint"/>
+      <!-- column-name quality -->
+      <column type="gint"/>
+      <!-- column-name destination -->
+      <column type="gchararray"/>
+      <!-- column-name appendstring -->
+      <column type="gchararray"/>
+      <!-- column-name foldername -->
+      <column type="gchararray"/>
+      <!-- column-name url -->
+      <column type="gchararray"/>
+      <!-- column-name mailer -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Small images</col>
+        <col id="1">0</col>
+        <col id="2">True</col>
+        <col id="3">False</col>
+        <col id="4">640</col>
+        <col id="5">0</col>
+        <col id="6">0</col>
+        <col id="7" translatable="yes">append</col>
+        <col id="8" translatable="yes"></col>
+        <col id="9" translatable="yes"></col>
+        <col id="10" translatable="yes"></col>
+        <col id="11" translatable="yes"></col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Small images send to 1fichier.com</col>
+        <col id="1">1</col>
+        <col id="2">True</col>
+        <col id="3">False</col>
+        <col id="4">640</col>
+        <col id="5">0</col>
+        <col id="6">0</col>
+        <col id="7" translatable="yes">upload</col>
+        <col id="8" translatable="yes"></col>
+        <col id="9" translatable="yes"></col>
+        <col id="10" translatable="yes"></col>
+        <col id="11" translatable="yes"></col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Small images send by email</col>
+        <col id="1">2</col>
+        <col id="2">True</col>
+        <col id="3">False</col>
+        <col id="4">640</col>
+        <col id="5">0</col>
+        <col id="6">0</col>
+        <col id="7" translatable="yes">email</col>
+        <col id="8" translatable="yes"></col>
+        <col id="9" translatable="yes"></col>
+        <col id="10" translatable="yes"></col>
+        <col id="11" translatable="yes"></col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Large images in a folder</col>
+        <col id="1">3</col>
+        <col id="2">True</col>
+        <col id="3">False</col>
+        <col id="4">1280</col>
+        <col id="5">0</col>
+        <col id="6">90</col>
+        <col id="7" translatable="yes">folder</col>
+        <col id="8" translatable="yes"></col>
+        <col id="9" translatable="yes">resized</col>
+        <col id="10" translatable="yes"></col>
+        <col id="11" translatable="yes"></col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">50% scaled images</col>
+        <col id="1">4</col>
+        <col id="2">False</col>
+        <col id="3">True</col>
+        <col id="4">0</col>
+        <col id="5">50</col>
+        <col id="6">0</col>
+        <col id="7" translatable="yes">append</col>
+        <col id="8" translatable="yes">-rescaled</col>
+        <col id="9" translatable="yes"></col>
+        <col id="10" translatable="yes"></col>
+        <col id="11" translatable="yes"></col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkAdjustment" id="quality_adjust">
+    <property name="lower">10</property>
+    <property name="upper">100</property>
+    <property name="value">95</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="scale_adjust">
     <property name="lower">5</property>
