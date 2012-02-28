@@ -194,6 +194,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         This parameter is a tuple of the form (message, url)"""
         # Hide the unneccessary sections
         self.builder.get_object("details_box").hide()
+        self.builder.get_object("progressbar").hide()
         self.builder.get_object("url_box").hide()
         # Display the error message
         self.builder.get_object("error_message_label").set_text(msg)
@@ -228,6 +229,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def on_uploading_done(self, downloadPage, deletePage):
         """Displays the url where the images can be downloaded from, or deleted."""
         self.builder.get_object("details_box").hide()
+        self.builder.get_object("progressbar").hide()
         # Update the link buttons with the urls
         self.builder.get_object("download_linkbutton").set_label(downloadPage)
         self.builder.get_object("download_linkbutton").set_uri(downloadPage)
