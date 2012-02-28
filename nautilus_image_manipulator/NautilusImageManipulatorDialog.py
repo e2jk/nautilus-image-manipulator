@@ -193,8 +193,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Using the option ``urlInfo`` parameter, you can diplay a link button to open a url.
         This parameter is a tuple of the form (message, url)"""
         # Hide the unneccessary sections
-        self.builder.get_object("parameters_box").hide()
-        self.builder.get_object("progressbar").hide()
+        self.builder.get_object("details_box").hide()
         self.builder.get_object("url_box").hide()
         # Display the error message
         self.builder.get_object("error_message_label").set_text(msg)
