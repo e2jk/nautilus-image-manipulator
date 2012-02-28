@@ -142,7 +142,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         url = "1fichier.com"
         # Import the module that takes care of uploading to the selected website
         import_string = "from upload.z%s import UploadSite" % url.replace(".", "").replace("/", "")
-        print import_string
         # Make sure the import does not fail
         try:
             exec import_string
