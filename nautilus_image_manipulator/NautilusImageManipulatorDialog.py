@@ -18,7 +18,6 @@
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
-import ConfigParser
 import os
 import urllib2
 import logging
