@@ -400,8 +400,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         return (skip, self.processingCanceled, retry)
 
     def loadConfig(self):
-        Config().restoreprofiles(self.builder)
-        (activeprofile, advancedcheck) = Config().restorestate()
+        self.conf = Config()
+        self.conf.restoreprofiles(self.builder)
+        (activeprofile, advancedcheck) = self.conf.restorestate()
         # TODO: Make sure that the values read from the ini file are valid, else use default values
         model = self.builder.get_object("profiles_combo").get_model()
         iter = model.get_iter_first()
