@@ -80,12 +80,15 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
         Called before the dialog returns Gtk.RESONSE_OK from run().
         """
-        p = Profile(self.builder)
-        p.loadfromui()
-        if not p.appendstring:
+        idSelectedProfile = self.builder.get_object("profiles_combo").get_active()
+        p = self.conf.profiles[idSelectedProfile]
+        logging.info("The following profile has been selected:\n%s" % p)
+        
+        # Check if the mandatory values are filled
+        if p.destination == 'append' and not p.appendstring:
             self.error_with_parameters(_("Please enter some text to append to the filename."))
             return
-        if p.appendstring[-1] == os.path.sep:
+        if p.appendstring and (p.appendstring[-1] == os.path.sep):
             # If the appendString ends in "/", the image would be
             # called ".EXT", which is a hidden file in it's own folder.
             self.error_with_parameters(
