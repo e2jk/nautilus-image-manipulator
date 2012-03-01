@@ -123,6 +123,33 @@ class Profile:
         self.foldername = foldername
         self.url = url
 
+    def __str__(self):
+        """Returns a string representation of a Profile
+        
+        Useful for debugging or logging"""
+        p = "%s\n" % ("="*64)
+        if self.id:
+            p += "Profile #%(id)d \"%(name)s\"" % {"id": self.id, "name": self.name}
+            if self.default:
+                p += " [default profile]"
+        else:
+            # Custom settings, no profile
+            p += "Custom settings"
+        p += ":\n"
+        if self.inpercent:
+            p += "- Resize images by %d%%" % self.percent
+        elif self.width:
+            p += "- Width: %dpx" % self.width
+        p += "\n- Quality: %d%%\n" % self.quality
+        self.destination = "folder"
+        if self.destination == 'append':
+            p += "- Append \"%s\" to the file names" % self.appendstring
+        elif self.destination == 'folder' or self.destination == 'upload':
+            p += "- Place the resized images in the \"%s\" folder" % self.foldername
+            if self.destination == 'upload':
+                p += "\n- Upload the resized images to \"%s\"" % self.url
+        return p
+
     def load(self, id):
         """ Load Gtktree iter in the profile instance """
         model = self.builder.get_object("profiles_combo").get_model()
