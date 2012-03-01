@@ -18,6 +18,7 @@
 import os
 import ConfigParser
 import logging
+from copy import copy
 
 import gettext
 from gettext import gettext as _
@@ -95,6 +96,11 @@ class Config:
                     destination="folder",
                     foldername=_("resized"))
         )
+        
+        # Default custom profile is basically the same as the first one
+        customprofile = copy(self.profiles[0])
+        customprofile.name = _("Custom settings")
+        self.profiles.append(customprofile)
 
     def writeprofile(self, profile):
         p = profile
