@@ -97,6 +97,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                     _("The string to append cannot end in %s") % os.path.sep)
                 return
             # TODO: Check that the value is valid to be appended to the filename
+        if self.p.destination == 'upload':
+            if not self.p.foldername:
+                self.error_with_parameters(
+                    _("Please enter the name of the folder."))
+                return
         
         if self.p.width:
             # Disable the parameter UI elements and display the progress bar
