@@ -148,12 +148,11 @@ class Config:
 
 
 class Profile:
-    def __init__(self, builder, name=None, default=False, width=None,
-                 percent=None, quality=95, destination=None, appendstring=None,
+    def __init__(self, builder, name=None, width=None, percent=None,
+                 quality=95, destination=None, appendstring=None,
                  foldername=None, url=None):
         self.builder = builder
         self.name = name
-        self.default = default
         self.width = width
         self.percent = percent
         self.quality = quality
@@ -168,12 +167,9 @@ class Profile:
         Useful for debugging or logging"""
         p = "%s\n" % ("="*64)
         if self.name == _("Custom settings"):
-            p += self.name
+            p += "%s:\n" % self.name
         else:
-            p += "Profile \"%(name)s\"" % {"name": self.name}
-            if self.default:
-                p += " [default profile]"
-        p += ":\n"
+            p += "Profile \"%s\":\n" % self.name
         if self.percent:
             p += "- Resize images by %d%%" % self.percent
         elif self.width:
