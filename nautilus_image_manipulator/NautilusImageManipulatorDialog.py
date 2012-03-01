@@ -321,17 +321,17 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             idSelectedProfile -= 1
         profilesCombo.set_active(idSelectedProfile)
 
-    def pixels_radio_toggled(self, widget, data=None):
-        if widget.get_active():
-            self.builder.get_object("width_spin").set_sensitive(True)
-            self.builder.get_object("width_combo").set_sensitive(True)
-            self.builder.get_object("percent_box1").set_sensitive(False)
-
-    def percent_radio_toggled(self, widget, data=None):
-        if widget.get_active():
-            self.builder.get_object("width_spin").set_sensitive(False)
-            self.builder.get_object("width_combo").set_sensitive(False)
-            self.builder.get_object("percent_box1").set_sensitive(True)
+    def size_radio_toggled(self, widget, data=None):
+        if widget == self.builder.get_object("pixels_radio"):
+            # This if condition prevents the call to be executed twice
+            # (once for each radio button)
+            pixels = widget.get_active()
+            percent = not pixels
+            self.builder.get_object("width_spin").set_sensitive(pixels)
+            self.builder.get_object("width_combo").set_sensitive(pixels)
+            self.builder.get_object("width_label").set_sensitive(pixels)
+            self.builder.get_object("percent_scale").set_sensitive(percent)
+            self.builder.get_object("percent_label").set_sensitive(percent)
 
     def width_combo_changed(self, widget, data=None):
         model = widget.get_model()
