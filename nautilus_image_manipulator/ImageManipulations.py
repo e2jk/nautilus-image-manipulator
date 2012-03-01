@@ -28,39 +28,33 @@ from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
 class ImageManipulations(GObject.GObject):
-    def __init__(self, dialog, files, width, percent, quality, destination,
-                 appendstring, foldername):
+    def __init__(self, dialog, files, p):
         super(ImageManipulations, self).__init__()
         self.resizeDialog = dialog
         self.origFiles = files
         self.numFiles = len(self.origFiles)
-        self.width = width
-        self.percent = percent
-        self.quality = quality
-        self.destination = destination
-        self.appendstring = appendstring
-        self.foldername = foldername
+        self.profile = p
         
         # Clean the subdirectory name input
-        if foldername:
+        if self.profile.foldername:
             # Remove eventual slashes at the beginning or end of the subdirectory name
             cleanfoldername = []
-            for i in foldername.split("/"):
+            for i in self.profile.foldername.split("/"):
                 if i:
                     cleanfoldername.append(i)
-            self.foldername = "/".join(cleanfoldername)
+            self.profile.foldername = "/".join(cleanfoldername)
         
         logging.debug('files: %s' % self.origFiles)
-        logging.debug('width: %s' % self.width)
-        logging.debug('percent: %s' % self.percent)
-        logging.debug('quality: %s' % self.quality)
-        logging.debug('destination: %s' % self.quality)
-        logging.debug('appendstring: %s' % self.appendstring)
-        logging.debug('foldername: %s' % self.foldername)
+        logging.debug('width: %s' % self.profile.width)
+        logging.debug('percent: %s' % self.profile.percent)
+        logging.debug('quality: %s' % self.profile.quality)
+        logging.debug('destination: %s' % self.profile.destination)
+        logging.debug('appendstring: %s' % self.profile.appendstring)
+        logging.debug('foldername: %s' % self.profile.foldername)
 
     def resize_images(self):
         """Loops over all files to resize them."""
-        if self.percent and self.percent == "100" and self.quality == "100":
+        if self.profile.percent and self.profile.percent == "100" and self.profile.quality == "100":
             # If scaling to 100% with a compression of 100%, don't
             # actually resize files (it would just degrade the quality)
             # This configuration might be used if the user just wants to
@@ -98,15 +92,15 @@ class ImageManipulations(GObject.GObject):
         
         (basePath, name) = os.path.split(fileName)
         
-        if self.destination == 'folder':
-            basePath = "%s/%s" % (basePath, self.foldername)
+        if self.profile.destination == 'folder':
+            basePath = "%s/%s" % (basePath, self.profile.foldername)
         logging.debug('basePath: %s' % basePath)
         logging.debug('name: %s' % name)
         
-        if self.destination == 'append':
+        if self.profile.destination == 'append':
             # Insert the append string and convert the extension to lower case
             n = os.path.splitext(name)
-            name = "%s%s%s" % (n[0], self.appendstring, n[1].lower())
+            name = "%s%s%s" % (n[0], self.profile.appendstring, n[1].lower())
         
         # This is the output filename
         newFileName = "%s/%s.%s" % (basePath, os.path.splitext(name)[0], "jpg")
@@ -123,21 +117,21 @@ class ImageManipulations(GObject.GObject):
         # Get original geometry
         (w, h) = im.size
         logging.debug('Original image size %sx%s' % (w, h))
-        if self.percent:
+        if self.profile.percent:
             # New geometry is a %
-            factor = int(self.percent) / 100.0
+            factor = int(self.profile.percent) / 100.0
             width = int(w*factor)
             height = int(h*factor)
         else:
             # New geometry is in pixels and aspect ratio is respected
             if (h > w):
                 # Image is vertical
-                height = self.width
+                height = self.profile.width
                 factor = int(height) / float(h)
                 width = int(w * factor)
             else:
-                width = self.width
-                factor = int(self.width) / float(w)
+                width = self.profile.width
+                factor = int(self.profile.width) / float(w)
                 height = int(h * factor)
            
         logging.debug('New image size %sx%s' % (width, height))
@@ -145,7 +139,7 @@ class ImageManipulations(GObject.GObject):
         im = im.resize((int(width),int(height)))
         retry = False
         try:
-            im.save(newFileName, "JPEG", quality=int(self.quality))
+            im.save(newFileName, "JPEG", quality=int(self.profile.quality))
         except IOError as (errno, strerror):
             logging.error("I/O error({0}): {1}".format(errno, strerror))
             (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
@@ -175,10 +169,10 @@ class ImageManipulations(GObject.GObject):
             # Put the zipfile in the user's home folder if no base directory name could be determined.
             dirname = os.path.expanduser("~")
         zipname = "images" # Default filename
-        if self.foldername:
-            zipname = self.foldername
-        if self.appendstring:
-            zipname = self.appendstring
+        if self.profile.foldername:
+            zipname = self.profile.foldername
+        if self.profile.appendstring:
+            zipname = self.profile.appendstring
         # Sanitize the name of the zipfile
         zipname = zipname.strip() # Strip whitespace
         # Remove starting non-alphabetic characters

@@ -103,8 +103,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             # Resize the images
-            im = ImageManipulations(self, self.files, p.width, p.percent, p.quality, 
-                                    p.destination, p.appendstring, p.foldername)
+            im = ImageManipulations(self, self.files, p)
             im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
             GObject.idle_add(task.next)
