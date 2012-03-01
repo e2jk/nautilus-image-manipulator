@@ -39,6 +39,8 @@ class Config:
         else:
             # Read the settings from the config file
             self.config.read(self.file)
+        self.activeprofile = self.readvalue("Saved state","activeprofile",0,"int")
+        self.advancedcheck = self.readvalue("Saved state","advancedcheck",0,"int")
         logging.info("There are %d profiles" % len(self.profiles))
         for p in self.profiles:
             logging.debug(p)
@@ -101,29 +103,6 @@ class Config:
                     destination="folder",
                     foldername=_("resized"))
         )
-
-    def restorestate(self):
-        activeprofile = self.readvalue("Saved state","activeprofile",0,"int")
-        advancedcheck = self.readvalue("Saved state","advancedcheck",0,"int")
-        return (activeprofile, advancedcheck)
-
-    def restoreprofiles(self, builder):
-        p = Profile(builder)
-        p.id = 10
-        while p.id < 30:
-            section = "Profile %i" % p.id
-            if self.config.has_section(section):
-                p.name = self.readvalue(section, "name", p.name, "str")
-                p.inpercent = self.readvalue(section, "inpercent", p.inpercent, "bool")
-                p.width = self.readvalue(section, "width", p.width, "int")
-                p.percent = self.readvalue(section, "percent", p.percent, "int")
-                p.quality = self.readvalue(section, "quality", p.quality, "int")
-                p.destination = self.readvalue(section, "destination", p.destination, "str")
-                p.appendstring = self.readvalue(section, "appendstring", p.appendstring, "str")
-                p.foldername = self.readvalue(section, "foldername", p.foldername, "str")
-                p.url = self.readvalue(section, "url", p.url, "str")
-                p.uiaddprofile()
-            p.id = p.id + 1
 
     def writeprofile(self, profile):
         p = profile

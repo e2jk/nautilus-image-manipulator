@@ -252,12 +252,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Gtk.main_quit()
 
     def profiles_combo_changed(self, widget, data=None):
-        model = self.builder.get_object("profiles_combo").get_model()
-        iter = self.builder.get_object("profiles_combo").get_active_iter()
-        id = model.get_value(iter, 1)
-        p = Profile(self.builder)
-        p.load(id)
-        self.ui_update(p)
+        #TODO: Display or hide advanced settings if the custom profile is selected
+        logging.info('profiles_combo_changed not yet implemented')
+        #print self.builder.get_object("profiles_combo").get_active()
 
     def ui_update (self, p, data=None):
         # UI UPDATE
@@ -403,24 +400,21 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def loadConfig(self):
         self.conf = Config()
-        self.conf.restoreprofiles(self.builder)
-        (activeprofile, advancedcheck) = self.conf.restorestate()
-        # TODO: Make sure that the values read from the ini file are valid, else use default values
-        model = self.builder.get_object("profiles_combo").get_model()
-        iter = model.get_iter_first()
-        while iter is not None:
-            if model.get(iter, 1)[0] == activeprofile:
-                self.builder.get_object("profiles_combo").set_active_iter(iter)
-                break
-            iter = model.iter_next(iter)
-        self.builder.get_object("advanced_check").set_active(advancedcheck)
+        # Populate the combobox with the names of the profiles
+        profilesCombo = self.builder.get_object("profiles_combo")
+        for p in self.conf.profiles:
+            profilesCombo.append_text(p.name)
+        # Set the active profile
+        profilesCombo.set_active(self.conf.activeprofile)
+        self.builder.get_object("advanced_check").set_active(
+                                                 self.conf.advancedcheck)
 
     def saveConfig(self):
-        model = self.builder.get_object("profiles_combo").get_model()
-        iter = self.builder.get_object("profiles_combo").get_active_iter()
-        activeprofile = model.get_value(iter, 1)
-        advancedcheck = int(self.builder.get_object("advanced_check").get_active())
-        Config().writestate(activeprofile, advancedcheck)
+        self.conf.activeprofile = self.builder.get_object(
+                                          "profiles_combo").get_active()
+        self.conf.advancedcheck = int(self.builder.get_object(
+                                          "advanced_check").get_active())
+        #TODO: save the config to the configuration file
 
 
 if __name__ == "__main__":
