@@ -81,14 +81,14 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Called before the dialog returns Gtk.RESONSE_OK from run().
         """
         idSelectedProfile = self.builder.get_object("profiles_combo").get_active()
-        p = self.conf.profiles[idSelectedProfile]
-        logging.info("The following profile has been selected:\n%s" % p)
+        self.p = self.conf.profiles[idSelectedProfile]
+        logging.info("The following profile has been selected:\n%s" % self.p)
         
         # Check if the mandatory values are filled
-        if p.destination == 'append' and not p.appendstring:
+        if self.p.destination == 'append' and not self.p.appendstring:
             self.error_with_parameters(_("Please enter some text to append to the filename."))
             return
-        if p.appendstring and (p.appendstring[-1] == os.path.sep):
+        if self.p.appendstring and (self.p.appendstring[-1] == os.path.sep):
             # If the appendString ends in "/", the image would be
             # called ".EXT", which is a hidden file in it's own folder.
             self.error_with_parameters(
@@ -97,7 +97,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             return
             # TODO: Check that the value is valid to be appended to the filename
         
-        if p.width:
+        if self.p.width:
             # Disable the parameter UI elements and display the progress bar
             self.builder.get_object("details_box").set_sensitive(False)
             self.builder.get_object("resize_button").set_sensitive(False)
@@ -106,7 +106,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             # Resize the images
-            im = ImageManipulations(self, self.files, p)
+            im = ImageManipulations(self, self.files, self.p)
             im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
             GObject.idle_add(task.next)
@@ -115,11 +115,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.saveConfig()
 
     def on_resizing_done(self, im):
-        p = Profile(self.builder)
-        p.loadfromui()
         """Triggered when all the images have been resized"""
         # Only pack and send the images if the process was not canceled and if there is at least one image to pack
-        if p.destination == 'upload' and not self.processingCanceled and len(im.newFiles) > 0:
+        if self.p.destination == 'upload' and not self.processingCanceled and len(im.newFiles) > 0:
             # The user wants to upload to a website
             if len(im.newFiles) > 1:
                 # There are more than one image, zip the files together and upload the zipfile
@@ -139,10 +137,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def upload_file(self, im, fileToUpload):
         """Uploads a file to a website."""
-        #TODO: determine the upload website from the combobox/default value
-        url = "1fichier.com"
         # Import the module that takes care of uploading to the selected website
-        import_string = "from upload.z%s import UploadSite" % url.replace(".", "").replace("/", "")
+        import_string = "from upload.z%s import UploadSite" % \
+                self.p.url.replace(".", "").replace("/", "")
         # Make sure the import does not fail
         try:
             exec import_string
@@ -151,7 +148,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
             else:
                 extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
-            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % url}) + "\n\n" + extraInfo, (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
+            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % self.p.url}) + "\n\n" + extraInfo, (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
             return
         u = None
         try:
