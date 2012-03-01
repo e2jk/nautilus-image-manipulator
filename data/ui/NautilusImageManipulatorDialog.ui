@@ -103,58 +103,6 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox" id="profilebuttons_box">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip_markup" translatable="yes">Manage provioulsy created profiles</property>
-                    <property name="tooltip_text" translatable="yes">Manage provioulsy created profiles</property>
-                    <property name="halign">end</property>
-                    <property name="margin_left">12</property>
-                    <property name="spacing">6</property>
-                    <child>
-                      <object class="GtkButton" id="deleteprofile_button">
-                        <property name="label" translatable="yes">Remove this profile</property>
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="use_action_appearance">False</property>
-                        <signal name="clicked" handler="deleteprofile_button_clicked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="newprofile_button">
-                        <property name="label" translatable="yes">Create profile</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="has_tooltip">True</property>
-                        <property name="tooltip_markup" translatable="yes">Create a new profile based on this settings</property>
-                        <property name="tooltip_text" translatable="yes">Create a new profile based on this settings</property>
-                        <property name="halign">end</property>
-                        <property name="use_action_appearance">False</property>
-                        <signal name="clicked" handler="newprofile_button_clicked" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkBox" id="imagesize_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
@@ -397,7 +345,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -589,7 +537,7 @@
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">2</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
@@ -847,6 +795,40 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
+              <object class="GtkButton" id="deleteprofile_button">
+                <property name="label" translatable="yes">Delete this profile</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="deleteprofile_button_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack_type">end</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="newprofile_button">
+                <property name="label" translatable="yes">Save as a new profile</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="has_tooltip">True</property>
+                <property name="tooltip_markup" translatable="yes">Create a new profile based on these settings</property>
+                <property name="tooltip_text" translatable="yes">Create a new profile based on these settings</property>
+                <property name="use_action_appearance">False</property>
+                <signal name="clicked" handler="newprofile_button_clicked" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
@@ -858,8 +840,8 @@
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -874,7 +856,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">1</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -891,7 +873,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">2</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>
@@ -899,12 +881,14 @@
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="pack_type">end</property>
-            <property name="position">4</property>
+            <property name="position">5</property>
           </packing>
         </child>
       </object>
     </child>
     <action-widgets>
+      <action-widget response="0">deleteprofile_button</action-widget>
+      <action-widget response="0">newprofile_button</action-widget>
       <action-widget response="-6">cancel_button</action-widget>
       <action-widget response="0">close_button</action-widget>
       <action-widget response="-5">resize_button</action-widget>

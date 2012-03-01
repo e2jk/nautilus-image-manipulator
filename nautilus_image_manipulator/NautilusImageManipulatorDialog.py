@@ -249,9 +249,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def profiles_combo_changed(self, widget, data=None):
         idCustomSettings = len(self.conf.profiles)-1
         idSelectedProfile = self.builder.get_object("profiles_combo").get_active()
+        customSelected = (idCustomSettings == idSelectedProfile)
         # Only show the advanced parameters when the custom settings is selected
-        self.builder.get_object("parameters_box").set_visible(
-                idCustomSettings == idSelectedProfile)
+        self.builder.get_object("parameters_box").set_visible(customSelected)
+        self.builder.get_object("deleteprofile_button").set_visible(customSelected == False)
+        self.builder.get_object("newprofile_button").set_visible(customSelected)
 
     def ui_update (self, p, data=None):
         # UI UPDATE
