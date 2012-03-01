@@ -367,7 +367,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("append_box").show()
             self.builder.get_object("upload_box").hide()
         elif dest == 'upload':
-            self.builder.get_object("subfolder_box").hide()
+            self.builder.get_object("subfolder_box").show()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").show()
         else:
