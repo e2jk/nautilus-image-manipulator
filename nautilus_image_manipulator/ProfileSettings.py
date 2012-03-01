@@ -17,6 +17,7 @@
 
 import os
 import ConfigParser
+import logging
 
 import gettext
 from gettext import gettext as _
@@ -25,11 +26,45 @@ gettext.textdomain('nautilus-image-manipulator')
 class Config:
     def __init__(self):
         self.file = os.path.expanduser("~/.config/nautilus-image-manipulator/config")
-        if not os.path.exists(os.path.dirname(self.file)):
-            # Create the folder to contain the new config file
-            os.makedirs(os.path.dirname(self.file))
         self.config = ConfigParser.ConfigParser()
-        self.config.read(self.file)
+        if not os.path.isfile(self.file):
+            # There is no config file
+            if not os.path.exists(os.path.dirname(self.file)):
+                # Create the folder to contain the new config file
+                os.makedirs(os.path.dirname(self.file))
+            # Create a default configuration
+            logging.info("Create a default configuration")
+            self.defaultvalues()
+        else:
+            # Read the settings from the config file
+            self.config.read(self.file)
+
+    def defaultvalues(self):
+        """Determines the default profiles"""
+        defaultUploadUrl = "1fichier.com"
+        # Make small images and upload them to 1fichier.com
+        profileID = 0
+        p = Profile(None,
+                    id=profileID,
+                    name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
+                                  "imageSize": _("small"),
+                                  "uploadUrl": defaultUploadUrl},
+                    width=640,
+                    destination="upload",
+                    foldername=_("resized"),
+                    url=defaultUploadUrl)
+        
+        # Make small images and do not upload them
+        profileID += 1
+        #TODO: implement
+        
+        # Make large images and upload them to 1fichier.com
+        profileID += 1
+        #TODO: implement
+        
+        # Make large images and do not upload them
+        profileID += 1
+        #TODO: implement
 
     def restorestate(self):
         activeprofile = self.readvalue("Saved state","activeprofile",0,"int")
@@ -126,7 +161,7 @@ class Profile:
         
         Useful for debugging or logging"""
         p = "%s\n" % ("="*64)
-        if self.id:
+        if self.id != None:
             p += "Profile #%(id)d \"%(name)s\"" % {"id": self.id, "name": self.name}
             if self.default:
                 p += " [default profile]"
@@ -139,7 +174,6 @@ class Profile:
         elif self.width:
             p += "- Width: %dpx" % self.width
         p += "\n- Quality: %d%%\n" % self.quality
-        self.destination = "folder"
         if self.destination == 'append':
             p += "- Append \"%s\" to the file names" % self.appendstring
         elif self.destination == 'folder' or self.destination == 'upload':
