@@ -43,7 +43,7 @@ class Config:
         self.activeprofile = self.readvalue("Saved state","activeprofile",0,"int")
         logging.info("There are %d profiles" % len(self.profiles))
         for p in self.profiles:
-            logging.debug(p)
+            logging.debug("%s\n%s" % ("="*64, p))
 
     def defaultvalues(self):
         """Determines the default profiles"""
@@ -168,7 +168,7 @@ class Profile:
         """Returns a string representation of a Profile
         
         Useful for debugging or logging"""
-        p = "%s\n" % ("="*64)
+        p = ""
         if self.name == _("Custom settings"):
             p += "%s:\n" % self.name
         else:
