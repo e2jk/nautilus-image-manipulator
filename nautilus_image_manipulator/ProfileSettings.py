@@ -106,15 +106,13 @@ class Config:
 
 
 class Profile:
-    def __init__(self, builder, name=_('Unnamed profile'), id=0,
-                 default=False, inpercent=False, width=int(640), percent=50,
-                 quality=95, destination='append', appendstring=_('-resized'),
-                 foldername=_('resized'), url='1fichier.com'):
+    def __init__(self, builder, id=None, name=None, default=False, width=None,
+                 percent=None, quality=None, destination=None, appendstring=None,
+                 foldername=None, url=None):
         self.builder = builder
-        self.name = name
         self.id = id
+        self.name = name
         self.default = default
-        self.inpercent = inpercent
         self.width = width
         self.percent = percent
         self.quality = quality
@@ -136,7 +134,7 @@ class Profile:
             # Custom settings, no profile
             p += "Custom settings"
         p += ":\n"
-        if self.inpercent:
+        if self.percent:
             p += "- Resize images by %d%%" % self.percent
         elif self.width:
             p += "- Width: %dpx" % self.width
@@ -159,7 +157,7 @@ class Profile:
                 if model.get_value(iter, 0): self.name = model.get_value(iter, 0)
                 self.id = model.get_value(iter, 1)
                 if model.get_value(iter, 2): self.default = model.get_value(iter, 2)
-                if model.get_value(iter, 3): self.inpercent = model.get_value(iter, 3)
+                #if model.get_value(iter, 3): self.inpercent = model.get_value(iter, 3)
                 if model.get_value(iter, 4): self.width = model.get_value(iter, 4)
                 if model.get_value(iter, 5): self.percent = model.get_value(iter, 5)
                 if model.get_value(iter, 6): self.quality = model.get_value(iter, 6)
@@ -172,9 +170,9 @@ class Profile:
 
     def loadfromui(self):
         """ Load UI state in the profile instance """
-        self.inpercent = self.builder.get_object("percent_radio").get_active()
         self.width = int(self.builder.get_object("width_spin").get_value())
-        self.percent = int(self.builder.get_object("percent_scale").get_value())
+        if self.builder.get_object("percent_radio").get_active():
+            self.percent = int(self.builder.get_object("percent_scale").get_value())
         self.quality = int(self.builder.get_object("quality_scale").get_value())
         iter = self.builder.get_object("destination_combo").get_active_iter()
         self.destination = self.builder.get_object("destination_combo").get_model().get_value(iter, 1)
@@ -206,7 +204,7 @@ class Profile:
             find = False
             self.id = self.id + 1
         # Make the profile name reflect on the settings
-        if self.inpercent:
+        if self.percent:
             self.name = "%s %% scaled" % self.percent
         elif self.width == 640:
             self.name = "Small"
@@ -244,7 +242,7 @@ class Profile:
         model.set_value(iter, 0, self.name)
         model.set_value(iter, 1, self.id)
         model.set_value(iter, 2, False)
-        model.set_value(iter, 3, self.inpercent)
+        #model.set_value(iter, 3, self.inpercent)
         model.set_value(iter, 4, self.width)
         model.set_value(iter, 5, self.percent)
         model.set_value(iter, 6, self.quality)

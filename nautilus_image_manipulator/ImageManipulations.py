@@ -28,13 +28,12 @@ from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
 class ImageManipulations(GObject.GObject):
-    def __init__(self, dialog, files, inpercent, width, percent, quality, 
-                                    destination, appendstring, foldername):
+    def __init__(self, dialog, files, width, percent, quality, destination,
+                 appendstring, foldername):
         super(ImageManipulations, self).__init__()
         self.resizeDialog = dialog
         self.origFiles = files
         self.numFiles = len(self.origFiles)
-        self.inpercent = inpercent
         self.width = width
         self.percent = percent
         self.quality = quality
@@ -52,7 +51,6 @@ class ImageManipulations(GObject.GObject):
             self.foldername = "/".join(cleanfoldername)
         
         logging.debug('files: %s' % self.origFiles)
-        logging.debug('inpercent: %s' % self.inpercent)
         logging.debug('width: %s' % self.width)
         logging.debug('percent: %s' % self.percent)
         logging.debug('quality: %s' % self.quality)
@@ -62,7 +60,7 @@ class ImageManipulations(GObject.GObject):
 
     def resize_images(self):
         """Loops over all files to resize them."""
-        if self.inpercent and self.percent == "100" and self.quality == "100":
+        if self.percent and self.percent == "100" and self.quality == "100":
             # If scaling to 100% with a compression of 100%, don't
             # actually resize files (it would just degrade the quality)
             # This configuration might be used if the user just wants to
@@ -125,7 +123,7 @@ class ImageManipulations(GObject.GObject):
         # Get original geometry
         (w, h) = im.size
         logging.debug('Original image size %sx%s' % (w, h))
-        if self.inpercent:
+        if self.percent:
             # New geometry is a %
             factor = int(self.percent) / 100.0
             width = int(w*factor)

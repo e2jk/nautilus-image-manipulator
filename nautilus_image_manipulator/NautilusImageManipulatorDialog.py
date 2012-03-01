@@ -103,7 +103,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             # Resize the images
-            im = ImageManipulations(self, self.files, p.inpercent, p.width, p.percent, p.quality, 
+            im = ImageManipulations(self, self.files, p.width, p.percent, p.quality, 
                                     p.destination, p.appendstring, p.foldername)
             im.connect("resizing_done", self.on_resizing_done)
             task = im.resize_images()
@@ -267,7 +267,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         else:
             self.builder.get_object("deleteprofile_button").set_sensitive(True)
         # Size is in percent
-        if p.inpercent:
+        if p.percent:
             self.builder.get_object("percent_radio").set_active(True)
             self.builder.get_object("percent_scale").set_value(p.percent)
         # Size is in pixels
