@@ -92,7 +92,7 @@ class ImageManipulations(GObject.GObject):
         
         (basePath, name) = os.path.split(fileName)
         
-        if self.profile.destination == 'folder':
+        if self.profile.destination in ('folder', 'upload'):
             basePath = "%s/%s" % (basePath, self.profile.foldername)
         logging.debug('basePath: %s' % basePath)
         logging.debug('name: %s' % name)
