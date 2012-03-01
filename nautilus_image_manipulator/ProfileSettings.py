@@ -41,7 +41,6 @@ class Config:
             # Read the settings from the config file
             self.config.read(self.file)
         self.activeprofile = self.readvalue("Saved state","activeprofile",0,"int")
-        self.advancedcheck = self.readvalue("Saved state","advancedcheck",0,"int")
         logging.info("There are %d profiles" % len(self.profiles))
         for p in self.profiles:
             logging.debug(p)
@@ -125,14 +124,12 @@ class Config:
             self.config.remove_section(section)
             self.write()
 
-    def writestate(self, activeprofile, advancedcheck):
+    def writestate(self, activeprofile):
         p = activeprofile
-        a = advancedcheck
         section = "Saved state"
         if not self.config.has_section(section):
             self.config.add_section(section)
         self.config.set(section, "activeprofile", p)
-        self.config.set(section, "advancedcheck", a)
         self.write()
 
     def write(self):

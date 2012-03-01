@@ -234,11 +234,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("close_button").show()
         self.resize(1, 1)
 
-    def advanced_check_toggled(self, widget, data=None):
-        # Make sure Advanced UI is updated with current profile
-        self.profiles_combo_changed(self)
-        self.builder.get_object("parameters_box").set_visible(widget.get_active())
-
     def cancel_button_clicked(self, widget, data=None):
         """The user has elected to cancel.
 
@@ -252,9 +247,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Gtk.main_quit()
 
     def profiles_combo_changed(self, widget, data=None):
-        #TODO: Display or hide advanced settings if the custom profile is selected
-        logging.info('profiles_combo_changed not yet implemented')
-        #print self.builder.get_object("profiles_combo").get_active()
+        idCustomSettings = len(self.conf.profiles)-1
+        idSelectedProfile = self.builder.get_object("profiles_combo").get_active()
+        # Only show the advanced parameters when the custom settings is selected
+        self.builder.get_object("parameters_box").set_visible(
+                idCustomSettings == idSelectedProfile)
 
     def ui_update (self, p, data=None):
         # UI UPDATE
@@ -406,14 +403,10 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             profilesCombo.append_text(p.name)
         # Set the active profile
         profilesCombo.set_active(self.conf.activeprofile)
-        self.builder.get_object("advanced_check").set_active(
-                                                 self.conf.advancedcheck)
 
     def saveConfig(self):
         self.conf.activeprofile = self.builder.get_object(
                                           "profiles_combo").get_active()
-        self.conf.advancedcheck = int(self.builder.get_object(
-                                          "advanced_check").get_active())
         #TODO: save the config to the configuration file
 
 
