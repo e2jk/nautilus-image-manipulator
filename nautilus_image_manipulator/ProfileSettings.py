@@ -55,6 +55,7 @@ class Config:
                                   "imageSize": _("small"),
                                   "uploadUrl": defaultUploadUrl},
                     width=640,
+                    quality=90,
                     destination="upload",
                     foldername=_("resized"),
                     url=defaultUploadUrl)
@@ -62,15 +63,44 @@ class Config:
         
         # Make small images and do not upload them
         profileID += 1
-        #TODO: implement
+        self.profiles.append(
+            Profile(None,
+                    id=profileID,
+                    name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
+                                  "imageSize": _("small"),
+                                  "directoryName": _("resized")},
+                    width=640,
+                    quality=90,
+                    destination="folder",
+                    foldername=_("resized"))
+        )
         
         # Make large images and upload them to 1fichier.com
         profileID += 1
-        #TODO: implement
+        self.profiles.append(
+            Profile(None,
+                    id=profileID,
+                    name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
+                                  "imageSize": _("large"),
+                                  "uploadUrl": defaultUploadUrl},
+                    width=1280,
+                    destination="upload",
+                    foldername=_("resized"),
+                    url=defaultUploadUrl)
+        )
         
         # Make large images and do not upload them
         profileID += 1
-        #TODO: implement
+        self.profiles.append(
+            Profile(None,
+                    id=profileID,
+                    name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
+                                  "imageSize": _("large"),
+                                  "directoryName": _("resized")},
+                    width=1280,
+                    destination="folder",
+                    foldername=_("resized"))
+        )
 
     def restorestate(self):
         activeprofile = self.readvalue("Saved state","activeprofile",0,"int")
