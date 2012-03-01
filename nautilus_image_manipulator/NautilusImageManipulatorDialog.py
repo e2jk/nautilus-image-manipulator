@@ -285,8 +285,10 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 self.builder.get_object("destination_combo").set_active_iter(dest_iter)
                 break
             dest_iter = dest_model.iter_next(dest_iter)
-        self.builder.get_object("append_entry").set_text(p.appendstring)
-        self.builder.get_object("subfolder_entry").set_text(p.foldername)
+        if p.appendstring:
+            self.builder.get_object("append_entry").set_text(p.appendstring)
+        if p.foldername:
+            self.builder.get_object("subfolder_entry").set_text(p.foldername)
         url_model = self.builder.get_object("upload_combo").get_model()
         url_iter = url_model.get_iter_first()
         while url_iter is not None:

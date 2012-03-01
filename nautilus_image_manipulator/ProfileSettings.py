@@ -107,7 +107,7 @@ class Config:
 
 class Profile:
     def __init__(self, builder, id=None, name=None, default=False, width=None,
-                 percent=None, quality=None, destination=None, appendstring=None,
+                 percent=None, quality=95, destination=None, appendstring=None,
                  foldername=None, url=None):
         self.builder = builder
         self.id = id
