@@ -306,7 +306,20 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         p.create()
 
     def deleteprofile_button_clicked(self, widget, data=None):
-        Profile(self.builder).delete()
+        profilesCombo = self.builder.get_object("profiles_combo")
+        idSelectedProfile = profilesCombo.get_active()
+        # Remove from the list of profiles in self.conf
+        self.conf.deleteprofile(idSelectedProfile)
+        # Remove from the profiles combobox
+        profilesCombo.remove(idSelectedProfile)
+        # Determine which profile to select now
+        if idSelectedProfile > 0 and (
+           idSelectedProfile == len(self.conf.profiles)-1):
+            # If the last profile in the list before the custom settings
+            # just got deleted, but there are still other profiles in the
+            # list, select the new last profile.
+            idSelectedProfile -= 1
+        profilesCombo.set_active(idSelectedProfile)
 
     def pixels_radio_toggled(self, widget, data=None):
         if widget.get_active():

@@ -119,10 +119,7 @@ class Config:
         self.write()
 
     def deleteprofile(self, id):
-        section = "Profile %i" % id
-        if self.config.has_section(section):
-            self.config.remove_section(section)
-            self.write()
+        self.profiles.pop(id)
 
     def writestate(self, activeprofile):
         p = activeprofile
