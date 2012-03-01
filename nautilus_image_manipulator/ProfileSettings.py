@@ -27,6 +27,7 @@ class Config:
     def __init__(self):
         self.file = os.path.expanduser("~/.config/nautilus-image-manipulator/config")
         self.config = ConfigParser.ConfigParser()
+        self.profiles = []
         if not os.path.isfile(self.file):
             # There is no config file
             if not os.path.exists(os.path.dirname(self.file)):
@@ -38,13 +39,17 @@ class Config:
         else:
             # Read the settings from the config file
             self.config.read(self.file)
+        logging.info("There are %d profiles" % len(self.profiles))
+        for p in self.profiles:
+            logging.debug(p)
 
     def defaultvalues(self):
         """Determines the default profiles"""
         defaultUploadUrl = "1fichier.com"
         # Make small images and upload them to 1fichier.com
         profileID = 0
-        p = Profile(None,
+        self.profiles.append(
+            Profile(None,
                     id=profileID,
                     name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
                                   "imageSize": _("small"),
@@ -53,6 +58,7 @@ class Config:
                     destination="upload",
                     foldername=_("resized"),
                     url=defaultUploadUrl)
+        )
         
         # Make small images and do not upload them
         profileID += 1
