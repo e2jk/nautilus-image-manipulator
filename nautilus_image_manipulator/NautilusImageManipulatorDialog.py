@@ -85,16 +85,17 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         logging.info("The following profile has been selected:\n%s" % self.p)
         
         # Check if the mandatory values are filled
-        if self.p.destination == 'append' and not self.p.appendstring:
-            self.error_with_parameters(_("Please enter some text to append to the filename."))
-            return
-        if self.p.appendstring and (self.p.appendstring[-1] == os.path.sep):
-            # If the appendString ends in "/", the image would be
-            # called ".EXT", which is a hidden file in it's own folder.
-            self.error_with_parameters(
-                _("The string to append cannot end in %s") %
-                os.path.sep)
-            return
+        if self.p.destination == 'append':
+            if not self.p.appendstring:
+                self.error_with_parameters(
+                    _("Please enter some text to append to the filename."))
+                return
+            elif self.p.appendstring[-1] == os.path.sep:
+                # If the appendString ends in "/", the image would be
+                # called ".EXT", which is a hidden file in it's own folder.
+                self.error_with_parameters(
+                    _("The string to append cannot end in %s") % os.path.sep)
+                return
             # TODO: Check that the value is valid to be appended to the filename
         
         if self.p.width:
