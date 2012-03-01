@@ -180,7 +180,7 @@ class Profile:
         p += "\n- Quality: %d%%\n" % self.quality
         if self.destination == 'append':
             p += "- Append \"%s\" to the file names" % self.appendstring
-        elif self.destination == 'folder' or self.destination == 'upload':
+        elif self.destination in ('folder', 'upload'):
             p += "- Place the resized images in the \"%s\" folder" % self.foldername
             if self.destination == 'upload':
                 p += "\n- Upload the resized images to \"%s\"" % self.url
