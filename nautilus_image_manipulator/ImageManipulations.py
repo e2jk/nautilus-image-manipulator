@@ -148,17 +148,25 @@ class ImageManipulations(GObject.GObject):
             (skip, cancel, newFileName) = self.resize_one_image(fileName)
 
         if not (skip or retry or cancel):
-            # Load EXIF data
-            exif = pyexiv2.ImageMetadata(fileName)
-            exif.read()
-            # Change EXIF image size to the new size
-            exif["Exif.Photo.PixelXDimension"] = int(width)
-            exif["Exif.Photo.PixelYDimension"] = int(height)
-            # Copy the EXIF data to the new image
-            newExif = pyexiv2.ImageMetadata(newFileName)
-            newExif.read()
-            exif.copy(newExif)
-            newExif.write()
+            try:
+                # Load EXIF data
+                exif = pyexiv2.ImageMetadata(fileName)
+                exif.read()
+                # Change EXIF image size to the new size
+                exif["Exif.Photo.PixelXDimension"] = int(width)
+                exif["Exif.Photo.PixelYDimension"] = int(height)
+                # Copy the EXIF data to the new image
+                newExif = pyexiv2.ImageMetadata(newFileName)
+                newExif.read()
+                exif.copy(newExif)
+                newExif.write()
+            except UnicodeDecodeError as e:
+                # Can happen when the filename contains non-ASCII characters
+                str = "Could not update exif data due to UnicodeDecodeError: %s" % e
+                str += "\nHint: The filename/path probably contains non-ASCII characters"
+                str += "\n%s" % fileName
+                str += "\n%s" % newFileName
+                logging.error(str)
         return (skip, cancel, newFileName)
 
     def pack_images(self):
