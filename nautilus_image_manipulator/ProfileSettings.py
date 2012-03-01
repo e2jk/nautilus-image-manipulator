@@ -49,10 +49,8 @@ class Config:
         """Determines the default profiles"""
         defaultUploadUrl = "1fichier.com"
         # Make small images and upload them to 1fichier.com
-        profileID = 0
         self.profiles.append(
             Profile(None,
-                    id=profileID,
                     name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
                                   "imageSize": _("small"),
                                   "uploadUrl": defaultUploadUrl},
@@ -64,10 +62,8 @@ class Config:
         )
         
         # Make small images and do not upload them
-        profileID += 1
         self.profiles.append(
             Profile(None,
-                    id=profileID,
                     name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
                                   "imageSize": _("small"),
                                   "directoryName": _("resized")},
@@ -78,10 +74,8 @@ class Config:
         )
         
         # Make large images and upload them to 1fichier.com
-        profileID += 1
         self.profiles.append(
             Profile(None,
-                    id=profileID,
                     name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
                                   "imageSize": _("large"),
                                   "uploadUrl": defaultUploadUrl},
@@ -92,10 +86,8 @@ class Config:
         )
         
         # Make large images and do not upload them
-        profileID += 1
         self.profiles.append(
             Profile(None,
-                    id=profileID,
                     name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
                                   "imageSize": _("large"),
                                   "directoryName": _("resized")},
@@ -156,11 +148,10 @@ class Config:
 
 
 class Profile:
-    def __init__(self, builder, id=None, name=None, default=False, width=None,
+    def __init__(self, builder, name=None, default=False, width=None,
                  percent=None, quality=95, destination=None, appendstring=None,
                  foldername=None, url=None):
         self.builder = builder
-        self.id = id
         self.name = name
         self.default = default
         self.width = width
@@ -176,13 +167,12 @@ class Profile:
         
         Useful for debugging or logging"""
         p = "%s\n" % ("="*64)
-        if self.id != None:
-            p += "Profile #%(id)d \"%(name)s\"" % {"id": self.id, "name": self.name}
+        if self.name == _("Custom settings"):
+            p += self.name
+        else:
+            p += "Profile \"%(name)s\"" % {"name": self.name}
             if self.default:
                 p += " [default profile]"
-        else:
-            # Custom settings, no profile
-            p += "Custom settings"
         p += ":\n"
         if self.percent:
             p += "- Resize images by %d%%" % self.percent
