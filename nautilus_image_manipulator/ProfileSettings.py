@@ -127,14 +127,6 @@ class Config:
     def deleteprofile(self, id):
         self.profiles.pop(id)
 
-    def writestate(self, activeprofile):
-        p = activeprofile
-        section = "Saved state"
-        if not self.config.has_section(section):
-            self.config.add_section(section)
-        self.config.set(section, "activeprofile", p)
-        self.write()
-
     def write(self):
         f = open(self.file, "w")
         self.config.write(f)
@@ -203,73 +195,3 @@ class Profile:
             if self.destination == 'upload':
                 p += "\n- Upload the resized images to \"%s\"" % self.url
         return p
-
-    def create(self):
-        """ Create a new gtktree iter with the current profile set """
-        # At first load settings from the ui
-        #self.loadfromui()
-        # load the gtktree model
-        model = self.builder.get_object("profiles_combo").get_model()
-        # Find unused id
-        find = False
-        # id < 10 are reserved for default profiles
-        self.id = 10
-        while self.id < 30:
-            iter = model.get_iter_first()
-            while iter is not None:
-                if model.get_value(iter, 1) == self.id:
-                    find = True
-                    break
-                iter = model.iter_next(iter)
-            if find == False:
-                break
-            find = False
-            self.id = self.id + 1
-        # Make the profile name reflect on the settings
-        if self.percent:
-            self.name = "%s %% scaled" % self.percent
-        elif self.width == 640:
-            self.name = "Small"
-        elif self.width == 1024:
-            self.name = "Normal"
-        elif self.width == 1280:
-            self.name = "Large"
-        else:
-            self.name = "%s pixels" % int(self.width)
-        self.name = "%s images" % self.name
-        if self.destination == 'folder':
-            self.name = "%s in a folder" % self.name
-        elif self.destination == 'upload':
-            self.name = "%s send to %s" % (self.name, self.url)
-        # Put the profile settings in a new gtktree item
-        iter = self.uiaddprofile()
-        # Select the profile in the ui
-        Config().writeprofile(self)
-        self.builder.get_object("profiles_combo").set_active_iter(iter)
-
-    def delete(self):
-        """ Delete a profile in gtktree and in config file """
-        model = self.builder.get_object("profiles_combo").get_model()
-        iter = self.builder.get_object("profiles_combo").get_active_iter()
-        id = model.get_value(iter, 1)
-        first = model.get_iter_first()
-        self.builder.get_object("profiles_combo").set_active_iter(first)
-        model.remove(iter)
-        Config().deleteprofile(id)
-
-    def uiaddprofile(self):
-        """ Put the profile settings in a new gtktree item """
-        model = self.builder.get_object("profiles_combo").get_model()
-        iter = model.append(None)
-        model.set_value(iter, 0, self.name)
-        model.set_value(iter, 1, self.id)
-        model.set_value(iter, 2, False)
-        #model.set_value(iter, 3, self.inpercent)
-        model.set_value(iter, 4, self.width)
-        model.set_value(iter, 5, self.percent)
-        model.set_value(iter, 6, self.quality)
-        model.set_value(iter, 7, self.destination)
-        model.set_value(iter, 8, self.appendstring)
-        model.set_value(iter, 9, self.foldername)
-        model.set_value(iter, 10, self.url)
-        return iter
