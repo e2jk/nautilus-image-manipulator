@@ -25,6 +25,8 @@ from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
 class Config:
+    size = {"small": (640, 640),
+            "large": (1280, 1280)}
     def __init__(self):
         self.file = os.path.expanduser("~/.config/nautilus-image-manipulator/config")
         self.config = ConfigParser.ConfigParser()
@@ -54,7 +56,7 @@ class Config:
                     name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
                                   "imageSize": _("small"),
                                   "uploadUrl": defaultUploadUrl},
-                    width=640,
+                    size="small",
                     quality=90,
                     destination="upload",
                     foldername=_("resized"),
@@ -67,7 +69,7 @@ class Config:
                     name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
                                   "imageSize": _("small"),
                                   "directoryName": _("resized")},
-                    width=640,
+                    size="small",
                     quality=90,
                     destination="folder",
                     foldername=_("resized"))
@@ -79,7 +81,7 @@ class Config:
                     name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
                                   "imageSize": _("large"),
                                   "uploadUrl": defaultUploadUrl},
-                    width=1280,
+                    size="large",
                     destination="upload",
                     foldername=_("resized"),
                     url=defaultUploadUrl)
@@ -91,7 +93,7 @@ class Config:
                     name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
                                   "imageSize": _("large"),
                                   "directoryName": _("resized")},
-                    width=1280,
+                    size="large",
                     destination="folder",
                     foldername=_("resized"))
         )
@@ -148,12 +150,19 @@ class Config:
 
 
 class Profile:
-    def __init__(self, builder, name=None, width=None, percent=None,
-                 quality=95, destination=None, appendstring=None,
+    def __init__(self, builder, name=None, size=None, width=None, height=None,
+                 percent=None, quality=95, destination=None, appendstring=None,
                  foldername=None, url=None):
         self.builder = builder
         self.name = name
-        self.width = width
+        self.size = size
+        if self.size in ("small", "large"):
+            (self.width, self.height) = Config.size[self.size]
+        else:
+            self.width = width
+            self.height = height
+        if self.width and self.height:
+            self.aspectratio = float(self.width)/float(self.height)
         self.percent = percent
         self.quality = quality
         self.destination = destination
@@ -173,7 +182,11 @@ class Profile:
         if self.percent:
             p += "- Resize images by %d%%" % self.percent
         elif self.width:
-            p += "- Width: %dpx" % self.width
+            s = "Width: %dpx Height: %dpx" % (self.width, self.height)
+            if self.size:
+                p += "- %s images (%s)" % (self.size.capitalize(), s)
+            else:
+                p += "- Custom size: %s" % s
         p += "\n- Quality: %d%%\n" % self.quality
         if self.destination == 'append':
             p += "- Append \"%s\" to the file names" % self.appendstring

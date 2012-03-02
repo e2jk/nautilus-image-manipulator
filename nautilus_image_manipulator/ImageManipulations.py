@@ -45,12 +45,15 @@ class ImageManipulations(GObject.GObject):
             self.profile.foldername = "/".join(cleanfoldername)
         
         logging.debug('files: %s' % self.origFiles)
-        logging.debug('width: %s' % self.profile.width)
-        logging.debug('percent: %s' % self.profile.percent)
-        logging.debug('quality: %s' % self.profile.quality)
-        logging.debug('destination: %s' % self.profile.destination)
-        logging.debug('appendstring: %s' % self.profile.appendstring)
-        logging.debug('foldername: %s' % self.profile.foldername)
+        str = "Resizing parameters:\n"
+        str += '- width: %s\n' % self.profile.width
+        str += '- height: %s\n' % self.profile.height
+        str += '- percent: %s\n' % self.profile.percent
+        str += '- quality: %s\n' % self.profile.quality
+        str += '- destination: %s\n' % self.profile.destination
+        str += '- appendstring: %s\n' % self.profile.appendstring
+        str += '- foldername: %s' % self.profile.foldername
+        logging.debug(str)
 
     def resize_images(self):
         """Loops over all files to resize them."""
@@ -123,16 +126,15 @@ class ImageManipulations(GObject.GObject):
             width = int(w*factor)
             height = int(h*factor)
         else:
-            # New geometry is in pixels and aspect ratio is respected
-            if (h > w):
-                # Image is vertical
-                height = self.profile.width
-                factor = int(height) / float(h)
-                width = int(w * factor)
-            else:
+            # New geometry is in pixels: aspect ratio is respected and the
+            # resulting image fits inside the given dimensions.
+            aspectratio = float(w)/float(h)
+            if self.profile.aspectratio < aspectratio:
                 width = self.profile.width
-                factor = int(self.profile.width) / float(w)
-                height = int(h * factor)
+                height = int(float(self.profile.width)/aspectratio)
+            else:
+                width = int(float(self.profile.height)*aspectratio)
+                height = self.profile.height
            
         logging.debug('New image size %sx%s' % (width, height))
         # Resize and save image

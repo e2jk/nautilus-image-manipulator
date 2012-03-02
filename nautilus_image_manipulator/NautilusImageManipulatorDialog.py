@@ -327,32 +327,23 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             # (once for each radio button)
             pixels = widget.get_active()
             percent = not pixels
-            self.builder.get_object("width_spin").set_sensitive(pixels)
-            self.builder.get_object("width_combo").set_sensitive(pixels)
-            self.builder.get_object("width_label").set_sensitive(pixels)
+            self.builder.get_object("size_combo").set_sensitive(pixels)
+            self.builder.get_object("width_height_box").set_sensitive(pixels)
             self.builder.get_object("percent_scale").set_sensitive(percent)
             self.builder.get_object("percent_label").set_sensitive(percent)
 
-    def width_combo_changed(self, widget, data=None):
-        model = widget.get_model()
-        iter = widget.get_active_iter()
-        choice = model.get_value(iter, 0)
-        if not choice == 'custom':
-            self.builder.get_object("width_spin").set_value(model.get_value(iter, 1))
-
-    def width_spin_changed(self, widget, data=None):
-        spinvalue = int(widget.get_value())
-        model = self.builder.get_object("width_combo").get_model()
-        iter = model.get_iter_first()
-        iteradapt = None
-        while iter is not None:
-            value = model.get(iter, 1)[0]
-            if value == spinvalue:
-                iteradapt = iter
-                break
-            iteradapt = iter
-            iter = model.iter_next(iter)
-        self.builder.get_object("width_combo").set_active_iter(iteradapt)
+    def size_combo_changed(self, widget, data=None):
+        # Don't use the text of the combobox, since it will be translated.
+        # Instead, use the selected ID and map it to one of the 3 values.
+        sizeSettings = self.builder.get_object("size_combo").get_active()
+        sizeSettings = ("small", "large", "custom")[sizeSettings]
+        isCustom = (sizeSettings == "custom")
+        self.builder.get_object("width_height_box").set_sensitive(isCustom)
+        if sizeSettings in ("small", "large"):
+            # Update the values to show the predetermined width and height
+            (w, h) = Config.size[sizeSettings]
+            self.builder.get_object("width_spin").set_value(w)
+            self.builder.get_object("height_spin").set_value(h)
 
     def destination_combo_changed(self, widget, data=None):
         dest_model = widget.get_model()
