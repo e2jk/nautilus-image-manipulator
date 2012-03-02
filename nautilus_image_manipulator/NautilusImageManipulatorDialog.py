@@ -189,7 +189,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def display_error(self, msg, urlInfo=None):
         """Displays an error message.
         
-        Using the option ``urlInfo`` parameter, you can diplay a link button to open a url.
+        Using the option ``urlInfo`` parameter, you can display a link button to open a url.
         This parameter is a tuple of the form (message, url)"""
         # Hide the unneccessary sections
         self.builder.get_object("details_box").hide()
@@ -254,6 +254,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Gtk.main_quit()
 
     def profiles_combo_changed(self, widget, data=None):
+        """Updates the UI according to which profile gets selected"""
         idCustomSettings = len(self.conf.profiles)-1
         idSelectedProfile = self.builder.get_object("profiles_combo").get_active()
         customSelected = (idCustomSettings == idSelectedProfile)
@@ -301,7 +302,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 pass
 
     def newprofile_button_clicked(self, widget, data=None):
-        # Create a new profile based on the data in the advanced settings
+        """Create a new profile based on the data in the advanced settings"""
         # Size settings
         size = None
         width = None
