@@ -196,44 +196,10 @@ class Profile:
                 p += "\n- Upload the resized images to \"%s\"" % self.url
         return p
 
-    def load(self, id):
-        """ Load Gtktree iter in the profile instance """
-        model = self.builder.get_object("profiles_combo").get_model()
-        iter = model.get_iter_first()
-        while iter is not None:
-            if model.get(iter, 1)[0] == id:
-                if model.get_value(iter, 0): self.name = model.get_value(iter, 0)
-                self.id = model.get_value(iter, 1)
-                if model.get_value(iter, 2): self.default = model.get_value(iter, 2)
-                #if model.get_value(iter, 3): self.inpercent = model.get_value(iter, 3)
-                if model.get_value(iter, 4): self.width = model.get_value(iter, 4)
-                if model.get_value(iter, 5): self.percent = model.get_value(iter, 5)
-                if model.get_value(iter, 6): self.quality = model.get_value(iter, 6)
-                if model.get_value(iter, 7): self.destination = model.get_value(iter, 7)
-                if model.get_value(iter, 8): self.appendstring = model.get_value(iter, 8)
-                if model.get_value(iter, 9): self.foldername = model.get_value(iter, 9)
-                if model.get_value(iter, 10): self.url = model.get_value(iter, 10)
-                break
-            iter = model.iter_next(iter)
-
-    def loadfromui(self):
-        """ Load UI state in the profile instance """
-        self.width = int(self.builder.get_object("width_spin").get_value())
-        if self.builder.get_object("percent_radio").get_active():
-            self.percent = int(self.builder.get_object("percent_scale").get_value())
-        self.quality = int(self.builder.get_object("quality_scale").get_value())
-        iter = self.builder.get_object("destination_combo").get_active_iter()
-        self.destination = self.builder.get_object("destination_combo").get_model().get_value(iter, 1)
-        self.builder.get_object("width_spin").get_text()
-        self.appendstring = self.builder.get_object("append_entry").get_text()
-        self.foldername = self.builder.get_object("subfolder_entry").get_text()
-        iter = self.builder.get_object("upload_combo").get_active_iter()
-        self.url = self.builder.get_object("upload_combo").get_model().get_value(iter, 0)
-
     def create(self):
         """ Create a new gtktree iter with the current profile set """
         # At first load settings from the ui
-        self.loadfromui()
+        #self.loadfromui()
         # load the gtktree model
         model = self.builder.get_object("profiles_combo").get_model()
         # Find unused id
