@@ -261,25 +261,29 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("parameters_box").set_visible(customSelected)
         self.builder.get_object("deleteprofile_button").set_visible(customSelected == False)
         self.builder.get_object("newprofile_button").set_visible(customSelected)
+        if customSelected:
+            self.set_advanced_settings_from_custom_profile()
 
-    def ui_update (self, p, data=None):
-        # UI UPDATE
-        # Delete profile button state
-        if p.default:
-            self.builder.get_object("deleteprofile_button").set_sensitive(False)
-        else:
-            self.builder.get_object("deleteprofile_button").set_sensitive(True)
-        # Size is in percent
+    def set_advanced_settings_from_custom_profile(self):
+        """Update the advance settings based on the custom settings profile"""
+        p = self.conf.profiles[-1]
+        # Size settings
         if p.percent:
             self.builder.get_object("percent_radio").set_active(True)
             self.builder.get_object("percent_scale").set_value(p.percent)
-        # Size is in pixels
         else:
             self.builder.get_object("pixels_radio").set_active(True)
-            self.builder.get_object("width_spin").set_value(p.width)
-        # Quality
+            if p.size:
+                sizeSettings = ("small", "large").index(p.size)
+            else:
+                sizeSettings = 2
+                self.builder.get_object("width_spin").set_value(p.width)
+                self.builder.get_object("height_spin").set_value(p.height)
+            self.builder.get_object("size_combo").set_active(sizeSettings)
+            self.size_radio_toggled(None)
         self.builder.get_object("quality_scale").set_value(p.quality)
-        # Destination
+        
+        # Destination settings
         dest_model = self.builder.get_object("destination_combo").get_model()
         dest_iter = dest_model.get_iter_first()
         while dest_iter is not None:
@@ -288,18 +292,13 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 self.builder.get_object("destination_combo").set_active_iter(dest_iter)
                 break
             dest_iter = dest_model.iter_next(dest_iter)
-        if p.appendstring:
+        if p.destination == "append":
             self.builder.get_object("append_entry").set_text(p.appendstring)
-        if p.foldername:
+        elif p.destination in ("folder", "upload"):
             self.builder.get_object("subfolder_entry").set_text(p.foldername)
-        url_model = self.builder.get_object("upload_combo").get_model()
-        url_iter = url_model.get_iter_first()
-        while url_iter is not None:
-            url = url_model.get(url_iter, 0)[0]
-            if url == p.url:
-                self.builder.get_object("upload_combo").set_active_iter(url_iter)
-                return True
-            url_iter = url_model.iter_next(url_iter)
+            if p.destination == 'upload':
+                #TODO: read the url from the actual combobox ;)
+                pass
 
     def newprofile_button_clicked(self, widget, data=None):
         # Create a new profile based on the data in the advanced settings
@@ -369,6 +368,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         profilesCombo.set_active(idSelectedProfile)
 
     def size_radio_toggled(self, widget, data=None):
+        if not widget:
+            widget = self.builder.get_object("pixels_radio")
         if widget == self.builder.get_object("pixels_radio"):
             # This if condition prevents the call to be executed twice
             # (once for each radio button)
