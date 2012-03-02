@@ -120,6 +120,10 @@ class Config:
         self.config.set(section, "url", p.url)
         self.write()
 
+    def addprofile(self, newprofile):
+        # Add the new profile at position last-1 (last is always custom settings)
+        self.profiles.insert(len(self.profiles)-1, newprofile)
+
     def deleteprofile(self, id):
         self.profiles.pop(id)
 
@@ -169,6 +173,10 @@ class Profile:
         self.appendstring = appendstring
         self.foldername = foldername
         self.url = url
+        
+        if not self.name:
+            #TODO: Create a name based on the profile parameters
+            self.name = "Unnamed profile"
 
     def __str__(self):
         """Returns a string representation of a Profile

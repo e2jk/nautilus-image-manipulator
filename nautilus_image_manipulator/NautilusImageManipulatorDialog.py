@@ -302,8 +302,55 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             url_iter = url_model.iter_next(url_iter)
 
     def newprofile_button_clicked(self, widget, data=None):
-        p = Profile(self.builder)
-        p.create()
+        # Create a new profile based on the data in the advanced settings
+        # Size settings
+        size = None
+        width = None
+        height = None
+        percent = None
+        if self.builder.get_object("pixels_radio").get_active():
+            sizeSettings = self.builder.get_object("size_combo").get_active()
+            sizeSettings = ("small", "large", "custom")[sizeSettings]
+            if sizeSettings == "custom":
+                width = self.builder.get_object("width_spin").get_value()
+                height = self.builder.get_object("height_spin").get_value()
+            else:
+                size = sizeSettings
+        else:
+            percent = self.builder.get_object("percent_scale").get_value()
+        quality = self.builder.get_object("quality_scale").get_value()
+        
+        # Destination settings
+        dest_model = self.builder.get_object("destination_combo").get_model()
+        dest_iter = self.builder.get_object("destination_combo").get_active_iter()
+        destination = dest_model.get_value(dest_iter, 1)
+        appendstring = None
+        foldername = None
+        url = None
+        if destination == "append":
+            appendstring = self.builder.get_object("append_entry").get_text()
+        elif destination in ("folder", "upload"):
+            foldername = self.builder.get_object("subfolder_entry").get_text()
+            if destination == 'upload':
+                #TODO: read from the actual combobox ;)
+                url = "1fichier.com"
+        
+        # Create and add that profile to the list of profiles
+        p = Profile(None, None, size, width, height, percent, quality, destination,
+                    appendstring, foldername, url)
+        self.conf.addprofile(p)
+        
+        # Show in the profiles combobox
+        profilesCombo = self.builder.get_object("profiles_combo")
+        # Remove the last element in the combobox (custom settings)
+        position = len(self.conf.profiles)-2
+        profilesCombo.remove(position)
+        # Add the newly created profile
+        profilesCombo.append_text(p.name)
+        # Re-add the custom settings
+        profilesCombo.append_text(_("Custom settings"))
+        # Select the newly created profile
+        profilesCombo.set_active(position)
 
     def deleteprofile_button_clicked(self, widget, data=None):
         profilesCombo = self.builder.get_object("profiles_combo")
