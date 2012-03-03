@@ -81,6 +81,12 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Called before the dialog returns Gtk.RESONSE_OK from run().
         """
         idSelectedProfile = self.builder.get_object("profiles_combo").get_active()
+        # If the custom profile was selected, update it with the currently
+        # selected parameters
+        if idSelectedProfile == (len(self.conf.profiles) - 1):
+            p = self.create_new_profile_from_custom_settings()
+            p.name = _("Custom settings")
+            self.conf.profiles[idSelectedProfile] = p
         self.p = self.conf.profiles[idSelectedProfile]
         logging.info("The following profile has been selected:\n%s" % self.p)
         
@@ -301,8 +307,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 #TODO: read the url from the actual combobox ;)
                 pass
 
-    def newprofile_button_clicked(self, widget, data=None):
-        """Create a new profile based on the data in the advanced settings"""
+    def create_new_profile_from_custom_settings(self):
+        """Returns a new profile instance based on the data in the advanced
+        settings"""
         # Size settings
         size = None
         width = None
@@ -338,6 +345,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Create and add that profile to the list of profiles
         p = Profile(None, None, size, width, height, percent, quality, destination,
                     appendstring, foldername, url)
+        return p
+
+    def newprofile_button_clicked(self, widget, data=None):
+        """Adds a new profile to the list of available profiles"""
+        p = create_new_profile_from_custom_settings()
         self.conf.addprofile(p)
         
         # Show in the profiles combobox
