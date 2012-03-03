@@ -70,6 +70,7 @@
               <object class="GtkBox" id="parameters_box">
                 <property name="can_focus">False</property>
                 <property name="margin_right">5</property>
+                <property name="margin_top">10</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
@@ -109,11 +110,13 @@
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="pixels_radio">
+                                <property name="label" translatable="yes"> </property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="halign">start</property>
                                 <property name="use_action_appearance">False</property>
-                                <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="size_radio_toggled" swapped="no"/>
                               </object>
@@ -143,7 +146,7 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
@@ -276,6 +279,7 @@
                             <child>
                               <object class="GtkRadioButton" id="percent_radio">
                                 <property name="label" translatable="yes">Scale:</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -385,7 +389,7 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
@@ -592,7 +596,7 @@
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">False</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -608,6 +612,7 @@
             <property name="can_focus">False</property>
             <property name="margin_left">6</property>
             <property name="margin_right">6</property>
+            <property name="margin_top">10</property>
             <property name="show_text">True</property>
           </object>
           <packing>
@@ -620,6 +625,7 @@
           <object class="GtkBox" id="error_box">
             <property name="can_focus">False</property>
             <property name="margin_right">5</property>
+            <property name="margin_top">10</property>
             <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
@@ -692,6 +698,7 @@
                 <child>
                   <object class="GtkLinkButton" id="error_url_linkbutton">
                     <property name="label">delete</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -722,6 +729,7 @@
           <object class="GtkBox" id="url_box">
             <property name="can_focus">False</property>
             <property name="margin_right">5</property>
+            <property name="margin_top">10</property>
             <property name="orientation">vertical</property>
             <property name="spacing">12</property>
             <child>
@@ -788,6 +796,7 @@
                     <child>
                       <object class="GtkLinkButton" id="download_linkbutton">
                         <property name="label">download</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -803,6 +812,7 @@
                     <child>
                       <object class="GtkLinkButton" id="delete_linkbutton">
                         <property name="label">delete</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -842,10 +852,12 @@
           <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_top">10</property>
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="deleteprofile_button">
                 <property name="label" translatable="yes">Delete this profile</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -862,6 +874,7 @@
             <child>
               <object class="GtkButton" id="newprofile_button">
                 <property name="label" translatable="yes">Save as a new profile</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -880,6 +893,7 @@
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -896,6 +910,7 @@
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-close</property>
+                <property name="use_action_appearance">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_action_appearance">False</property>
@@ -911,6 +926,7 @@
             <child>
               <object class="GtkButton" id="resize_button">
                 <property name="label" translatable="yes">Resize</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
