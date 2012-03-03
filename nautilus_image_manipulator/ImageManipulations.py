@@ -233,7 +233,20 @@ class ImageManipulations(GObject.GObject):
         # No more work, return False
         yield False
         
-
+    def send_to_thunderbird(self):
+        """ attach the images to a new tb email window"""
+        # TODO : pack in a zip if len(NewFiles) > 5
+        # TODO : Remove single and double quotes caracters in files
+        # TODO : Add a warning for email > 3 Mo
+        URI = ""
+        for f in self.newFiles:
+            if URI:
+                URI = "%s,file://%s" % (URI, f)
+            else:
+                URI = "file://%s" % f
+        args = '/usr/bin/thunderbird -compose "attachment=\'%s\'"' % URI
+        subprocess.Popen(args, shell=True)
+           
 GObject.type_register(ImageManipulations)
 GObject.signal_new("resizing_done", ImageManipulations, GObject.SignalFlags.RUN_FIRST, None, ())
 GObject.signal_new("packing_done", ImageManipulations, GObject.SignalFlags.RUN_FIRST, None, (GObject.TYPE_STRING, ))
