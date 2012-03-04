@@ -481,7 +481,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def saveConfig(self):
         self.conf.activeprofile = self.builder.get_object(
                                           "profiles_combo").get_active()
-        #TODO: save the config to the configuration file
+        # Save the settings to the configuration file
         self.conf.write()
 
 
