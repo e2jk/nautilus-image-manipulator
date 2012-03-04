@@ -550,19 +550,14 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBox" id="upload_combo">
+                              <object class="GtkComboBoxText" id="upload_combo">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="border_width">1</property>
-                                <property name="model">upload_list</property>
-                                <property name="active">0</property>
-                                <signal name="changed" handler="upload_combo_changed" swapped="no"/>
-                                <child>
-                                  <object class="GtkCellRendererText" id="cellrenderertext2"/>
-                                  <attributes>
-                                    <attribute name="text">0</attribute>
-                                  </attributes>
-                                </child>
+                                <property name="entry_text_column">0</property>
+                                <items>
+                                  <item>1fichier.com</item>
+                                </items>
                               </object>
                               <packing>
                                 <property name="expand">False</property>

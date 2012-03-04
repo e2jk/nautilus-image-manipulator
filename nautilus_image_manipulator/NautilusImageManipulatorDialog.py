@@ -304,7 +304,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         elif p.destination in ("folder", "upload"):
             self.builder.get_object("subfolder_entry").set_text(p.foldername)
             if p.destination == 'upload':
-                #TODO: read the url from the actual combobox ;)
+                #TODO: make this dynamic once more than one upload site gets supported
+                self.builder.get_object("upload_combo").set_active(0)
                 pass
 
     def create_new_profile_from_custom_settings(self):
@@ -339,8 +340,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         elif destination in ("folder", "upload"):
             foldername = self.builder.get_object("subfolder_entry").get_text()
             if destination == 'upload':
-                #TODO: read from the actual combobox ;)
-                url = "1fichier.com"
+                url = self.builder.get_object("upload_combo").get_active_text()
         
         # Create and add that profile to the list of profiles
         p = Profile(size, width, height, percent, quality, destination,
@@ -426,11 +426,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("subfolder_box").hide()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").hide()
-
-    def upload_combo_changed(self, widget, data=None):
-        #TODO: implement this stub
-        logging.info('upload_combo_changed not yet implemented')
-        pass
 
     def error_with_parameters(self, error_message):
         """Displays an error message if the parameters given to resize the images are not valid."""
