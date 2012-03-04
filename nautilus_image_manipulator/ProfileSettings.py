@@ -211,8 +211,55 @@ class Profile:
         
         self.name = name
         if not self.name:
-            #TODO: Create a name based on the profile parameters
-            self.name = "Unnamed profile"
+            # Create a profile name based on its parameters
+            # Determine the images' size
+            if self.size == "small":
+                # Part of "Create small images[...]"
+                imageSize = _("small")
+            elif self.size == "large":
+                # Part of "Create large images[...]"
+                imageSize = _("large")
+            elif self.percent:
+                # Part of "Create 60% resized images[...]"
+                imageSize = _("%d%% resized") % self.percent
+            elif self.width and self.height:
+                areaProfile = int(self.width) * int(self.height)
+                areaSmall = Config.size["small"][0] * Config.size["small"][1]
+                areaLarge = Config.size["large"][0] * Config.size["large"][1]
+                if areaProfile < 0.8 * areaSmall:
+                    # Part of "Create very small images[...]"
+                    imageSize = _("very small")
+                elif (areaProfile >= 0.8 * areaSmall) and \
+                     (areaProfile < 1.2 * areaSmall):
+                    # Part of "Create small images[...]"
+                    imageSize = _("small")
+                elif (areaProfile >= 1.2 * areaSmall) and \
+                     (areaProfile < 0.8 * areaLarge):
+                    # Part of "Create medium images[...]"
+                    imageSize = _("medium")
+                elif (areaProfile >= 0.8 * areaLarge) and \
+                     (areaProfile < 1.2 * areaLarge):
+                    # Part of "Create large images[...]"
+                    imageSize = _("large")
+                elif (areaProfile >= 1.2 * areaLarge):
+                    # Part of "Create very large images[...]"
+                    imageSize = _("very large")
+            
+            # Determine the string depending on the destination
+            n = None
+            if self.destination == "upload":
+                n = _("Send %(imageSize)s images to %(uploadUrl)s") % {
+                                  "imageSize": imageSize,
+                                  "uploadUrl": self.url}
+            elif self.destination == "folder":
+                n = _("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
+                                  "imageSize": imageSize,
+                                  "directoryName": self.foldername}
+            elif self.destination == "append":
+                n = _("Create %(imageSize)s images and append \"%(appendString)s\"") % {
+                                  "imageSize": imageSize,
+                                  "appendString": self.appendstring}
+            self.name = n if n else _("Unnamed profile")
 
     def __str__(self):
         """Returns a string representation of a Profile
