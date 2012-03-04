@@ -37,13 +37,13 @@ class Config:
                 os.makedirs(os.path.dirname(self.file))
             # Create a default configuration
             logging.info("Create a default configuration")
-            self.defaultvalues()
+            self.defaultprofiles()
             self.activeprofile = 0
         logging.info("There are %d profiles" % len(self.profiles))
         for p in self.profiles:
             logging.debug("%s\n%s" % ("="*64, p))
 
-    def defaultvalues(self):
+    def defaultprofiles(self):
         """Determines the default profiles"""
         defaultUploadUrl = "1fichier.com"
         # Make small images and upload them to 1fichier.com
