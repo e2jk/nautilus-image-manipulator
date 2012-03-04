@@ -29,20 +29,16 @@ class Config:
             "large": (1280, 1280)}
     def __init__(self):
         self.file = os.path.expanduser("~/.config/nautilus-image-manipulator/config")
-        self.config = ConfigParser.ConfigParser()
         self.profiles = []
-        if not os.path.isfile(self.file):
-            # There is no config file
+        if not os.path.isfile(self.file) or not self.read():
+            # There is no config file, or the config file was not valid
             if not os.path.exists(os.path.dirname(self.file)):
                 # Create the folder to contain the new config file
                 os.makedirs(os.path.dirname(self.file))
             # Create a default configuration
             logging.info("Create a default configuration")
             self.defaultvalues()
-        else:
-            # Read the settings from the config file
-            self.config.read(self.file)
-        self.activeprofile = self.readvalue("Saved state","activeprofile",0,"int")
+            self.activeprofile = 0
         logging.info("There are %d profiles" % len(self.profiles))
         for p in self.profiles:
             logging.debug("%s\n%s" % ("="*64, p))
@@ -110,6 +106,40 @@ class Config:
     def deleteprofile(self, id):
         self.profiles.pop(id)
 
+    def read(self):
+        logging.info("Reading configuration from %s" % self.file)
+        c = ConfigParser.ConfigParser()
+        c.read(self.file)
+        
+        sections = c.sections()
+        if len(sections) < 2:
+            logging.error("There are no profiles defined")
+            return False
+        if sections[0] != "General":
+            logging.error("Invalid first configuration section")
+            return False
+        
+        self.activeprofile = 0
+        a = self.readvalue(c, "General", "active profile")
+        if a:
+            self.activeprofile = int(a.replace("Profile ", ""))
+        
+        for section in sections[1:]:
+            name = self.readvalue(c, section, "name")
+            size = self.readvalue(c, section, "size")
+            width = self.readvalue(c, section, "width", "int")
+            height = self.readvalue(c, section, "height", "int")
+            percent = self.readvalue(c, section, "percent", "int")
+            quality = self.readvalue(c, section, "quality", "float", 95)
+            destination = self.readvalue(c, section, "destination")
+            appendstring = self.readvalue(c, section, "appendstring")
+            foldername = self.readvalue(c, section, "foldername")
+            url = self.readvalue(c, section, "url")
+            p = Profile(None, name, size, width, height, percent, quality,
+                        destination, appendstring, foldername, url)
+            self.profiles.append(p)
+        return True
+
     def write(self):
         logging.info("Saving configuration to %s" % self.file)
         
@@ -117,8 +147,7 @@ class Config:
         # latest parameters
         config = ConfigParser.ConfigParser()
         config.add_section("General")
-        config.set("General", "active profile", self.activeprofile)
-        config.set("General", "number of profiles", len(self.profiles))
+        config.set("General", "active profile", "Profile %i" % self.activeprofile)
         
         logging.info("There are %d profiles" % len(self.profiles))
         i = 0
@@ -149,14 +178,16 @@ class Config:
         config.write(f)
         f.close()
 
-    def readvalue(self, section, name, value=None, type=None):
+    def readvalue(self, config, section, name, type=None, value=None):
         try:
             if type == "int":
-                value = self.config.getint(section, name)
+                value = config.getint(section, name)
+            elif type == "float":
+                value = config.getfloat(section, name)
             elif type == "bool":
-                value = self.config.getboolean(section, name)
+                value = config.getboolean(section, name)
             else:
-                value = self.config.get(section, name)
+                value = config.get(section, name)
         except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
             pass
         return value
