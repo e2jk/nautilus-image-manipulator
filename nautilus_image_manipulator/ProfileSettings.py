@@ -100,10 +100,11 @@ class Config:
         self.profiles.append(customprofile)
 
     def addprofile(self, newprofile):
-        # Add the new profile at position last-1 (last is always custom settings)
+        """Add the new profile at position last-1 (last is always custom settings)"""
         self.profiles.insert(len(self.profiles)-1, newprofile)
 
     def deleteprofile(self, id):
+        """Deletes a profile from the list of profiles"""
         self.profiles.pop(id)
 
     def read(self):
