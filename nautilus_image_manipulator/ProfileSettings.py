@@ -48,8 +48,7 @@ class Config:
         defaultUploadUrl = "1fichier.com"
         # Make small images and upload them to 1fichier.com
         self.profiles.append(
-            Profile(None,
-                    name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
+            Profile(name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
                                   "imageSize": _("small"),
                                   "uploadUrl": defaultUploadUrl},
                     size="small",
@@ -61,8 +60,7 @@ class Config:
         
         # Make small images and do not upload them
         self.profiles.append(
-            Profile(None,
-                    name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
+            Profile(name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
                                   "imageSize": _("small"),
                                   "directoryName": _("resized")},
                     size="small",
@@ -73,8 +71,7 @@ class Config:
         
         # Make large images and upload them to 1fichier.com
         self.profiles.append(
-            Profile(None,
-                    name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
+            Profile(name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
                                   "imageSize": _("large"),
                                   "uploadUrl": defaultUploadUrl},
                     size="large",
@@ -85,8 +82,7 @@ class Config:
         
         # Make large images and do not upload them
         self.profiles.append(
-            Profile(None,
-                    name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
+            Profile(name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
                                   "imageSize": _("large"),
                                   "directoryName": _("resized")},
                     size="large",
@@ -136,7 +132,7 @@ class Config:
             appendstring = self.readvalue(c, section, "appendstring")
             foldername = self.readvalue(c, section, "foldername")
             url = self.readvalue(c, section, "url")
-            p = Profile(None, name, size, width, height, percent, quality,
+            p = Profile(name, size, width, height, percent, quality,
                         destination, appendstring, foldername, url)
             self.profiles.append(p)
         return True
@@ -195,10 +191,9 @@ class Config:
 
 
 class Profile:
-    def __init__(self, builder, name=None, size=None, width=None, height=None,
+    def __init__(self, name=None, size=None, width=None, height=None,
                  percent=None, quality=95, destination=None, appendstring=None,
                  foldername=None, url=None):
-        self.builder = builder
         self.name = name
         self.size = size
         if self.size in ("small", "large"):
