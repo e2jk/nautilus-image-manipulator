@@ -103,23 +103,6 @@ class Config:
         customprofile.name = _("Custom settings")
         self.profiles.append(customprofile)
 
-    def writeprofile(self, profile):
-        p = profile
-        section = "Profile %i" % p.id
-        if not self.config.has_section(section):
-            self.config.add_section(section)
-        self.config.set(section, "name", p.name)
-        self.config.set(section, "id", p.id)
-        self.config.set(section, "inpercent", p.inpercent)
-        self.config.set(section, "width", p.width)
-        self.config.set(section, "percent", p.percent)
-        self.config.set(section, "quality", p.quality)
-        self.config.set(section, "destination", p.destination)
-        self.config.set(section, "appendstring", p.appendstring)
-        self.config.set(section, "foldername", p.foldername)
-        self.config.set(section, "url", p.url)
-        self.write()
-
     def addprofile(self, newprofile):
         # Add the new profile at position last-1 (last is always custom settings)
         self.profiles.insert(len(self.profiles)-1, newprofile)
@@ -128,8 +111,42 @@ class Config:
         self.profiles.pop(id)
 
     def write(self):
+        logging.info("Saving configuration to %s" % self.file)
+        
+        # Create a new ConfigParser object, to make sure we only have the
+        # latest parameters
+        config = ConfigParser.ConfigParser()
+        config.add_section("General")
+        config.set("General", "active profile", self.activeprofile)
+        config.set("General", "number of profiles", len(self.profiles))
+        
+        logging.info("There are %d profiles" % len(self.profiles))
+        i = 0
+        for p in self.profiles:
+            section = "Profile %i" % i
+            config.add_section(section)
+            config.set(section, "name", p.name)
+            if p.size:
+                config.set(section, "size", p.size)
+            if p.width and p.height:
+                config.set(section, "width", p.width)
+                config.set(section, "height", p.height)
+            if p.percent:
+                config.set(section, "percent", p.percent)
+            config.set(section, "quality", p.quality)
+            config.set(section, "destination", p.destination)
+            if p.appendstring:
+                config.set(section, "appendstring", p.appendstring)
+            if p.foldername:
+                config.set(section, "foldername", p.foldername)
+            if p.url:
+                config.set(section, "url", p.url)
+            
+            logging.debug("%s\n%s" % ("="*64, p))
+            i += 1
+        
         f = open(self.file, "w")
-        self.config.write(f)
+        config.write(f)
         f.close()
 
     def readvalue(self, section, name, value=None, type=None):
