@@ -343,7 +343,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 url = "1fichier.com"
         
         # Create and add that profile to the list of profiles
-        p = Profile(None, size, width, height, percent, quality, destination,
+        p = Profile(size, width, height, percent, quality, destination,
                     appendstring, foldername, url)
         return p
 

@@ -132,8 +132,8 @@ class Config:
             appendstring = self.readvalue(c, section, "appendstring")
             foldername = self.readvalue(c, section, "foldername")
             url = self.readvalue(c, section, "url")
-            p = Profile(name, size, width, height, percent, quality,
-                        destination, appendstring, foldername, url)
+            p = Profile(size, width, height, percent, quality, destination,
+                        appendstring, foldername, url, name)
             self.profiles.append(p)
         return True
 
@@ -191,10 +191,9 @@ class Config:
 
 
 class Profile:
-    def __init__(self, name=None, size=None, width=None, height=None,
-                 percent=None, quality=95, destination=None, appendstring=None,
-                 foldername=None, url=None):
-        self.name = name
+    def __init__(self, size=None, width=None, height=None, percent=None,
+                 quality=95, destination=None, appendstring=None,
+                 foldername=None, url=None, name=None):
         self.size = size
         if self.size in ("small", "large"):
             (self.width, self.height) = Config.size[self.size]
@@ -210,6 +209,7 @@ class Profile:
         self.foldername = foldername
         self.url = url
         
+        self.name = name
         if not self.name:
             #TODO: Create a name based on the profile parameters
             self.name = "Unnamed profile"
