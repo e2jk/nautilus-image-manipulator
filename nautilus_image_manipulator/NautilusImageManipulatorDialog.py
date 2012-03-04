@@ -349,7 +349,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def newprofile_button_clicked(self, widget, data=None):
         """Adds a new profile to the list of available profiles"""
-        p = create_new_profile_from_custom_settings()
+        p = self.create_new_profile_from_custom_settings()
         self.conf.addprofile(p)
         
         # Show in the profiles combobox
