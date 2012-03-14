@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-04 17:37+0100\n"
+"POT-Creation-Date: 2012-03-14 20:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #. Re-add the custom settings
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:88
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:363
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:362
 #: ../nautilus_image_manipulator/ProfileSettings.py:95
 #: ../nautilus_image_manipulator/ProfileSettings.py:269
 msgid "Custom settings"
@@ -77,19 +77,32 @@ msgstr ""
 msgid "Uploading images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:439
+#. Default folder name
+#. Default value to append to filename
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:415
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:423
+#: ../nautilus_image_manipulator/ProfileSettings.py:57
+#: ../nautilus_image_manipulator/ProfileSettings.py:65
+#: ../nautilus_image_manipulator/ProfileSettings.py:69
+#: ../nautilus_image_manipulator/ProfileSettings.py:79
+#: ../nautilus_image_manipulator/ProfileSettings.py:87
+#: ../nautilus_image_manipulator/ProfileSettings.py:90
+msgid "resized"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:443
 msgid "Invalid parameters"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:453
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:457
 msgid "_Skip"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:455
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:459
 msgid "_Retry"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:456
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:460
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -98,7 +111,7 @@ msgid ""
 "%(folder)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:458
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:462
 msgid "Could not resize image"
 msgstr ""
 
@@ -152,15 +165,6 @@ msgstr ""
 #: ../nautilus_image_manipulator/ProfileSettings.py:235
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
 msgid "small"
-msgstr ""
-
-#: ../nautilus_image_manipulator/ProfileSettings.py:57
-#: ../nautilus_image_manipulator/ProfileSettings.py:65
-#: ../nautilus_image_manipulator/ProfileSettings.py:69
-#: ../nautilus_image_manipulator/ProfileSettings.py:79
-#: ../nautilus_image_manipulator/ProfileSettings.py:87
-#: ../nautilus_image_manipulator/ProfileSettings.py:90
-msgid "resized"
 msgstr ""
 
 #: ../nautilus_image_manipulator/ProfileSettings.py:63

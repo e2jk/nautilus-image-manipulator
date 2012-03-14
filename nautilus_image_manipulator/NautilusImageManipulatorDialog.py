@@ -306,7 +306,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             if p.destination == 'upload':
                 #TODO: make this dynamic once more than one upload site gets supported
                 self.builder.get_object("upload_combo").set_active(0)
-                pass
 
     def create_new_profile_from_custom_settings(self):
         """Returns a new profile instance based on the data in the advanced
@@ -410,15 +409,25 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         dest_model = widget.get_model()
         dest_iter = widget.get_active_iter()
         dest = dest_model.get_value(dest_iter, 1)
+        if dest in ('folder', 'upload'):
+            if not self.builder.get_object("subfolder_entry").get_text():
+                # Default folder name
+                self.builder.get_object("subfolder_entry").set_text(_("resized"))
         if dest == 'folder':
             self.builder.get_object("subfolder_box").show()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").hide()
         elif dest == 'append':
+            if not self.builder.get_object("append_entry").get_text():
+                # Default value to append to filename
+                self.builder.get_object("append_entry").set_text("-%s" % _("resized"))
             self.builder.get_object("subfolder_box").hide()
             self.builder.get_object("append_box").show()
             self.builder.get_object("upload_box").hide()
         elif dest == 'upload':
+            if not self.builder.get_object("upload_combo").get_active_text():
+                #TODO: make this dynamic once more than one upload site gets supported
+                self.builder.get_object("upload_combo").set_active(0)
             self.builder.get_object("subfolder_box").show()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").show()
