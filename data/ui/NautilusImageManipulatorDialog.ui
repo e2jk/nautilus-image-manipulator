@@ -11,7 +11,7 @@
     </columns>
     <data>
       <row>
-        <col id="0">Save in a subfolder</col>
+        <col id="0">Save in a folder</col>
         <col id="1" translatable="yes">folder</col>
       </row>
       <row>
@@ -19,7 +19,7 @@
         <col id="1" translatable="yes">append</col>
       </row>
       <row>
-        <col id="0" translatable="yes">Upload to a server</col>
+        <col id="0" translatable="yes">Upload to a website</col>
         <col id="1" translatable="yes">upload</col>
       </row>
     </data>
@@ -170,6 +170,7 @@
                               <object class="GtkLabel" id="width_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the width settings in the custom settings">Maximum width of the resized images, in pixels</property>
                                 <property name="label" translatable="yes">Width:</property>
                               </object>
                               <packing>
@@ -183,10 +184,9 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="has_tooltip">True</property>
-                                <property name="tooltip_markup" translatable="yes">Width of image in pixels</property>
-                                <property name="tooltip_text" translatable="yes">Width of image in pixels</property>
+                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the width settings in the custom settings">Maximum width of the resized images, in pixels</property>
                                 <property name="margin_left">5</property>
-                                <property name="margin_right">5</property>
+                                <property name="margin_right">15</property>
                                 <property name="max_length">4</property>
                                 <property name="invisible_char">●</property>
                                 <property name="width_chars">4</property>
@@ -203,22 +203,10 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="width_pixels_label">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="margin_right">15</property>
-                                <property name="label" translatable="yes">pixels</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkLabel" id="height_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the height settings in the custom settings">Maximum height of the resized images, in pixels</property>
                                 <property name="label" translatable="yes">Height:</property>
                               </object>
                               <packing>
@@ -232,10 +220,8 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="has_tooltip">True</property>
-                                <property name="tooltip_markup" translatable="yes">Width of image in pixels</property>
-                                <property name="tooltip_text" translatable="yes">Width of image in pixels</property>
+                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the height settings in the custom settings">Maximum height of the resized images, in pixels</property>
                                 <property name="margin_left">5</property>
-                                <property name="margin_right">5</property>
                                 <property name="max_length">4</property>
                                 <property name="invisible_char">●</property>
                                 <property name="width_chars">4</property>
@@ -251,18 +237,6 @@
                                 <property name="position">5</property>
                               </packing>
                             </child>
-                            <child>
-                              <object class="GtkLabel" id="height_pixels_label">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">pixels</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">6</property>
-                              </packing>
-                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -274,6 +248,7 @@
                           <object class="GtkBox" id="percent_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the percent scale in the custom settings">Percent of the original image size</property>
                             <property name="spacing">1</property>
                             <child>
                               <object class="GtkRadioButton" id="percent_radio">
@@ -282,8 +257,6 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="has_tooltip">True</property>
-                                <property name="tooltip_markup" translatable="yes">Percent of the original image size</property>
-                                <property name="tooltip_text" translatable="yes">Percent of the original image size</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
@@ -334,14 +307,13 @@
                           <object class="GtkBox" id="quality_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the quality scale in the custom settings">Determines the quality of the resized images (the higher, the larger the image size)</property>
                             <property name="margin_top">6</property>
                             <child>
                               <object class="GtkLabel" id="quality_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="has_tooltip">True</property>
-                                <property name="tooltip_markup" translatable="yes">JPEG quality factor (10/100%)</property>
-                                <property name="tooltip_text" translatable="yes">JPEG quality factor (10/100%)</property>
                                 <property name="label" translatable="yes">Quality:</property>
                               </object>
                               <packing>
@@ -452,6 +424,7 @@
                         <child>
                           <object class="GtkBox" id="subfolder_box">
                             <property name="can_focus">False</property>
+                            <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the subfolder name entry box in the custom settings">Name of the folder in which the images will be saved</property>
                             <property name="halign">end</property>
                             <property name="spacing">6</property>
                             <child>
@@ -492,13 +465,14 @@
                         <child>
                           <object class="GtkBox" id="append_box">
                             <property name="can_focus">False</property>
+                            <property name="tooltip_text" translatable="yes">This value will be appended before the image extension</property>
                             <property name="halign">end</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="append_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">String to append to filename:</property>
+                                <property name="label" translatable="yes">Append to filename:</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -511,8 +485,6 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="has_tooltip">True</property>
-                                <property name="tooltip_markup" translatable="yes">This value will be appended before the image extension</property>
-                                <property name="tooltip_text" translatable="yes">This value will be appended before the image extension</property>
                                 <property name="invisible_char">●</property>
                                 <property name="width_chars">20</property>
                                 <property name="invisible_char_set">True</property>
