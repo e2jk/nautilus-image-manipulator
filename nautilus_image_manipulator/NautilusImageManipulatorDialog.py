@@ -91,6 +91,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         logging.info("The following profile has been selected:\n%s" % self.p)
         
         # Check if the mandatory values are filled
+        if self.p.destination == 'folder':
+            if not self.p.foldername:
+                self.error_with_parameters(
+                    _("Please enter the name of the folder."))
+                return
         if self.p.destination == 'append':
             if not self.p.appendstring:
                 self.error_with_parameters(
@@ -104,26 +109,25 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 return
             # TODO: Check that the value is valid to be appended to the filename
         if self.p.destination == 'upload':
-            if not self.p.foldername:
+            if not self.p.zipname:
                 self.error_with_parameters(
-                    _("Please enter the name of the folder."))
+                    _("Please enter the name of the zip file."))
                 return
         
-        if self.p.width:
-            # Disable the parameter UI elements and display the progress bar
-            self.builder.get_object("details_box").set_sensitive(False)
-            self.builder.get_object("resize_button").set_sensitive(False)
-            self.builder.get_object("deleteprofile_button").set_visible(False)
-            self.builder.get_object("newprofile_button").set_visible(False)
-            self.builder.get_object("progressbar").set_text("%s 0%%" % ("Resizing images..."))
-            self.builder.get_object("progressbar").show()
-            while Gtk.events_pending():
-                Gtk.main_iteration() # Used to refresh the UI
-            # Resize the images
-            im = ImageManipulations(self, self.files, self.p)
-            im.connect("resizing_done", self.on_resizing_done)
-            task = im.resize_images()
-            GObject.idle_add(task.next)
+        # Disable the parameter UI elements and display the progress bar
+        self.builder.get_object("details_box").set_sensitive(False)
+        self.builder.get_object("resize_button").set_sensitive(False)
+        self.builder.get_object("deleteprofile_button").set_visible(False)
+        self.builder.get_object("newprofile_button").set_visible(False)
+        self.builder.get_object("progressbar").set_text("%s 0%%" % ("Resizing images..."))
+        self.builder.get_object("progressbar").show()
+        while Gtk.events_pending():
+            Gtk.main_iteration() # Used to refresh the UI
+        # Resize the images
+        im = ImageManipulations(self, self.files, self.p)
+        im.connect("resizing_done", self.on_resizing_done)
+        task = im.resize_images()
+        GObject.idle_add(task.next)
         
         # Remember the settings for next time
         self.saveConfig()
@@ -154,6 +158,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Import the module that takes care of uploading to the selected website
         import_string = "from upload.z%s import UploadSite" % \
                 self.p.url.replace(".", "").replace("/", "")
+        logging.debug("import_string: %s" % import_string)
         # Make sure the import does not fail
         try:
             exec import_string
@@ -173,7 +178,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
             else:
                 extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
-            self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + extraInfo)
+            self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % self.p.url}) + "\n\n" + extraInfo)
             return
         
         self.builder.get_object("progressbar").set_text("%s 0%%" % _("Uploading images..."))
@@ -246,6 +251,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.builder.get_object("resize_button").hide()
         self.builder.get_object("close_button").show()
         self.resize(1, 1)
+        
+        #TODO: delete the temporary folder where the images where placed
+        #Question: should the zipfile also be deleted?
 
     def cancel_button_clicked(self, widget, data=None):
         """The user has elected to cancel.
@@ -301,11 +309,12 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             dest_iter = dest_model.iter_next(dest_iter)
         if p.destination == "append":
             self.builder.get_object("append_entry").set_text(p.appendstring)
-        elif p.destination in ("folder", "upload"):
+        elif p.destination == "folder":
             self.builder.get_object("subfolder_entry").set_text(p.foldername)
-            if p.destination == 'upload':
-                #TODO: make this dynamic once more than one upload site gets supported
-                self.builder.get_object("upload_combo").set_active(0)
+        elif p.destination == 'upload':
+            self.builder.get_object("zipname_entry").set_text(p.zipname)
+            #TODO: make this dynamic once more than one upload site gets supported
+            self.builder.get_object("upload_combo").set_active(0)
 
     def create_new_profile_from_custom_settings(self):
         """Returns a new profile instance based on the data in the advanced
@@ -333,17 +342,19 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         destination = dest_model.get_value(dest_iter, 1)
         appendstring = None
         foldername = None
+        zipname = None
         url = None
         if destination == "append":
             appendstring = self.builder.get_object("append_entry").get_text()
-        elif destination in ("folder", "upload"):
+        elif destination == "folder":
             foldername = self.builder.get_object("subfolder_entry").get_text()
-            if destination == 'upload':
-                url = self.builder.get_object("upload_combo").get_active_text()
+        elif destination == 'upload':
+            zipname = self.builder.get_object("zipname_entry").get_text()
+            url = self.builder.get_object("upload_combo").get_active_text()
         
         # Create and add that profile to the list of profiles
         p = Profile(size, width, height, percent, quality, destination,
-                    appendstring, foldername, url)
+                    appendstring, foldername, zipname, url)
         return p
 
     def newprofile_button_clicked(self, widget, data=None):
@@ -409,11 +420,10 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         dest_model = widget.get_model()
         dest_iter = widget.get_active_iter()
         dest = dest_model.get_value(dest_iter, 1)
-        if dest in ('folder', 'upload'):
+        if dest == 'folder':
             if not self.builder.get_object("subfolder_entry").get_text():
                 # Default folder name
                 self.builder.get_object("subfolder_entry").set_text(_("resized"))
-        if dest == 'folder':
             self.builder.get_object("subfolder_box").show()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").hide()
@@ -425,10 +435,13 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("append_box").show()
             self.builder.get_object("upload_box").hide()
         elif dest == 'upload':
+            if not self.builder.get_object("zipname_entry").get_text():
+                # Default zipfile name
+                self.builder.get_object("zipname_entry").set_text(_("resized"))
             if not self.builder.get_object("upload_combo").get_active_text():
                 #TODO: make this dynamic once more than one upload site gets supported
                 self.builder.get_object("upload_combo").set_active(0)
-            self.builder.get_object("subfolder_box").show()
+            self.builder.get_object("subfolder_box").hide()
             self.builder.get_object("append_box").hide()
             self.builder.get_object("upload_box").show()
         else:

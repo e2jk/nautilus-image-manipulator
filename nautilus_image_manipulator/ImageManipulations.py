@@ -53,6 +53,8 @@ class ImageManipulations(GObject.GObject):
         str += '- destination: %s\n' % self.profile.destination
         str += '- appendstring: %s\n' % self.profile.appendstring
         str += '- foldername: %s' % self.profile.foldername
+        str += '- zipname: %s' % self.profile.zipname
+        str += '- url: %s' % self.profile.url
         logging.debug(str)
 
     def resize_images(self):
@@ -95,8 +97,12 @@ class ImageManipulations(GObject.GObject):
         
         (basePath, name) = os.path.split(fileName)
         
-        if self.profile.destination in ('folder', 'upload'):
+        if self.profile.destination == 'folder':
             basePath = "%s/%s" % (basePath, self.profile.foldername)
+        if self.profile.destination == 'upload':
+            # Put the images in a temporary folder named similarly to the
+            # zipfile (without the ".zip" at the end)
+            basePath = "%s/%s" % (basePath, self.profile.zipname[:-4])
         logging.debug('basePath: %s' % basePath)
         logging.debug('name: %s' % name)
         
@@ -178,31 +184,7 @@ class ImageManipulations(GObject.GObject):
         if not dirname:
             # Put the zipfile in the user's home folder if no base directory name could be determined.
             dirname = os.path.expanduser("~")
-        zipname = "images" # Default filename
-        if self.profile.foldername:
-            zipname = self.profile.foldername
-        if self.profile.appendstring:
-            zipname = self.profile.appendstring
-        # Sanitize the name of the zipfile
-        zipname = zipname.strip() # Strip whitespace
-        # Remove starting non-alphabetic characters
-        i = 0
-        for c in zipname:
-            if c.isalpha():
-                break
-            i += 1
-        zipname = "%s.zip" % zipname[i:]
-        
-        # Make sure the zipfile will not be created in a subdirectory
-        # If that would have been the case, make sure we zip the files
-        # using the name relative to where the zipfile is made, so that the
-        # zipped files' names do not conflict (test with this string to
-        # append: `-resized/yy.jpg`)
-        useRelName = False
-        temp = os.path.basename(zipname)
-        if temp != zipname:
-            zipname = temp
-            useRelName = True
+        zipname = self.profile.zipname
         
         # Create the final zip file name
         self.zipfile = os.path.join(dirname, zipname)
@@ -211,11 +193,7 @@ class ImageManipulations(GObject.GObject):
         zout = zipfile.ZipFile(self.zipfile, "w")
         i = float(0)
         for fname in self.newFiles:
-            if useRelName:
-                # This is the filename relative to where the zipfile is created. 
-                fzname = os.path.relpath(fname, dirname)
-            else:
-                fzname = os.path.basename(fname)
+            fzname = os.path.basename(fname)
             #TODO: Check what to do with non-ASCII filenames
             zout.write(fname, fzname, zipfile.ZIP_DEFLATED)
             i += 1

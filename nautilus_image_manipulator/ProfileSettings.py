@@ -54,7 +54,7 @@ class Config:
                     size="small",
                     quality=90,
                     destination="upload",
-                    foldername=_("resized"),
+                    zipname="%s.zip" % _("resized"),
                     url=defaultUploadUrl)
         )
         
@@ -76,7 +76,7 @@ class Config:
                                   "uploadUrl": defaultUploadUrl},
                     size="large",
                     destination="upload",
-                    foldername=_("resized"),
+                    zipname="%s.zip" % _("resized"),
                     url=defaultUploadUrl)
         )
         
@@ -126,14 +126,15 @@ class Config:
             size = self.readvalue(c, section, "size")
             width = self.readvalue(c, section, "width", "int")
             height = self.readvalue(c, section, "height", "int")
-            percent = self.readvalue(c, section, "percent", "int")
+            percent = self.readvalue(c, section, "percent", "float")
             quality = self.readvalue(c, section, "quality", "float", 95)
             destination = self.readvalue(c, section, "destination")
             appendstring = self.readvalue(c, section, "appendstring")
             foldername = self.readvalue(c, section, "foldername")
+            zipname = self.readvalue(c, section, "zipname")
             url = self.readvalue(c, section, "url")
             p = Profile(size, width, height, percent, quality, destination,
-                        appendstring, foldername, url, name)
+                        appendstring, foldername, zipname, url, name)
             self.profiles.append(p)
         return True
 
@@ -165,6 +166,8 @@ class Config:
                 config.set(section, "appendstring", p.appendstring)
             if p.foldername:
                 config.set(section, "foldername", p.foldername)
+            if p.zipname:
+                config.set(section, "zipname", p.zipname)
             if p.url:
                 config.set(section, "url", p.url)
             
@@ -193,7 +196,7 @@ class Config:
 class Profile:
     def __init__(self, size=None, width=None, height=None, percent=None,
                  quality=95, destination=None, appendstring=None,
-                 foldername=None, url=None, name=None):
+                 foldername=None, zipname=None, url=None, name=None):
         self.size = size
         if self.size in ("small", "large"):
             (self.width, self.height) = Config.size[self.size]
@@ -207,6 +210,20 @@ class Profile:
         self.destination = destination
         self.appendstring = appendstring
         self.foldername = foldername
+        self.zipname = zipname
+        if self.zipname:
+            # Sanitize the name of the zipfile
+            self.zipname = self.zipname.strip() # Strip whitespace
+            # Remove starting non-alphabetic characters
+            i = 0
+            for c in self.zipname:
+                if c.isalpha():
+                    break
+                i += 1
+            self.zipname = "%s" % self.zipname[i:]
+            # Make sure the zipfile's name ends in ".zip"
+            if not self.zipname.endswith(".zip"):
+                self.zipname += ".zip"
         self.url = url
         
         self.name = name
@@ -281,8 +298,9 @@ class Profile:
         p += "\n- Quality: %d%%\n" % self.quality
         if self.destination == 'append':
             p += "- Append \"%s\" to the file names" % self.appendstring
-        elif self.destination in ('folder', 'upload'):
+        elif self.destination == 'folder':
             p += "- Place the resized images in the \"%s\" folder" % self.foldername
-            if self.destination == 'upload':
-                p += "\n- Upload the resized images to \"%s\"" % self.url
+        elif self.destination == 'upload':
+            p += "- Zip the resized images in \"%s\"\n" % self.zipname
+            p += "- Upload the resized images to \"%s\"" % self.url
         return p

@@ -424,14 +424,14 @@
                         <child>
                           <object class="GtkBox" id="subfolder_box">
                             <property name="can_focus">False</property>
-                            <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the subfolder name entry box in the custom settings">Name of the folder in which the images will be saved</property>
+                            <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the subfolder name entry box in the custom settings">Name of the folder in which the resized images will be saved</property>
                             <property name="halign">end</property>
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkLabel" id="subfolder_label">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Subfolder name:</property>
+                                <property name="label" translatable="yes">Folder name:</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -507,39 +507,95 @@
                         <child>
                           <object class="GtkBox" id="upload_box">
                             <property name="can_focus">False</property>
-                            <property name="halign">end</property>
-                            <property name="spacing">6</property>
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel" id="upload_label">
+                              <object class="GtkBox" id="zipname_box">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Upload the .zip file to:</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the subfolder name entry box in the custom settings">The resized images will be compressed together into this zip file</property>
+                                <property name="halign">end</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="zipname_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Name of the zip file:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="zipname_entry">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">●</property>
+                                    <property name="width_chars">20</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </object>
                               <packing>
-                                <property name="expand">False</property>
+                                <property name="expand">True</property>
                                 <property name="fill">True</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkComboBoxText" id="upload_combo">
+                              <object class="GtkBox" id="hosting_box">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="border_width">1</property>
-                                <property name="entry_text_column">0</property>
-                                <items>
-                                  <item>1fichier.com</item>
-                                </items>
+                                <property name="tooltip_text" translatable="yes">The zip file containing the resized images will be uploaded to this website</property>
+                                <property name="halign">end</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="upload_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Upload the resized images to:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkComboBoxText" id="upload_combo">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="border_width">1</property>
+                                    <property name="entry_text_column">0</property>
+                                    <items>
+                                      <item>1fichier.com</item>
+                                    </items>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </object>
                               <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
                           </object>
                           <packing>
-                            <property name="expand">True</property>
+                            <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">3</property>
                           </packing>
