@@ -286,6 +286,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         if p.percent:
             self.builder.get_object("percent_radio").set_active(True)
             self.builder.get_object("percent_scale").set_value(p.percent)
+            # Set the size combobox by default to small
+            self.builder.get_object("size_combo").set_active(0)
         else:
             self.builder.get_object("pixels_radio").set_active(True)
             if p.size:
