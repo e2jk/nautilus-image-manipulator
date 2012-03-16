@@ -187,14 +187,14 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
         logging.info('downloadPage: %s' % downloadPage)
         logging.info('deletePage: %s' % deletePage)
-        #(downloadPage, deletePage) = ("http://TTTTT.1fichier.com", "http://www.1fichier.com/remove/TTTTT/VVVVV")
+        
         # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
         # Note that the selection clipboard will be empty when the dialog gets closed.
         # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
+        # and http://readthedocs.org/docs/python-gtk-3-tutorial/en/latest/clipboard.html
+        Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(downloadPage, -1)
+        Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY).set_text(downloadPage, -1)
         
-        #TODO: Removed clipboard functionality when migrating to GTK+ 3. Will need to be updated to work again.
-        #gtk.Clipboard(gtk.gdk.display_get_default(), "CLIPBOARD").set_text(downloadPage)
-        #gtk.Clipboard(gtk.gdk.display_get_default(), "PRIMARY").set_text(downloadPage)
         self.on_uploading_done(downloadPage, deletePage)
 
     def display_error(self, msg, urlInfo=None):
