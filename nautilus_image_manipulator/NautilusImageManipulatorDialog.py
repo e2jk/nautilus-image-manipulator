@@ -404,22 +404,32 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             pixels = widget.get_active()
             percent = not pixels
             self.builder.get_object("size_combo").set_sensitive(pixels)
-            self.builder.get_object("width_height_box").set_sensitive(pixels)
+            self.update_width_height_box_sensitivity(pixels)
             self.builder.get_object("percent_scale").set_sensitive(percent)
             self.builder.get_object("percent_label").set_sensitive(percent)
 
     def size_combo_changed(self, widget, data=None):
         # Don't use the text of the combobox, since it will be translated.
         # Instead, use the selected ID and map it to one of the 3 values.
-        sizeSettings = self.builder.get_object("size_combo").get_active()
-        sizeSettings = ("small", "large", "custom")[sizeSettings]
-        isCustom = (sizeSettings == "custom")
-        self.builder.get_object("width_height_box").set_sensitive(isCustom)
+        sizeSettings = self.get_size_settings()
+        self.update_width_height_box_sensitivity(True, sizeSettings)
         if sizeSettings in ("small", "large"):
             # Update the values to show the predetermined width and height
             (w, h) = Config.size[sizeSettings]
             self.builder.get_object("width_spin").set_value(w)
             self.builder.get_object("height_spin").set_value(h)
+
+    def get_size_settings(self):
+        s = self.builder.get_object("size_combo").get_active()
+        return ("small", "large", "custom")[s]
+
+    def update_width_height_box_sensitivity(self, pixels, size=None):
+        sensitive = False
+        if pixels:
+            if not size:
+                size = self.get_size_settings()
+            sensitive = (size == "custom")
+        self.builder.get_object("width_height_box").set_sensitive(sensitive)
 
     def quality_scale_changed(self, widget, data=None, value=0):
         #TODO: check if possible to make the quality scale red as well
