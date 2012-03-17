@@ -64,9 +64,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         
         Put your initialization code in here and leave __init__ undefined.
         """
-        # Get a reference to the builder and set up the signals.
-        self.builder = builder
-        self.builder.connect_signals(self)
+        # Get a reference to the builder's get_object and set up the signals.
+        self.o = builder.get_object
+        builder.connect_signals(self)
 
         # Load the saved configuration
         self.loadConfig()
@@ -80,7 +80,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
         Called before the dialog returns Gtk.RESONSE_OK from run().
         """
-        idSelectedProfile = self.builder.get_object("profiles_combo").get_active()
+        idSelectedProfile = self.o("profiles_combo").get_active()
         # If the custom profile was selected, update it with the currently
         # selected parameters
         if idSelectedProfile == (len(self.conf.profiles) - 1):
@@ -115,12 +115,12 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 return
         
         # Disable the parameter UI elements and display the progress bar
-        self.builder.get_object("details_box").set_sensitive(False)
-        self.builder.get_object("resize_button").set_sensitive(False)
-        self.builder.get_object("deleteprofile_button").set_visible(False)
-        self.builder.get_object("newprofile_button").set_visible(False)
-        self.builder.get_object("progressbar").set_text("%s 0%%" % ("Resizing images..."))
-        self.builder.get_object("progressbar").show()
+        self.o("details_box").set_sensitive(False)
+        self.o("resize_button").set_sensitive(False)
+        self.o("deleteprofile_button").set_visible(False)
+        self.o("newprofile_button").set_visible(False)
+        self.o("progressbar").set_text("%s 0%%" % ("Resizing images..."))
+        self.o("progressbar").show()
         while Gtk.events_pending():
             Gtk.main_iteration() # Used to refresh the UI
         # Resize the images
@@ -181,8 +181,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % self.p.url}) + "\n\n" + extraInfo)
             return
         
-        self.builder.get_object("progressbar").set_text("%s 0%%" % _("Uploading images..."))
-        self.builder.get_object("progressbar").set_fraction(0)
+        self.o("progressbar").set_text("%s 0%%" % _("Uploading images..."))
+        self.o("progressbar").set_fraction(0)
         self.uploadPercent = 0
         (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
         logging.info('downloadPage: %s' % downloadPage)
@@ -203,23 +203,23 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         Using the option ``urlInfo`` parameter, you can display a link button to open a url.
         This parameter is a tuple of the form (message, url)"""
         # Hide the unneccessary sections
-        self.builder.get_object("details_box").hide()
-        self.builder.get_object("progressbar").hide()
-        self.builder.get_object("url_box").hide()
+        self.o("details_box").hide()
+        self.o("progressbar").hide()
+        self.o("url_box").hide()
         # Display the error message
-        self.builder.get_object("error_message_label").set_text(msg)
-        self.builder.get_object("error_box").show()
+        self.o("error_message_label").set_text(msg)
+        self.o("error_box").show()
         # Hide the cancel and resize button, and show the close button
-        self.builder.get_object("cancel_button").hide()
-        self.builder.get_object("resize_button").hide()
-        self.builder.get_object("close_button").show()
+        self.o("cancel_button").hide()
+        self.o("resize_button").hide()
+        self.o("close_button").show()
         # Eventually display an url
         if urlInfo:
-            self.builder.get_object("error_url_linkbutton").set_label(urlInfo[0])
-            self.builder.get_object("error_url_linkbutton").set_uri(urlInfo[1])
-            self.builder.get_object("error_url_hbox").show()
+            self.o("error_url_linkbutton").set_label(urlInfo[0])
+            self.o("error_url_linkbutton").set_uri(urlInfo[1])
+            self.o("error_url_hbox").show()
         else:
-            self.builder.get_object("error_url_hbox").hide()
+            self.o("error_url_hbox").hide()
         #TODO: Make the close button the default behavior (to respond to Enter)
         self.resize(1, 1)
 
@@ -230,26 +230,26 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         percent = float(current)/total
         percent100 = int(percent * 100)
         if percent100 > self.uploadPercent:
-            self.builder.get_object("progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
-            self.builder.get_object("progressbar").set_fraction(percent)
+            self.o("progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
+            self.o("progressbar").set_fraction(percent)
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             self.uploadPercent = percent100
 
     def on_uploading_done(self, downloadPage, deletePage):
         """Displays the url where the images can be downloaded from, or deleted."""
-        self.builder.get_object("details_box").hide()
-        self.builder.get_object("progressbar").hide()
+        self.o("details_box").hide()
+        self.o("progressbar").hide()
         # Update the link buttons with the urls
-        self.builder.get_object("download_linkbutton").set_label(downloadPage)
-        self.builder.get_object("download_linkbutton").set_uri(downloadPage)
-        self.builder.get_object("delete_linkbutton").set_label(deletePage)
-        self.builder.get_object("delete_linkbutton").set_uri(deletePage)
-        self.builder.get_object("url_box").show()
+        self.o("download_linkbutton").set_label(downloadPage)
+        self.o("download_linkbutton").set_uri(downloadPage)
+        self.o("delete_linkbutton").set_label(deletePage)
+        self.o("delete_linkbutton").set_uri(deletePage)
+        self.o("url_box").show()
         # Hide the cancel and resize button, and show the close button
-        self.builder.get_object("cancel_button").hide()
-        self.builder.get_object("resize_button").hide()
-        self.builder.get_object("close_button").show()
+        self.o("cancel_button").hide()
+        self.o("resize_button").hide()
+        self.o("close_button").show()
         self.resize(1, 1)
         
         #TODO: delete the temporary folder where the images where placed
@@ -270,12 +270,12 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def profiles_combo_changed(self, widget, data=None):
         """Updates the UI according to which profile gets selected"""
         idCustomSettings = len(self.conf.profiles)-1
-        idSelectedProfile = self.builder.get_object("profiles_combo").get_active()
+        idSelectedProfile = self.o("profiles_combo").get_active()
         customSelected = (idCustomSettings == idSelectedProfile)
         # Only show the advanced parameters when the custom settings is selected
-        self.builder.get_object("parameters_box").set_visible(customSelected)
-        self.builder.get_object("deleteprofile_button").set_visible(customSelected == False)
-        self.builder.get_object("newprofile_button").set_visible(customSelected)
+        self.o("parameters_box").set_visible(customSelected)
+        self.o("deleteprofile_button").set_visible(customSelected == False)
+        self.o("newprofile_button").set_visible(customSelected)
         if customSelected:
             self.set_advanced_settings_from_custom_profile()
 
@@ -284,42 +284,42 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         p = self.conf.profiles[-1]
         # Size settings
         if p.percent:
-            self.builder.get_object("percent_radio").set_active(True)
-            self.builder.get_object("percent_scale").set_value(p.percent)
+            self.o("percent_radio").set_active(True)
+            self.o("percent_scale").set_value(p.percent)
             # Set the size combobox by default to small
-            self.builder.get_object("size_combo").set_active(0)
+            self.o("size_combo").set_active(0)
         else:
-            self.builder.get_object("pixels_radio").set_active(True)
+            self.o("pixels_radio").set_active(True)
             if p.size:
                 sizeSettings = ("small", "large").index(p.size)
             else:
                 sizeSettings = 2
-                self.builder.get_object("width_spin").set_value(p.width)
-                self.builder.get_object("height_spin").set_value(p.height)
-            self.builder.get_object("size_combo").set_active(sizeSettings)
+                self.o("width_spin").set_value(p.width)
+                self.o("height_spin").set_value(p.height)
+            self.o("size_combo").set_active(sizeSettings)
             self.size_radio_toggled(None)
-        self.builder.get_object("quality_scale").set_value(p.quality)
+        self.o("quality_scale").set_value(p.quality)
         # Force updating the color and tooltip of the quality scale (if
         # quality is too low)
         self.quality_scale_changed(None, None, p.quality)
         
         # Destination settings
-        dest_model = self.builder.get_object("destination_combo").get_model()
+        dest_model = self.o("destination_combo").get_model()
         dest_iter = dest_model.get_iter_first()
         while dest_iter is not None:
             dest = dest_model.get(dest_iter, 1)[0]
             if dest == p.destination:
-                self.builder.get_object("destination_combo").set_active_iter(dest_iter)
+                self.o("destination_combo").set_active_iter(dest_iter)
                 break
             dest_iter = dest_model.iter_next(dest_iter)
         if p.destination == "append":
-            self.builder.get_object("append_entry").set_text(p.appendstring)
+            self.o("append_entry").set_text(p.appendstring)
         elif p.destination == "folder":
-            self.builder.get_object("subfolder_entry").set_text(p.foldername)
+            self.o("subfolder_entry").set_text(p.foldername)
         elif p.destination == 'upload':
-            self.builder.get_object("zipname_entry").set_text(p.zipname)
+            self.o("zipname_entry").set_text(p.zipname)
             #TODO: make this dynamic once more than one upload site gets supported
-            self.builder.get_object("upload_combo").set_active(0)
+            self.o("upload_combo").set_active(0)
 
     def create_new_profile_from_custom_settings(self):
         """Returns a new profile instance based on the data in the advanced
@@ -329,33 +329,33 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         width = None
         height = None
         percent = None
-        if self.builder.get_object("pixels_radio").get_active():
-            sizeSettings = self.builder.get_object("size_combo").get_active()
+        if self.o("pixels_radio").get_active():
+            sizeSettings = self.o("size_combo").get_active()
             sizeSettings = ("small", "large", "custom")[sizeSettings]
             if sizeSettings == "custom":
-                width = self.builder.get_object("width_spin").get_value()
-                height = self.builder.get_object("height_spin").get_value()
+                width = self.o("width_spin").get_value()
+                height = self.o("height_spin").get_value()
             else:
                 size = sizeSettings
         else:
-            percent = self.builder.get_object("percent_scale").get_value()
-        quality = self.builder.get_object("quality_scale").get_value()
+            percent = self.o("percent_scale").get_value()
+        quality = self.o("quality_scale").get_value()
         
         # Destination settings
-        dest_model = self.builder.get_object("destination_combo").get_model()
-        dest_iter = self.builder.get_object("destination_combo").get_active_iter()
+        dest_model = self.o("destination_combo").get_model()
+        dest_iter = self.o("destination_combo").get_active_iter()
         destination = dest_model.get_value(dest_iter, 1)
         appendstring = None
         foldername = None
         zipname = None
         url = None
         if destination == "append":
-            appendstring = self.builder.get_object("append_entry").get_text()
+            appendstring = self.o("append_entry").get_text()
         elif destination == "folder":
-            foldername = self.builder.get_object("subfolder_entry").get_text()
+            foldername = self.o("subfolder_entry").get_text()
         elif destination == 'upload':
-            zipname = self.builder.get_object("zipname_entry").get_text()
-            url = self.builder.get_object("upload_combo").get_active_text()
+            zipname = self.o("zipname_entry").get_text()
+            url = self.o("upload_combo").get_active_text()
         
         # Create and add that profile to the list of profiles
         p = Profile(size, width, height, percent, quality, destination,
@@ -368,7 +368,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.conf.addprofile(p)
         
         # Show in the profiles combobox
-        profilesCombo = self.builder.get_object("profiles_combo")
+        profilesCombo = self.o("profiles_combo")
         # Remove the last element in the combobox (custom settings)
         position = len(self.conf.profiles)-2
         profilesCombo.remove(position)
@@ -380,7 +380,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         profilesCombo.set_active(position)
 
     def deleteprofile_button_clicked(self, widget, data=None):
-        profilesCombo = self.builder.get_object("profiles_combo")
+        profilesCombo = self.o("profiles_combo")
         idSelectedProfile = profilesCombo.get_active()
         # Remove from the list of profiles in self.conf
         self.conf.deleteprofile(idSelectedProfile)
@@ -397,16 +397,16 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def size_radio_toggled(self, widget, data=None):
         if not widget:
-            widget = self.builder.get_object("pixels_radio")
-        if widget == self.builder.get_object("pixels_radio"):
+            widget = self.o("pixels_radio")
+        if widget == self.o("pixels_radio"):
             # This if condition prevents the call to be executed twice
             # (once for each radio button)
             pixels = widget.get_active()
             percent = not pixels
-            self.builder.get_object("size_combo").set_sensitive(pixels)
+            self.o("size_combo").set_sensitive(pixels)
             self.update_width_height_box_sensitivity(pixels)
-            self.builder.get_object("percent_scale").set_sensitive(percent)
-            self.builder.get_object("percent_label").set_sensitive(percent)
+            self.o("percent_scale").set_sensitive(percent)
+            self.o("percent_label").set_sensitive(percent)
 
     def size_combo_changed(self, widget, data=None):
         # Don't use the text of the combobox, since it will be translated.
@@ -416,11 +416,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         if sizeSettings in ("small", "large"):
             # Update the values to show the predetermined width and height
             (w, h) = Config.size[sizeSettings]
-            self.builder.get_object("width_spin").set_value(w)
-            self.builder.get_object("height_spin").set_value(h)
+            self.o("width_spin").set_value(w)
+            self.o("height_spin").set_value(h)
 
     def get_size_settings(self):
-        s = self.builder.get_object("size_combo").get_active()
+        s = self.o("size_combo").get_active()
         return ("small", "large", "custom")[s]
 
     def update_width_height_box_sensitivity(self, pixels, size=None):
@@ -429,7 +429,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             if not size:
                 size = self.get_size_settings()
             sensitive = (size == "custom")
-        self.builder.get_object("width_height_box").set_sensitive(sensitive)
+        self.o("width_height_box").set_sensitive(sensitive)
 
     def quality_scale_changed(self, widget, data=None, value=0):
         #TODO: check if possible to make the quality scale red as well
@@ -445,42 +445,42 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             # settings when the quality is high enough
             tooltiptext = _("Determines the quality of the resized images "\
                             "(the higher the quality, the larger the image size)")
-        self.builder.get_object("quality_label").set_markup(labeltext % _("Quality:"))
-        self.builder.get_object("quality_percent_label").set_markup(labeltext % "%")
-        self.builder.get_object("quality_box").set_tooltip_text(tooltiptext)
+        self.o("quality_label").set_markup(labeltext % _("Quality:"))
+        self.o("quality_percent_label").set_markup(labeltext % "%")
+        self.o("quality_box").set_tooltip_text(tooltiptext)
 
     def destination_combo_changed(self, widget, data=None):
         dest_model = widget.get_model()
         dest_iter = widget.get_active_iter()
         dest = dest_model.get_value(dest_iter, 1)
         if dest == 'folder':
-            if not self.builder.get_object("subfolder_entry").get_text():
+            if not self.o("subfolder_entry").get_text():
                 # Default folder name
-                self.builder.get_object("subfolder_entry").set_text(_("resized"))
-            self.builder.get_object("subfolder_box").show()
-            self.builder.get_object("append_box").hide()
-            self.builder.get_object("upload_box").hide()
+                self.o("subfolder_entry").set_text(_("resized"))
+            self.o("subfolder_box").show()
+            self.o("append_box").hide()
+            self.o("upload_box").hide()
         elif dest == 'append':
-            if not self.builder.get_object("append_entry").get_text():
+            if not self.o("append_entry").get_text():
                 # Default value to append to filename
-                self.builder.get_object("append_entry").set_text("-%s" % _("resized"))
-            self.builder.get_object("subfolder_box").hide()
-            self.builder.get_object("append_box").show()
-            self.builder.get_object("upload_box").hide()
+                self.o("append_entry").set_text("-%s" % _("resized"))
+            self.o("subfolder_box").hide()
+            self.o("append_box").show()
+            self.o("upload_box").hide()
         elif dest == 'upload':
-            if not self.builder.get_object("zipname_entry").get_text():
+            if not self.o("zipname_entry").get_text():
                 # Default zipfile name
-                self.builder.get_object("zipname_entry").set_text(_("resized"))
-            if not self.builder.get_object("upload_combo").get_active_text():
+                self.o("zipname_entry").set_text(_("resized"))
+            if not self.o("upload_combo").get_active_text():
                 #TODO: make this dynamic once more than one upload site gets supported
-                self.builder.get_object("upload_combo").set_active(0)
-            self.builder.get_object("subfolder_box").hide()
-            self.builder.get_object("append_box").hide()
-            self.builder.get_object("upload_box").show()
+                self.o("upload_combo").set_active(0)
+            self.o("subfolder_box").hide()
+            self.o("append_box").hide()
+            self.o("upload_box").show()
         else:
-            self.builder.get_object("subfolder_box").hide()
-            self.builder.get_object("append_box").hide()
-            self.builder.get_object("upload_box").hide()
+            self.o("subfolder_box").hide()
+            self.o("append_box").hide()
+            self.o("upload_box").hide()
 
     def error_with_parameters(self, error_message):
         """Displays an error message if the parameters given to resize the images are not valid."""
@@ -522,15 +522,14 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def loadConfig(self):
         self.conf = Config()
         # Populate the combobox with the names of the profiles
-        profilesCombo = self.builder.get_object("profiles_combo")
+        profilesCombo = self.o("profiles_combo")
         for p in self.conf.profiles:
             profilesCombo.append_text(p.name)
         # Set the active profile
         profilesCombo.set_active(self.conf.activeprofile)
 
     def saveConfig(self):
-        self.conf.activeprofile = self.builder.get_object(
-                                          "profiles_combo").get_active()
+        self.conf.activeprofile = self.o("profiles_combo").get_active()
         # Save the settings to the configuration file
         self.conf.write()
 
