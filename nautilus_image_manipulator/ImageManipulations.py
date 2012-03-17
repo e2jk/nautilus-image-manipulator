@@ -77,8 +77,8 @@ class ImageManipulations(GObject.GObject):
                     self.newFiles.append(newFileName)
                 i += 1
                 percent = i / self.numFiles
-                self.resizeDialog.builder.get_object("progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
-                self.resizeDialog.builder.get_object("progressbar").set_fraction(percent)
+                self.resizeDialog.o("progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
+                self.resizeDialog.o("progressbar").set_fraction(percent)
                 # There's more work, return True
                 yield True
         # Signal we are done resizing
@@ -198,8 +198,8 @@ class ImageManipulations(GObject.GObject):
             zout.write(fname, fzname, zipfile.ZIP_DEFLATED)
             i += 1
             percent = i / self.numFiles
-            self.resizeDialog.builder.get_object("progressbar").set_text("%s %d%%" % (_("Packing images..."), int(percent * 100)))
-            self.resizeDialog.builder.get_object("progressbar").set_fraction(percent)
+            self.resizeDialog.o("progressbar").set_text("%s %d%%" % (_("Packing images..."), int(percent * 100)))
+            self.resizeDialog.o("progressbar").set_fraction(percent)
             # There's more work, return True
             yield True
         zout.close() # Close the zip file
