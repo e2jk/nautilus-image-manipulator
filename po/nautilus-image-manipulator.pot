@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-15 21:47+0100\n"
+"POT-Creation-Date: 2012-03-17 14:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #. Re-add the custom settings
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:88
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:375
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:378
 #: ../nautilus_image_manipulator/ProfileSettings.py:95
 #: ../nautilus_image_manipulator/ProfileSettings.py:286
 msgid "Custom settings"
@@ -81,12 +81,32 @@ msgstr ""
 msgid "Uploading images..."
 msgstr ""
 
+#. Visible when hovering over the quality scale in the custom
+#. settings when the quality is too low
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:430
+msgid ""
+"Warning: the lower the quality, the more the images will be deteriorated"
+msgstr ""
+
+#. Visible when hovering over the quality scale in the custom
+#. settings when the quality is high enough
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:436
+msgid ""
+"Determines the quality of the resized images (the higher, the larger the "
+"image size)"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:438
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+msgid "Quality:"
+msgstr ""
+
 #. Default folder name
 #. Default value to append to filename
 #. Default zipfile name
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:428
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:435
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:442
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:449
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:456
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:463
 #: ../nautilus_image_manipulator/ProfileSettings.py:57
 #: ../nautilus_image_manipulator/ProfileSettings.py:65
 #: ../nautilus_image_manipulator/ProfileSettings.py:69
@@ -96,19 +116,19 @@ msgstr ""
 msgid "resized"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:458
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:479
 msgid "Invalid parameters"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:472
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:493
 msgid "_Skip"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:474
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:495
 msgid "_Retry"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:475
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:496
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -117,7 +137,7 @@ msgid ""
 "%(folder)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:477
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:498
 msgid "Could not resize image"
 msgstr ""
 
@@ -169,7 +189,7 @@ msgstr ""
 #: ../nautilus_image_manipulator/ProfileSettings.py:64
 #: ../nautilus_image_manipulator/ProfileSettings.py:235
 #: ../nautilus_image_manipulator/ProfileSettings.py:252
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:41
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:39
 msgid "small"
 msgstr ""
 
@@ -185,7 +205,7 @@ msgstr ""
 #: ../nautilus_image_manipulator/ProfileSettings.py:86
 #: ../nautilus_image_manipulator/ProfileSettings.py:238
 #: ../nautilus_image_manipulator/ProfileSettings.py:260
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:39
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
 msgid "large"
 msgstr ""
 
@@ -244,120 +264,109 @@ msgstr ""
 msgid "Destination"
 msgstr ""
 
-#. Visible when hovering over the quality scale in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:9
-msgid ""
-"Determines the quality of the resized images (the higher, the larger the "
-"image size)"
-msgstr ""
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:8
 msgid "Download url:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:9
 msgid "Folder name:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
 msgid "Height:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
 msgid "Image Size"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
 msgid "Images successfully uploaded!"
 msgstr ""
 
 #. Visible when hovering over the height settings in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
 msgid "Maximum height of the resized images, in pixels"
 msgstr ""
 
 #. Visible when hovering over the width settings in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
 msgid "Maximum width of the resized images, in pixels"
 msgstr ""
 
 #. Visible when hovering over the subfolder name entry box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
 msgid "Name of the folder in which the resized images will be saved"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
 msgid "Name of the zip file:"
 msgstr ""
 
 #. Visible when hovering over the percent scale in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
 msgid "Percent of the original image size"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
-msgid "Quality:"
-msgstr ""
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
 msgid "Resize"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
 msgid "Resize images"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
 msgid "Save as a new profile"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
 msgid "Scale:"
 msgstr ""
 
 #. Visible when hovering over the subfolder name entry box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
 msgid "The resized images will be compressed together into this zip file"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
 msgid ""
 "The zip file containing the resized images will be uploaded to this website"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
 msgid "This value will be appended before the image extension"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
 msgid "Upload the resized images to:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
 msgid "Upload to a website"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
 msgid "Width:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
 msgid "append"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
 msgid "custom"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:38
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
 msgid "folder"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:40
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:38
 msgid "normal"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:42
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:40
 msgid "upload"
 msgstr ""
 

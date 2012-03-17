@@ -307,7 +307,6 @@
                           <object class="GtkBox" id="quality_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the quality scale in the custom settings">Determines the quality of the resized images (the higher, the larger the image size)</property>
                             <property name="margin_top">6</property>
                             <child>
                               <object class="GtkLabel" id="quality_label">
@@ -331,6 +330,7 @@
                                 <property name="round_digits">0</property>
                                 <property name="digits">0</property>
                                 <property name="value_pos">right</property>
+                                <signal name="change-value" handler="quality_scale_changed" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="expand">True</property>

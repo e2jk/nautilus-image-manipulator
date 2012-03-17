@@ -299,6 +299,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.builder.get_object("size_combo").set_active(sizeSettings)
             self.size_radio_toggled(None)
         self.builder.get_object("quality_scale").set_value(p.quality)
+        # Force updating the color and tooltip of the quality scale (if
+        # quality is too low)
+        self.quality_scale_changed(None, None, p.quality)
         
         # Destination settings
         dest_model = self.builder.get_object("destination_combo").get_model()
@@ -417,6 +420,24 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             (w, h) = Config.size[sizeSettings]
             self.builder.get_object("width_spin").set_value(w)
             self.builder.get_object("height_spin").set_value(h)
+
+    def quality_scale_changed(self, widget, data=None, value=0):
+        #TODO: check if possible to make the quality scale red as well
+        if value < 70:
+            labeltext = "<span foreground='red'>%s</span>"
+            # Visible when hovering over the quality scale in the custom
+            # settings when the quality is too low
+            tooltiptext = _("Warning: the lower the quality, the more the "\
+                            "images will be deteriorated")
+        else:
+            labeltext = "%s"
+            # Visible when hovering over the quality scale in the custom
+            # settings when the quality is high enough
+            tooltiptext = _("Determines the quality of the resized images "\
+                            "(the higher, the larger the image size)")
+        self.builder.get_object("quality_label").set_markup(labeltext % _("Quality:"))
+        self.builder.get_object("quality_percent_label").set_markup(labeltext % "%")
+        self.builder.get_object("quality_box").set_tooltip_text(tooltiptext)
 
     def destination_combo_changed(self, widget, data=None):
         dest_model = widget.get_model()
