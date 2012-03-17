@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 14:49+0100\n"
+"POT-Creation-Date: 2012-03-17 18:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -85,15 +85,15 @@ msgstr ""
 #. settings when the quality is too low
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:430
 msgid ""
-"Warning: the lower the quality, the more the images will be deteriorated"
+"Warning: the lower the quality, the more deteriorated the images will be"
 msgstr ""
 
 #. Visible when hovering over the quality scale in the custom
 #. settings when the quality is high enough
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:436
 msgid ""
-"Determines the quality of the resized images (the higher, the larger the "
-"image size)"
+"Determines the quality of the resized images (the higher the quality, the "
+"larger the image size)"
 msgstr ""
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:438

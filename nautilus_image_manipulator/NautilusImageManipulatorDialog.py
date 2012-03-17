@@ -427,14 +427,14 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             labeltext = "<span foreground='red'>%s</span>"
             # Visible when hovering over the quality scale in the custom
             # settings when the quality is too low
-            tooltiptext = _("Warning: the lower the quality, the more the "\
-                            "images will be deteriorated")
+            tooltiptext = _("Warning: the lower the quality, the more "\
+                            "deteriorated the images will be")
         else:
             labeltext = "%s"
             # Visible when hovering over the quality scale in the custom
             # settings when the quality is high enough
             tooltiptext = _("Determines the quality of the resized images "\
-                            "(the higher, the larger the image size)")
+                            "(the higher the quality, the larger the image size)")
         self.builder.get_object("quality_label").set_markup(labeltext % _("Quality:"))
         self.builder.get_object("quality_percent_label").set_markup(labeltext % "%")
         self.builder.get_object("quality_box").set_tooltip_text(tooltiptext)
