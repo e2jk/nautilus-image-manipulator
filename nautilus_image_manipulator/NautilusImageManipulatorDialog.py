@@ -365,19 +365,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def newprofile_button_clicked(self, widget, data=None):
         """Adds a new profile to the list of available profiles"""
         p = self.create_new_profile_from_custom_settings()
-        self.conf.addprofile(p)
-        
-        # Show in the profiles combobox
-        profilesCombo = self.o("profiles_combo")
-        # Remove the last element in the combobox (custom settings)
-        position = len(self.conf.profiles)-2
-        profilesCombo.remove(position)
-        # Add the newly created profile
-        profilesCombo.append_text(p.name)
-        # Re-add the custom settings
-        profilesCombo.append_text(_("Custom settings"))
-        # Select the newly created profile
-        profilesCombo.set_active(position)
+        profileNumber = self.conf.addprofile(p)
+        self.populate_profiles_combobox(profileNumber)
 
     def deleteprofile_button_clicked(self, widget, data=None):
         profilesCombo = self.o("profiles_combo")
@@ -519,14 +508,22 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         retry = (response == 1)
         return (skip, self.processingCanceled, retry)
 
-    def loadConfig(self):
-        self.conf = Config()
-        # Populate the combobox with the names of the profiles
+    def populate_profiles_combobox(self, profileNumber=None):
+        """Populate the profiles combobox with the names of the profiles"""
         profilesCombo = self.o("profiles_combo")
+        # Empty the combobox
+        profilesCombo.get_model().clear()
+        # Add the names of the profiles
         for p in self.conf.profiles:
             profilesCombo.append_text(p.name)
-        # Set the active profile
-        profilesCombo.set_active(self.conf.activeprofile)
+        # Select the right profile
+        if profileNumber == None:
+            profileNumber = self.conf.activeprofile
+        profilesCombo.set_active(profileNumber)
+
+    def loadConfig(self):
+        self.conf = Config()
+        self.populate_profiles_combobox()
 
     def saveConfig(self):
         self.conf.activeprofile = self.o("profiles_combo").get_active()

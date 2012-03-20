@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-17 18:24+0100\n"
+"POT-Creation-Date: 2012-03-21 14:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#. Re-add the custom settings
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:88
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:378
 #: ../nautilus_image_manipulator/ProfileSettings.py:95
-#: ../nautilus_image_manipulator/ProfileSettings.py:286
+#: ../nautilus_image_manipulator/ProfileSettings.py:280
 msgid "Custom settings"
 msgstr ""
 
@@ -83,20 +81,20 @@ msgstr ""
 
 #. Visible when hovering over the quality scale in the custom
 #. settings when the quality is too low
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:430
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:429
 msgid ""
 "Warning: the lower the quality, the more deteriorated the images will be"
 msgstr ""
 
 #. Visible when hovering over the quality scale in the custom
 #. settings when the quality is high enough
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:436
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:435
 msgid ""
 "Determines the quality of the resized images (the higher the quality, the "
 "larger the image size)"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:438
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:437
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
 msgid "Quality:"
 msgstr ""
@@ -104,9 +102,9 @@ msgstr ""
 #. Default folder name
 #. Default value to append to filename
 #. Default zipfile name
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:449
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:456
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:463
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:448
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:455
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:462
 #: ../nautilus_image_manipulator/ProfileSettings.py:57
 #: ../nautilus_image_manipulator/ProfileSettings.py:65
 #: ../nautilus_image_manipulator/ProfileSettings.py:69
@@ -116,19 +114,19 @@ msgstr ""
 msgid "resized"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:479
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:478
 msgid "Invalid parameters"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:493
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:492
 msgid "_Skip"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:495
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:494
 msgid "_Retry"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:496
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:495
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -137,7 +135,7 @@ msgid ""
 "%(folder)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:498
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:497
 msgid "Could not resize image"
 msgstr ""
 
@@ -179,64 +177,70 @@ msgstr ""
 
 #: ../nautilus_image_manipulator/ProfileSettings.py:51
 #: ../nautilus_image_manipulator/ProfileSettings.py:74
-#: ../nautilus_image_manipulator/ProfileSettings.py:268
+#: ../nautilus_image_manipulator/ProfileSettings.py:343
 #, python-format
 msgid "Send %(imageSize)s images to %(uploadUrl)s"
 msgstr ""
 
-#. Part of "Create small images[...]"
+#. Part of new profile name "Create small images[...]"
 #: ../nautilus_image_manipulator/ProfileSettings.py:52
 #: ../nautilus_image_manipulator/ProfileSettings.py:64
-#: ../nautilus_image_manipulator/ProfileSettings.py:235
-#: ../nautilus_image_manipulator/ProfileSettings.py:252
+#: ../nautilus_image_manipulator/ProfileSettings.py:310
+#: ../nautilus_image_manipulator/ProfileSettings.py:327
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:39
 msgid "small"
 msgstr ""
 
 #: ../nautilus_image_manipulator/ProfileSettings.py:63
 #: ../nautilus_image_manipulator/ProfileSettings.py:85
-#: ../nautilus_image_manipulator/ProfileSettings.py:272
+#: ../nautilus_image_manipulator/ProfileSettings.py:347
 #, python-format
 msgid "Create %(imageSize)s images in the \"%(directoryName)s\" folder"
 msgstr ""
 
-#. Part of "Create large images[...]"
+#. Part of new profile name "Create large images[...]"
 #: ../nautilus_image_manipulator/ProfileSettings.py:75
 #: ../nautilus_image_manipulator/ProfileSettings.py:86
-#: ../nautilus_image_manipulator/ProfileSettings.py:238
-#: ../nautilus_image_manipulator/ProfileSettings.py:260
+#: ../nautilus_image_manipulator/ProfileSettings.py:313
+#: ../nautilus_image_manipulator/ProfileSettings.py:335
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
 msgid "large"
 msgstr ""
 
-#. Part of "Create 60% resized images[...]"
-#: ../nautilus_image_manipulator/ProfileSettings.py:241
+#. Part of new profile name "Create 60% resized images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:316
 #, python-format
 msgid "%d%% resized"
 msgstr ""
 
-#. Part of "Create very small images[...]"
-#: ../nautilus_image_manipulator/ProfileSettings.py:248
+#. Part of new profile name "Create very small images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:323
 msgid "very small"
 msgstr ""
 
-#. Part of "Create medium images[...]"
-#: ../nautilus_image_manipulator/ProfileSettings.py:256
+#. Part of new profile name "Create medium images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:331
 msgid "medium"
 msgstr ""
 
-#. Part of "Create very large images[...]"
-#: ../nautilus_image_manipulator/ProfileSettings.py:263
+#. Part of new profile name "Create very large images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:338
 msgid "very large"
 msgstr ""
 
-#: ../nautilus_image_manipulator/ProfileSettings.py:276
+#: ../nautilus_image_manipulator/ProfileSettings.py:351
 #, python-format
 msgid "Create %(imageSize)s images and append \"%(appendString)s\""
 msgstr ""
 
-#: ../nautilus_image_manipulator/ProfileSettings.py:279
+#: ../nautilus_image_manipulator/ProfileSettings.py:354
 msgid "Unnamed profile"
+msgstr ""
+
+#. Part of the profile name: "Send small images to 1fichier.com (95% quality)"
+#: ../nautilus_image_manipulator/ProfileSettings.py:362
+#, python-format
+msgid "(%d%% quality)"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:1

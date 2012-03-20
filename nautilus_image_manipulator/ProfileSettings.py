@@ -18,7 +18,7 @@
 import os
 import ConfigParser
 import logging
-from copy import copy
+from copy import copy, deepcopy
 
 import gettext
 from gettext import gettext as _
@@ -96,8 +96,52 @@ class Config:
         self.profiles.append(customprofile)
 
     def addprofile(self, newprofile):
-        """Add the new profile at position last-1 (last is always custom settings)"""
-        self.profiles.insert(len(self.profiles)-1, newprofile)
+        """Add a new profile to the list of profiles.
+        If the profile already exists, return the existing one instead.
+        If it really is a new profile, add it at position last-1 (last is
+        always custom settings)"""
+        # Remove the name from the profile, to compare profiles nameless
+        name = newprofile.__dict__.pop("name")
+        # Create a deep copy of the list of profiles, so that the deleting
+        # of name and quality doesn't affect the real profiles 
+        tempprofiles = deepcopy(self.profiles[:-1])
+        isNewProfile = True
+        profileNumber = 0
+        # First pass: check if exact match (ignore name differences)
+        for p in tempprofiles:
+            del p.__dict__["name"]
+            if newprofile == p:
+                isNewProfile = False
+                break
+            profileNumber += 1
+        if isNewProfile:
+            # Second pass: check if a similar profile exists where only the
+            # quality (and name) differ
+            quality = newprofile.__dict__.pop("quality")
+            similarProfile = 0
+            for p in tempprofiles:
+                del p.__dict__["quality"]
+                if newprofile == p:
+                    # A similar profile has been found, add the quality as
+                    # part of the names of both the new profile and the
+                    # existing profile so that they can be differentiated
+                    newprofile.name = name
+                    newprofile.quality = quality
+                    newprofile.addqualitytoname()
+                    self.profiles[similarProfile].addqualitytoname()
+                    break
+                similarProfile += 1
+            # Add the new profile to the profiles list
+            self.profiles.insert(len(self.profiles)-1, newprofile)
+        if not hasattr(newprofile, 'name'):
+            # Add the name back to the new profile
+            newprofile.name = name
+        if not hasattr(newprofile, 'quality'):
+            # Add the quality back to the new profile
+            newprofile.quality = quality
+        logging.debug("%s profile, position %d" % (
+                "New" if isNewProfile else "Existing", profileNumber))
+        return profileNumber
 
     def deleteprofile(self, id):
         """Deletes a profile from the list of profiles"""
@@ -255,6 +299,9 @@ class Profile:
             p += "- Upload the resized images to \"%s\"" % self.url
         return p
 
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+
     def createname(self):
         """Create a profile name based on its attributes"""
         # Determine the images' size
@@ -305,3 +352,11 @@ class Profile:
                               "imageSize": imageSize,
                               "appendString": self.appendstring}
         return n if n else _("Unnamed profile")
+
+    def addqualitytoname(self):
+        """Adds the quality to the profile's name"""
+        # Only if the name was the original one (i.e. doesn't already
+        # contain the quality)
+        if self.name == self.createname():
+            # Part of the profile name: "Send small images to 1fichier.com (95% quality)"
+            self.name += " " + _("(%d%% quality)") % self.quality
