@@ -42,8 +42,8 @@ if __name__ == "__main__":
     import logging
     import optparse
     parser = optparse.OptionParser(version="%prog 0.9s")
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help=_("show debug messages"))
-    parser.add_option("-f", "--file", action="append", dest="files", help=_("a file to be resized. Use multiple arguments to resize multiple files."), metavar="FILE")
+    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help=_("show debug messages").decode('utf-8'))
+    parser.add_option("-f", "--file", action="append", dest="files", help=_("a file to be resized. Use multiple arguments to resize multiple files.").decode('utf-8'), metavar="FILE")
     (options, args) = parser.parse_args()
 
     # Set the logging level to show debug messages.
