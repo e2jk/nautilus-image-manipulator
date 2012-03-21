@@ -67,6 +67,13 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Get a reference to the builder's get_object and set up the signals.
         self.o = builder.get_object
         builder.connect_signals(self)
+        
+        # Populate the list of sites to upload to
+        self.upload_sites = ("1fichier.com", )
+        uploadCombo = self.o("upload_combo")
+        uploadCombo.get_model().clear()
+        for u in self.upload_sites:
+            uploadCombo.append_text(u)
 
         # Load the saved configuration
         self.loadConfig()
@@ -318,8 +325,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.o("subfolder_entry").set_text(p.foldername)
         elif p.destination == 'upload':
             self.o("zipname_entry").set_text(p.zipname)
-            #TODO: make this dynamic once more than one upload site gets supported
-            self.o("upload_combo").set_active(0)
+            self.o("upload_combo").set_active(self.upload_sites.index(p.url))
 
     def create_new_profile_from_custom_settings(self):
         """Returns a new profile instance based on the data in the advanced
@@ -461,7 +467,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 # Default zipfile name
                 self.o("zipname_entry").set_text(_("resized"))
             if not self.o("upload_combo").get_active_text():
-                #TODO: make this dynamic once more than one upload site gets supported
+                # Default upload site
                 self.o("upload_combo").set_active(0)
             self.o("subfolder_box").hide()
             self.o("append_box").hide()

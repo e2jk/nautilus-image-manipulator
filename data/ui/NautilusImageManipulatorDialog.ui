@@ -576,9 +576,6 @@
                                     <property name="can_focus">False</property>
                                     <property name="border_width">1</property>
                                     <property name="entry_text_column">0</property>
-                                    <items>
-                                      <item>1fichier.com</item>
-                                    </items>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
