@@ -27,6 +27,7 @@ gettext.textdomain('nautilus-image-manipulator')
 class Config:
     size = {"small": (640, 640),
             "large": (1280, 1280)}
+    actualversion = 2
     def __init__(self):
         self.file = os.path.expanduser("~/.config/nautilus-image-manipulator/config")
         self.profiles = []
@@ -165,6 +166,13 @@ class Config:
         if a:
             self.activeprofile = int(a.replace("Profile ", ""))
         
+        # Check if the saved profile's version is different than the current version
+        profileversion = self.readvalue(c, "General", "profile version", "int")
+        if profileversion != self.actualversion:
+            # There will [probably] be some conversion to do to convert the
+            # old settings to the newer.
+            pass
+        
         for section in sections[1:]:
             name = self.readvalue(c, section, "name")
             size = self.readvalue(c, section, "size")
@@ -189,6 +197,7 @@ class Config:
         # latest parameters
         config = ConfigParser.ConfigParser()
         config.add_section("General")
+        config.set("General", "profile version", self.actualversion)
         config.set("General", "active profile", "Profile %i" % self.activeprofile)
         
         logging.info("There are %d profiles" % len(self.profiles))
