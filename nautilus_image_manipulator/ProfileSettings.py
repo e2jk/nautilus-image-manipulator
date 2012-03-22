@@ -33,6 +33,11 @@ class Config:
         self.profiles = []
         if not os.path.isfile(self.file) or not self.read():
             # There is no config file, or the config file was not valid
+            oldconfigfile = os.path.expanduser("~/.nautilus-image-manipulator.ini")
+            if os.path.isfile(oldconfigfile):
+                # With the new UI (profiles-based) the old config file is
+                # now useless.
+                os.remove(oldconfigfile)
             if not os.path.exists(os.path.dirname(self.file)):
                 # Create the folder to contain the new config file
                 os.makedirs(os.path.dirname(self.file))
