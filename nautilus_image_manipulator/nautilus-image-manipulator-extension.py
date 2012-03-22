@@ -33,7 +33,11 @@
 #   http://git.gnome.org/browse/nautilus-python/commit/?h=nautilus-3.0&id=73d2739c4a91d80710b14ff5f192875a34f10a94
 
 
-import os, subprocess, urllib, gettext
+import os
+import subprocess
+import urllib
+
+import gettext
 from gettext import gettext as _
 from gettext import ngettext
 gettext.textdomain('nautilus-image-manipulator')

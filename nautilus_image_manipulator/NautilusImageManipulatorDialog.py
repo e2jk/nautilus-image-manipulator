@@ -18,13 +18,13 @@
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
-import ConfigParser
 import os
 import urllib2
 import logging
 
 from nautilus_image_manipulator.helpers import get_builder
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
+from ProfileSettings import Profile, Config
 
 import gettext
 from gettext import gettext as _
@@ -62,87 +62,79 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         finish initializing the start of the new NautilusImageManipulatorDialog
         instance.
         
-        Put your initilization code in here and leave __init__ undefined.
+        Put your initialization code in here and leave __init__ undefined.
         """
-        # Get a reference to the builder and set up the signals.
-        self.builder = builder
-        self.builder.connect_signals(self)
+        # Get a reference to the builder's get_object and set up the signals.
+        self.o = builder.get_object
+        builder.connect_signals(self)
+        
+        # Populate the list of sites to upload to
+        self.upload_sites = ("1fichier.com", )
+        uploadCombo = self.o("upload_combo")
+        uploadCombo.get_model().clear()
+        for u in self.upload_sites:
+            uploadCombo.append_text(u)
 
         # Load the saved configuration
         self.loadConfig()
-        
         self.processingCanceled = False
-        
+
     def set_files(self, files):
         self.files = files
 
-    def resize_images(self, widget, data=None):
+    def resize_button_clicked(self, widget, data=None):
         """The user has elected to resize the images
 
         Called before the dialog returns Gtk.RESONSE_OK from run().
         """
-        # Determine the output filenames
-        subdirectoryName = ""
-        appendString = ""
-        if self.builder.get_object("subdirectory_radiobutton").get_active():
-            subdirectoryName = self.builder.get_object("subdirectory_name_entry").get_text()
-            if not subdirectoryName:
-                self.error_with_parameters(_("Please enter a value for the subdirectory."))
+        idSelectedProfile = self.o("profiles_combo").get_active()
+        # If the custom profile was selected, update it with the currently
+        # selected parameters
+        if idSelectedProfile == (len(self.conf.profiles) - 1):
+            p = self.create_new_profile_from_custom_settings()
+            p.name = _("Custom settings")
+            self.conf.profiles[idSelectedProfile] = p
+        self.p = self.conf.profiles[idSelectedProfile]
+        logging.info("The following profile has been selected:\n%s" % self.p)
+        
+        # Check if the mandatory values are filled
+        if self.p.destination == 'folder':
+            if not self.p.foldername:
+                self.error_with_parameters(
+                    _("Please enter the name of the folder."))
                 return
-            # TODO: Check that the value is a valid subdirectory name
-
-        elif self.builder.get_object("append_radiobutton").get_active():
-            appendString = self.builder.get_object("append_name_entry").get_text()
-            if not appendString:
-                self.error_with_parameters(_("Please enter some text to append to the filename."))
+        if self.p.destination == 'append':
+            if not self.p.appendstring:
+                self.error_with_parameters(
+                    _("Please enter some text to append to the filename."))
                 return
-            if appendString[-1] == os.path.sep:
+            elif self.p.appendstring[-1] == os.path.sep:
                 # If the appendString ends in "/", the image would be
                 # called ".EXT", which is a hidden file in it's own folder.
                 self.error_with_parameters(
-                       _("The string to append cannot end in %s") %
-                       os.path.sep)
+                    _("The string to append cannot end in %s") % os.path.sep)
                 return
             # TODO: Check that the value is valid to be appended to the filename
-
-        elif self.builder.get_object("inplace_radiobutton").get_active():
-            # Nothing to do
-            pass
+        if self.p.destination == 'upload':
+            if not self.p.zipname:
+                self.error_with_parameters(
+                    _("Please enter the name of the zip file."))
+                return
         
-        # Determine the resizing parameters
-        geometry = None # The size parameters for the resizing operation
-        aspect = False # Custom aspect ratio disabled
-        # Resize using default values
-        if self.builder.get_object("default_size_radiobutton").get_active():
-            model = self.builder.get_object("size_combobox").get_model()
-            iterator = self.builder.get_object("size_combobox").get_active_iter()
-            geometry = model.get_value(iterator, 0)
-
-        # Resize using a custom scale value
-        elif self.builder.get_object("custom_scale_radiobutton").get_active():
-            geometry = "%d%%" % int(self.builder.get_object("scale_spinbutton").get_value())
-
-        # Resize using custom scale values
-        elif self.builder.get_object("custom_size_radiobutton").get_active():
-            aspect = self.builder.get_object("aspect_checkbutton").get_active()
-            geometry = "%dx%d" % (int(self.builder.get_object("width_spinbutton").get_value()), int(self.builder.get_object("height_spinbutton").get_value()))
-        
-        # Compression level
-        compression = "%d" % (int(self.builder.get_object("compression_spinbutton").get_value()))
-        
-        if geometry:
-            # Disable the parameter UI elements and display the progress bar
-            self.builder.get_object("parameters_vbox").set_sensitive(False)
-            self.builder.get_object("resize_button").set_sensitive(False)
-            self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Resizing images..."))
-            self.builder.get_object("progress_progressbar").show()
-            while Gtk.events_pending():
-                Gtk.main_iteration() # Used to refresh the UI
-            # Resize the images
-            im = ImageManipulations(self, self.files, geometry, aspect, compression, subdirectoryName, appendString)
-            im.connect("resizing_done", self.on_resizing_done)
-            task = im.resize_images()
-            GObject.idle_add(task.next)
+        # Disable the parameter UI elements and display the progress bar
+        self.o("details_box").set_sensitive(False)
+        self.o("resize_button").set_sensitive(False)
+        self.o("deleteprofile_button").set_visible(False)
+        self.o("newprofile_button").set_visible(False)
+        self.o("progressbar").set_text("%s 0%%" % ("Resizing images..."))
+        self.o("progressbar").show()
+        while Gtk.events_pending():
+            Gtk.main_iteration() # Used to refresh the UI
+        # Resize the images
+        im = ImageManipulations(self, self.files, self.p)
+        im.connect("resizing_done", self.on_resizing_done)
+        task = im.resize_images()
+        GObject.idle_add(task.next)
         
         # Remember the settings for next time
         self.saveConfig()
@@ -150,21 +142,16 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def on_resizing_done(self, im):
         """Triggered when all the images have been resized"""
         # Only pack and send the images if the process was not canceled and if there is at least one image to pack
-        if self.builder.get_object("send_checkbutton").get_active() and not self.processingCanceled and len(im.newFiles) > 0:
-            if self.builder.get_object("upload_radiobutton").get_active():
-                # The user wants to upload to a website
-                if len(im.newFiles) > 1:
-                    # There are more than one image, zip the files together and upload the zipfile
-                    im.connect("packing_done", self.on_packing_done)
-                    task = im.pack_images()
-                    GObject.idle_add(task.next)
-                else:
-                    # There is only one image, send that image alone (don't zip the file)
-                    self.upload_file(im, im.newFiles[0])
-            elif self.builder.get_object("send_email_radiobutton").get_active():
-                # The user wants to send the images via email, send them as attachments
-                # TODO: implement the sending as email attachments
-                pass
+        if self.p.destination == 'upload' and not self.processingCanceled and len(im.newFiles) > 0:
+            # The user wants to upload to a website
+            if len(im.newFiles) > 1:
+                # There are more than one image, zip the files together and upload the zipfile
+                im.connect("packing_done", self.on_packing_done)
+                task = im.pack_images()
+                GObject.idle_add(task.next)
+            else:
+                # There is only one image, send that image alone (don't zip the file)
+                self.upload_file(im, im.newFiles[0])
         else:
             # The user doesn't want to send the images, we're done!
             self.destroy()
@@ -175,11 +162,10 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def upload_file(self, im, fileToUpload):
         """Uploads a file to a website."""
-        model = self.builder.get_object("upload_combobox").get_model()
-        iterator = self.builder.get_object("upload_combobox").get_active_iter()
-        uploadSiteName = model.get_value(iterator, 0)
         # Import the module that takes care of uploading to the selected website
-        import_string = "from upload.z%s import UploadSite" % uploadSiteName.replace(".", "").replace("/", "")
+        import_string = "from upload.z%s import UploadSite" % \
+                self.p.url.replace(".", "").replace("/", "")
+        logging.debug("import_string: %s" % import_string)
         # Make sure the import does not fail
         try:
             exec import_string
@@ -188,7 +174,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
             else:
                 extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
-            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + extraInfo, (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
+            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % self.p.url}) + "\n\n" + extraInfo, (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
             return
         u = None
         try:
@@ -199,11 +185,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
             else:
                 extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
-            self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % uploadSiteName}) + "\n\n" + extraInfo)
+            self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % self.p.url}) + "\n\n" + extraInfo)
             return
         
-        self.builder.get_object("progress_progressbar").set_text("%s 0%%" % _("Uploading images..."))
-        self.builder.get_object("progress_progressbar").set_fraction(0)
+        self.o("progressbar").set_text("%s 0%%" % _("Uploading images..."))
+        self.o("progressbar").set_fraction(0)
         self.uploadPercent = 0
         (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
         logging.info('downloadPage: %s' % downloadPage)
@@ -221,26 +207,26 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
     def display_error(self, msg, urlInfo=None):
         """Displays an error message.
         
-        Using the option ``urlInfo`` parameter, you can diplay a link button to open a url.
+        Using the option ``urlInfo`` parameter, you can display a link button to open a url.
         This parameter is a tuple of the form (message, url)"""
         # Hide the unneccessary sections
-        self.builder.get_object("parameters_vbox").hide()
-        self.builder.get_object("progress_progressbar").hide()
-        self.builder.get_object("upload_url_vbox").hide()
+        self.o("details_box").hide()
+        self.o("progressbar").hide()
+        self.o("url_box").hide()
         # Display the error message
-        self.builder.get_object("error_message_label").set_text(msg)
-        self.builder.get_object("error_vbox").show()
+        self.o("error_message_label").set_text(msg)
+        self.o("error_box").show()
         # Hide the cancel and resize button, and show the close button
-        self.builder.get_object("cancel_button").hide()
-        self.builder.get_object("resize_button").hide()
-        self.builder.get_object("close_button").show()
+        self.o("cancel_button").hide()
+        self.o("resize_button").hide()
+        self.o("close_button").show()
         # Eventually display an url
         if urlInfo:
-            self.builder.get_object("error_url_linkbutton").set_label(urlInfo[0])
-            self.builder.get_object("error_url_linkbutton").set_uri(urlInfo[1])
-            self.builder.get_object("error_url_hbox").show()
+            self.o("error_url_linkbutton").set_label(urlInfo[0])
+            self.o("error_url_linkbutton").set_uri(urlInfo[1])
+            self.o("error_url_hbox").show()
         else:
-            self.builder.get_object("error_url_hbox").hide()
+            self.o("error_url_hbox").hide()
         #TODO: Make the close button the default behavior (to respond to Enter)
         self.resize(1, 1)
 
@@ -251,30 +237,32 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         percent = float(current)/total
         percent100 = int(percent * 100)
         if percent100 > self.uploadPercent:
-            self.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
-            self.builder.get_object("progress_progressbar").set_fraction(percent)
+            self.o("progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
+            self.o("progressbar").set_fraction(percent)
             while Gtk.events_pending():
                 Gtk.main_iteration() # Used to refresh the UI
             self.uploadPercent = percent100
 
     def on_uploading_done(self, downloadPage, deletePage):
         """Displays the url where the images can be downloaded from, or deleted."""
-        self.builder.get_object("parameters_vbox").hide()
-        self.builder.get_object("progress_progressbar").hide()
+        self.o("details_box").hide()
+        self.o("progressbar").hide()
         # Update the link buttons with the urls
-        self.builder.get_object("download_linkbutton").set_label(downloadPage)
-        self.builder.get_object("download_linkbutton").set_uri(downloadPage)
-        self.builder.get_object("delete_linkbutton").set_label(deletePage)
-        self.builder.get_object("delete_linkbutton").set_uri(deletePage)
-        self.builder.get_object("upload_url_vbox").show()
+        self.o("download_linkbutton").set_label(downloadPage)
+        self.o("download_linkbutton").set_uri(downloadPage)
+        self.o("delete_linkbutton").set_label(deletePage)
+        self.o("delete_linkbutton").set_uri(deletePage)
+        self.o("url_box").show()
         # Hide the cancel and resize button, and show the close button
-        self.builder.get_object("cancel_button").hide()
-        self.builder.get_object("resize_button").hide()
-        self.builder.get_object("close_button").show()
+        self.o("cancel_button").hide()
+        self.o("resize_button").hide()
+        self.o("close_button").show()
         self.resize(1, 1)
         
+        #TODO: delete the temporary folder where the images where placed
+        #Question: should the zipfile also be deleted?
 
-    def cancel(self, widget, data=None):
+    def cancel_button_clicked(self, widget, data=None):
         """The user has elected to cancel.
 
         Called before the dialog returns Gtk.ResponseType.CANCEL for run()
@@ -286,53 +274,208 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Note: The parameters don't get saved when canceling. It is called at the end of self.resize().
         Gtk.main_quit()
 
-    def on_size_option_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the size option fields depending on which option is chosen."""
-        if widget.get_active():
-            isDefaultSize = (widget == self.builder.get_object("default_size_radiobutton"))
-            self.builder.get_object("size_combobox").set_sensitive(isDefaultSize)
-            self.builder.get_object("def_size_pixels_label").set_sensitive(isDefaultSize)
-            isScale = (widget == self.builder.get_object("custom_scale_radiobutton"))
-            self.builder.get_object("scale_spinbutton").set_sensitive(isScale)
-            self.builder.get_object("scale_percent_label").set_sensitive(isScale)
-            isCustomSize = (widget == self.builder.get_object("custom_size_radiobutton"))
-            self.builder.get_object("custom_width_label").set_sensitive(isCustomSize)
-            self.builder.get_object("width_spinbutton").set_sensitive(isCustomSize)
-            self.builder.get_object("aspect_frame").set_sensitive(isCustomSize)
-            is_aspect_checkbutton_toggled = self.builder.get_object(
-                                        "aspect_checkbutton").get_active()
-            self.builder.get_object("custom_height_label").set_sensitive(
-                    isCustomSize and is_aspect_checkbutton_toggled)
-            self.builder.get_object("height_spinbutton").set_sensitive(
-                    isCustomSize and is_aspect_checkbutton_toggled)
-            self.builder.get_object("custom_pixels_label").set_sensitive(isCustomSize)
-            
-    def on_aspect_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the elements involved with aspect ratio."""
-        is_aspect_checkbutton_toggled = self.builder.get_object(
-                                        "aspect_checkbutton").get_active()
-        self.builder.get_object("custom_height_label").set_sensitive(
-                                             is_aspect_checkbutton_toggled)
-        self.builder.get_object("height_spinbutton").set_sensitive(
-                                             is_aspect_checkbutton_toggled)
+    def profiles_combo_changed(self, widget, data=None):
+        """Updates the UI according to which profile gets selected"""
+        idCustomSettings = len(self.conf.profiles)-1
+        idSelectedProfile = self.o("profiles_combo").get_active()
+        customSelected = (idCustomSettings == idSelectedProfile)
+        # Only show the advanced parameters when the custom settings is selected
+        self.o("parameters_box").set_visible(customSelected)
+        self.o("deleteprofile_button").set_visible(customSelected == False)
+        self.o("newprofile_button").set_visible(customSelected)
+        if customSelected:
+            self.set_advanced_settings_from_custom_profile()
 
-    def on_filename_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the filename entry boxes depending on which option is chosen."""
-        if widget.get_active():
-            self.builder.get_object("subdirectory_name_entry").set_sensitive(widget == self.builder.get_object("subdirectory_radiobutton"))
-            self.builder.get_object("append_name_entry").set_sensitive(widget == self.builder.get_object("append_radiobutton"))
-
-    def on_send_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the elements involved with sending the images."""
-        if widget.get_active():
-            self.builder.get_object("send_options_hbox").show()
+    def set_advanced_settings_from_custom_profile(self):
+        """Update the advance settings based on the custom settings profile"""
+        p = self.conf.profiles[-1]
+        # Size settings
+        if p.percent:
+            self.o("percent_radio").set_active(True)
+            self.o("percent_scale").set_value(p.percent)
+            # Set the size combobox by default to small
+            self.o("size_combo").set_active(0)
         else:
-            self.builder.get_object("send_options_hbox").hide()
-            self.resize(1, 1)
+            self.o("pixels_radio").set_active(True)
+            if p.size:
+                sizeSettings = ("small", "large").index(p.size)
+            else:
+                sizeSettings = 2
+                self.o("width_spin").set_value(p.width)
+                self.o("height_spin").set_value(p.height)
+            self.o("size_combo").set_active(sizeSettings)
+            self.size_radio_toggled(None)
+        self.o("quality_scale").set_value(p.quality)
+        # Force updating the color and tooltip of the quality scale (if
+        # quality is too low)
+        self.quality_scale_changed(None, None, p.quality)
+        
+        # Destination settings
+        dest_model = self.o("destination_combo").get_model()
+        dest_iter = dest_model.get_iter_first()
+        while dest_iter is not None:
+            dest = dest_model.get(dest_iter, 1)[0]
+            if dest == p.destination:
+                self.o("destination_combo").set_active_iter(dest_iter)
+                break
+            dest_iter = dest_model.iter_next(dest_iter)
+        if p.destination == "append":
+            self.o("append_entry").set_text(p.appendstring)
+        elif p.destination == "folder":
+            self.o("subfolder_entry").set_text(p.foldername)
+        elif p.destination == 'upload':
+            self.o("zipname_entry").set_text(p.zipname)
+            self.o("upload_combo").set_active(self.upload_sites.index(p.url))
 
-    def on_send_type_toggled(self, widget, data=None):
-        """Updates the sensitiveness of the upload combobox when changing the sending options."""
-        self.builder.get_object("upload_combobox").set_sensitive(self.builder.get_object("upload_radiobutton").get_active())
+    def create_new_profile_from_custom_settings(self):
+        """Returns a new profile instance based on the data in the advanced
+        settings"""
+        # Size settings
+        size = None
+        width = None
+        height = None
+        percent = None
+        if self.o("pixels_radio").get_active():
+            sizeSettings = self.o("size_combo").get_active()
+            sizeSettings = ("small", "large", "custom")[sizeSettings]
+            if sizeSettings == "custom":
+                width = self.o("width_spin").get_value()
+                height = self.o("height_spin").get_value()
+            else:
+                size = sizeSettings
+        else:
+            percent = self.o("percent_scale").get_value()
+        quality = self.o("quality_scale").get_value()
+        
+        # Destination settings
+        dest_model = self.o("destination_combo").get_model()
+        dest_iter = self.o("destination_combo").get_active_iter()
+        destination = dest_model.get_value(dest_iter, 1)
+        appendstring = None
+        foldername = None
+        zipname = None
+        url = None
+        if destination == "append":
+            appendstring = self.o("append_entry").get_text()
+        elif destination == "folder":
+            foldername = self.o("subfolder_entry").get_text()
+        elif destination == 'upload':
+            zipname = self.o("zipname_entry").get_text()
+            url = self.o("upload_combo").get_active_text()
+        
+        # Create and add that profile to the list of profiles
+        p = Profile(size, width, height, percent, quality, destination,
+                    appendstring, foldername, zipname, url)
+        return p
+
+    def newprofile_button_clicked(self, widget, data=None):
+        """Adds a new profile to the list of available profiles"""
+        p = self.create_new_profile_from_custom_settings()
+        profileNumber = self.conf.addprofile(p)
+        self.populate_profiles_combobox(profileNumber)
+
+    def deleteprofile_button_clicked(self, widget, data=None):
+        profilesCombo = self.o("profiles_combo")
+        idSelectedProfile = profilesCombo.get_active()
+        # Remove from the list of profiles in self.conf
+        self.conf.deleteprofile(idSelectedProfile)
+        # Remove from the profiles combobox
+        profilesCombo.remove(idSelectedProfile)
+        # Determine which profile to select now
+        if idSelectedProfile > 0 and (
+           idSelectedProfile == len(self.conf.profiles)-1):
+            # If the last profile in the list before the custom settings
+            # just got deleted, but there are still other profiles in the
+            # list, select the new last profile.
+            idSelectedProfile -= 1
+        profilesCombo.set_active(idSelectedProfile)
+
+    def size_radio_toggled(self, widget, data=None):
+        if not widget:
+            widget = self.o("pixels_radio")
+        if widget == self.o("pixels_radio"):
+            # This if condition prevents the call to be executed twice
+            # (once for each radio button)
+            pixels = widget.get_active()
+            percent = not pixels
+            self.o("size_combo").set_sensitive(pixels)
+            self.update_width_height_box_sensitivity(pixels)
+            self.o("percent_scale").set_sensitive(percent)
+            self.o("percent_label").set_sensitive(percent)
+
+    def size_combo_changed(self, widget, data=None):
+        # Don't use the text of the combobox, since it will be translated.
+        # Instead, use the selected ID and map it to one of the 3 values.
+        sizeSettings = self.get_size_settings()
+        self.update_width_height_box_sensitivity(True, sizeSettings)
+        if sizeSettings in ("small", "large"):
+            # Update the values to show the predetermined width and height
+            (w, h) = Config.size[sizeSettings]
+            self.o("width_spin").set_value(w)
+            self.o("height_spin").set_value(h)
+
+    def get_size_settings(self):
+        s = self.o("size_combo").get_active()
+        return ("small", "large", "custom")[s]
+
+    def update_width_height_box_sensitivity(self, pixels, size=None):
+        sensitive = False
+        if pixels:
+            if not size:
+                size = self.get_size_settings()
+            sensitive = (size == "custom")
+        self.o("width_height_box").set_sensitive(sensitive)
+
+    def quality_scale_changed(self, widget, data=None, value=0):
+        #TODO: check if possible to make the quality scale red as well
+        if value < 70:
+            labeltext = "<span foreground='red'>%s</span>"
+            # Visible when hovering over the quality scale in the custom
+            # settings when the quality is too low
+            tooltiptext = _("Warning: the lower the quality, the more "\
+                            "deteriorated the images will be")
+        else:
+            labeltext = "%s"
+            # Visible when hovering over the quality scale in the custom
+            # settings when the quality is high enough
+            tooltiptext = _("Determines the quality of the resized images "\
+                            "(the higher the quality, the larger the image size)")
+        self.o("quality_label").set_markup(labeltext % _("Quality:"))
+        self.o("quality_percent_label").set_markup(labeltext % "%")
+        self.o("quality_box").set_tooltip_text(tooltiptext)
+
+    def destination_combo_changed(self, widget, data=None):
+        dest_model = widget.get_model()
+        dest_iter = widget.get_active_iter()
+        dest = dest_model.get_value(dest_iter, 1)
+        if dest == 'folder':
+            if not self.o("subfolder_entry").get_text():
+                # Default folder name
+                self.o("subfolder_entry").set_text(_("resized"))
+            self.o("subfolder_box").show()
+            self.o("append_box").hide()
+            self.o("upload_box").hide()
+        elif dest == 'append':
+            if not self.o("append_entry").get_text():
+                # Default value to append to filename
+                self.o("append_entry").set_text("-%s" % _("resized"))
+            self.o("subfolder_box").hide()
+            self.o("append_box").show()
+            self.o("upload_box").hide()
+        elif dest == 'upload':
+            if not self.o("zipname_entry").get_text():
+                # Default zipfile name
+                self.o("zipname_entry").set_text(_("resized"))
+            if not self.o("upload_combo").get_active_text():
+                # Default upload site
+                self.o("upload_combo").set_active(0)
+            self.o("subfolder_box").hide()
+            self.o("append_box").hide()
+            self.o("upload_box").show()
+        else:
+            self.o("subfolder_box").hide()
+            self.o("append_box").hide()
+            self.o("upload_box").hide()
 
     def error_with_parameters(self, error_message):
         """Displays an error message if the parameters given to resize the images are not valid."""
@@ -371,140 +514,27 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         retry = (response == 1)
         return (skip, self.processingCanceled, retry)
 
-    def readConfigValue(self, section, name, defaultValue=None, type=None):
-        value = defaultValue
-        try:
-            if type == "int":
-                value = self.config.getint(section, name)
-            elif type == "boolean":
-                value = self.config.getboolean(section, name)
-            else:
-                value = self.config.get(section, name)
-        except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
-            pass
-        return value
+    def populate_profiles_combobox(self, profileNumber=None):
+        """Populate the profiles combobox with the names of the profiles"""
+        profilesCombo = self.o("profiles_combo")
+        # Empty the combobox
+        profilesCombo.get_model().clear()
+        # Add the names of the profiles
+        for p in self.conf.profiles:
+            profilesCombo.append_text(p.name)
+        # Select the right profile
+        if profileNumber == None:
+            profileNumber = self.conf.activeprofile
+        profilesCombo.set_active(profileNumber)
 
     def loadConfig(self):
-        """Read the config file to get the previous configuration. It is
-        located at ~/.config/nautilus-image-manipulator/config.
-        
-        If no previous values are found, sets the UI to default values."""
-        self.configFilename = os.path.expanduser(
-                            "~/.config/nautilus-image-manipulator/config")
-        if not os.path.exists(self.configFilename):
-            # If the config file does not exist, check if it exists in the
-            # old location
-            self.oldConfigFilename = os.path.expanduser(
-                                "~/.nautilus-image-manipulator.ini")
-            if os.path.exists(self.oldConfigFilename):
-                # The old config file exists, move it to the new location
-                if not os.path.isdir(os.path.dirname(self.configFilename)):
-                    # Create the folder to contain the new config file
-                    os.makedirs(os.path.dirname(self.configFilename))
-                # Move the old config file to the new location
-                os.rename(self.oldConfigFilename, self.configFilename)
-        
-        self.config = ConfigParser.ConfigParser()
-        self.config.read(self.configFilename)
-        
-        # TODO: Make sure that the values read from the ini file are valid, else use default values
-        
-        # Resize
-        size_combobox_value = self.readConfigValue("Resize",
-                                                   "size_combobox",4, "int")
-        scale_adjustment_value = self.readConfigValue("Resize",
-                                                      "scale_adjustment",
-                                                      50, "int")
-        width_adjustment_value = self.readConfigValue("Resize",
-                                                      "width_adjustment",
-                                                      1000, "int")
-        height_adjustment_value = self.readConfigValue("Resize",
-                                                       "height_adjustment",
-                                                       1000, "int")
-        is_aspect_checkbutton_toggled = self.readConfigValue("Resize",
-                                           "is_aspect_checkbutton_toggled",
-                                           False, "boolean")
-        compression_adjustement_value = self.readConfigValue("Resize",
-                                                "compression_adjustment",
-                                                95, "int")
-        toggled_size_radiobutton = self.readConfigValue("Resize",
-                                                "toggled_size_radiobutton",
-                                                "default_size_radiobutton")
-        
-        # Output
-        toggled_output_radiobutton = self.readConfigValue("Output",
-                                              "toggled_output_radiobutton",
-                                              "subdirectory_radiobutton")
-        # Default name of the subdirectory in which the resized images will be put
-        subdirectory_name_entry_value = self.readConfigValue("Output", "subdirectory_name_entry", _("resized"))
-        # Default value of the string that will be appended to the filename of the resized images
-        append_name_entry_value = self.readConfigValue("Output", "append_name_entry", _("-resized"))
-        
-        # Sending
-        is_send_checkbutton_toggled = self.readConfigValue("Sending",
-                                           "is_send_checkbutton_toggled",
-                                           False, "boolean")
-        toggled_sending_option_radiobutton = self.readConfigValue("Sending",
-                                       "toggled_sending_option_radiobutton",
-                                       "upload_radiobutton")
-        upload_combobox_value = self.readConfigValue("Sending",
-                                                     "upload_combobox",
-                                                     0, "int")
-        
-        # Update the UI with the previous (or default) values
-        # Size parameters
-        self.builder.get_object("size_combobox").set_active(size_combobox_value)
-        self.builder.get_object("scale_adjustment").set_value(scale_adjustment_value)
-        self.builder.get_object("width_adjustment").set_value(width_adjustment_value)
-        self.builder.get_object("height_adjustment").set_value(height_adjustment_value)
-        self.builder.get_object("aspect_checkbutton").set_active(is_aspect_checkbutton_toggled)
-        self.builder.get_object("compression_adjustment").set_value(compression_adjustement_value)
-        self.builder.get_object(toggled_size_radiobutton).set_active(True)
-        
-        # Output parameters
-        self.builder.get_object("subdirectory_name_entry").set_text(subdirectory_name_entry_value)
-        self.builder.get_object("append_name_entry").set_text(append_name_entry_value)
-        self.builder.get_object(toggled_output_radiobutton).set_active(True)
-        
-        # Sending parameters
-        self.builder.get_object("send_checkbutton").set_active(is_send_checkbutton_toggled)
-        self.builder.get_object(toggled_sending_option_radiobutton).set_active(True)
-        self.builder.get_object("upload_combobox").set_active(upload_combobox_value)
+        self.conf = Config()
+        self.populate_profiles_combobox()
 
     def saveConfig(self):
-        """Save the current configuration to the ini file"""
-        if not os.path.isdir(os.path.dirname(self.configFilename)):
-            # Create the folder that will contain the config file
-            os.makedirs(os.path.dirname(self.configFilename))
-        f = open(self.configFilename, "w")
-        
-        if not self.config.has_section("Resize"):
-            self.config.add_section("Resize")
-        self.config.set("Resize", "size_combobox", int(self.builder.get_object("size_combobox").get_active()))
-        for v in ("scale_adjustment", "width_adjustment", "height_adjustment", "compression_adjustment"):
-            self.config.set("Resize", v, int(self.builder.get_object(v).get_value()))
-        self.config.set("Resize", "is_aspect_checkbutton_toggled", self.builder.get_object("aspect_checkbutton").get_active())
-        for b in ("default_size_radiobutton", "custom_scale_radiobutton", "custom_size_radiobutton"):
-            if self.builder.get_object(b).get_active():
-                self.config.set("Resize", "toggled_size_radiobutton", b)
-        
-        if not self.config.has_section("Output"):
-            self.config.add_section("Output")
-        for v in ("subdirectory_name_entry", "append_name_entry"):
-            self.config.set("Output", v, self.builder.get_object(v).get_text())
-        for b in ("subdirectory_radiobutton", "append_radiobutton", "inplace_radiobutton"):
-            if self.builder.get_object(b).get_active():
-                self.config.set("Output", "toggled_output_radiobutton", b)
-        
-        if not self.config.has_section("Sending"):
-            self.config.add_section("Sending")
-        self.config.set("Sending", "is_send_checkbutton_toggled", self.builder.get_object("send_checkbutton").get_active())
-        for b in ("upload_radiobutton", "send_email_radiobutton"):
-            if self.builder.get_object(b).get_active():
-                self.config.set("Sending", "toggled_sending_option_radiobutton", b)
-        self.config.set("Sending", "upload_combobox", int(self.builder.get_object("upload_combobox").get_active()))
-        
-        self.config.write(f)
+        self.conf.activeprofile = self.o("profiles_combo").get_active()
+        # Save the settings to the configuration file
+        self.conf.write()
 
 
 if __name__ == "__main__":

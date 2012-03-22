@@ -16,47 +16,50 @@
 ### END LICENSE
 
 import os
-import gettext
 from gi.repository import GObject
 import zipfile
 import subprocess
 import Image
 import pyexiv2
 import logging
+
+import gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
 class ImageManipulations(GObject.GObject):
-    def __init__(self, dialog, files, geometry, aspect, compression, subdirectoryName, appendString):
+    def __init__(self, dialog, files, p):
         super(ImageManipulations, self).__init__()
         self.resizeDialog = dialog
         self.origFiles = files
         self.numFiles = len(self.origFiles)
-        self.geometry = geometry
-        self.aspect = aspect
-        self.compression = compression
-        self.subdirectoryName = None
-        self.appendString = appendString
+        self.profile = p
         
         # Clean the subdirectory name input
-        if subdirectoryName:
+        if self.profile.foldername:
             # Remove eventual slashes at the beginning or end of the subdirectory name
-            cleanSubdirectoryName = []
-            for i in subdirectoryName.split("/"):
+            cleanfoldername = []
+            for i in self.profile.foldername.split("/"):
                 if i:
-                    cleanSubdirectoryName.append(i)
-            self.subdirectoryName = "/".join(cleanSubdirectoryName)
+                    cleanfoldername.append(i)
+            self.profile.foldername = "/".join(cleanfoldername)
         
         logging.debug('files: %s' % self.origFiles)
-        logging.debug('geometry: %s - %s aspect ratio' % (self.geometry,
-                                          "Force" if aspect else "Respect"))
-        logging.debug('compression: %s' % self.compression)
-        logging.debug('appendString: %s' % self.appendString)
-        logging.debug('subdirectoryName: %s' % self.subdirectoryName)
+        str = "Resizing parameters:\n"
+        str += '- width: %s\n' % self.profile.width
+        str += '- height: %s\n' % self.profile.height
+        str += '- percent: %s\n' % self.profile.percent
+        str += '- quality: %s\n' % self.profile.quality
+        str += '- destination: %s\n' % self.profile.destination
+        str += '- appendstring: %s\n' % self.profile.appendstring
+        str += '- foldername: %s' % self.profile.foldername
+        str += '- zipname: %s' % self.profile.zipname
+        str += '- url: %s' % self.profile.url
+        logging.debug(str)
 
     def resize_images(self):
         """Loops over all files to resize them."""
-        if self.geometry == "100%" and self.compression == "100":
+        if self.profile.percent and self.profile.percent == "100" and self.profile.quality == "100":
             # If scaling to 100% with a compression of 100%, don't
             # actually resize files (it would just degrade the quality)
             # This configuration might be used if the user just wants to
@@ -74,8 +77,8 @@ class ImageManipulations(GObject.GObject):
                     self.newFiles.append(newFileName)
                 i += 1
                 percent = i / self.numFiles
-                self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
-                self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
+                self.resizeDialog.o("progressbar").set_text("%s %d%%" % (_("Resizing images..."), int(percent * 100)))
+                self.resizeDialog.o("progressbar").set_fraction(percent)
                 # There's more work, return True
                 yield True
         # Signal we are done resizing
@@ -94,15 +97,19 @@ class ImageManipulations(GObject.GObject):
         
         (basePath, name) = os.path.split(fileName)
         
-        if self.subdirectoryName:
-            basePath = "%s/%s" % (basePath, self.subdirectoryName)
+        if self.profile.destination == 'folder':
+            basePath = "%s/%s" % (basePath, self.profile.foldername)
+        if self.profile.destination == 'upload':
+            # Put the images in a temporary folder named similarly to the
+            # zipfile (without the ".zip" at the end)
+            basePath = "%s/%s" % (basePath, self.profile.zipname[:-4])
         logging.debug('basePath: %s' % basePath)
         logging.debug('name: %s' % name)
         
-        if self.appendString:
+        if self.profile.destination == 'append':
             # Insert the append string and convert the extension to lower case
             n = os.path.splitext(name)
-            name = "%s%s%s" % (n[0], self.appendString, n[1].lower())
+            name = "%s%s%s" % (n[0], self.profile.appendstring, n[1].lower())
         
         # This is the output filename
         newFileName = "%s/%s.%s" % (basePath, os.path.splitext(name)[0], "jpg")
@@ -119,32 +126,28 @@ class ImageManipulations(GObject.GObject):
         # Get original geometry
         (w, h) = im.size
         logging.debug('Original image size %sx%s' % (w, h))
-        if "%" in self.geometry:
+        if self.profile.percent:
             # New geometry is a %
-            factor = int(self.geometry.replace("%", "")) / 100.0
+            factor = int(self.profile.percent) / 100.0
             width = int(w*factor)
             height = int(h*factor)
-        elif "x" in self.geometry and not self.aspect:
-            # New geometry is in pixels and aspect ratio is respected
-            if (h > w):
-                # Image is vertical
-                (height, width) = self.geometry.split('x')
-                factor = int(height) / float(h)
-                width = int(w * factor)
-            else:
-                (width, height) = self.geometry.split('x')
-                factor = int(width) / float(w)
-                height = int(h * factor)
         else:
-            # New geometry is in pixels and aspect ratio is not respected
-            (height, width) = self.geometry.split('x')
-            
+            # New geometry is in pixels: aspect ratio is respected and the
+            # resulting image fits inside the given dimensions.
+            aspectratio = float(w)/float(h)
+            if self.profile.aspectratio < aspectratio:
+                width = self.profile.width
+                height = int(float(self.profile.width)/aspectratio)
+            else:
+                width = int(float(self.profile.height)*aspectratio)
+                height = self.profile.height
+           
         logging.debug('New image size %sx%s' % (width, height))
         # Resize and save image
         im = im.resize((int(width),int(height)))
         retry = False
         try:
-            im.save(newFileName, "JPEG", quality=int(self.compression))
+            im.save(newFileName, "JPEG", quality=int(self.profile.quality))
         except IOError as (errno, strerror):
             logging.error("I/O error({0}): {1}".format(errno, strerror))
             (skip, cancel, retry) = self.resizeDialog.error_resizing(fileName)
@@ -152,19 +155,26 @@ class ImageManipulations(GObject.GObject):
             # Retry with the same image
             (skip, cancel, newFileName) = self.resize_one_image(fileName)
 
-
         if not (skip or retry or cancel):
-            # Load EXIF data
-            exif = pyexiv2.ImageMetadata(fileName)
-            exif.read()
-            # Change EXIF image size to the new size
-            exif["Exif.Photo.PixelXDimension"] = int(width)
-            exif["Exif.Photo.PixelYDimension"] = int(height)
-            # Copy the EXIF data to the new image
-            newExif = pyexiv2.ImageMetadata(newFileName)
-            newExif.read()
-            exif.copy(newExif)
-            newExif.write()
+            try:
+                # Load EXIF data
+                exif = pyexiv2.ImageMetadata(fileName)
+                exif.read()
+                # Change EXIF image size to the new size
+                exif["Exif.Photo.PixelXDimension"] = int(width)
+                exif["Exif.Photo.PixelYDimension"] = int(height)
+                # Copy the EXIF data to the new image
+                newExif = pyexiv2.ImageMetadata(newFileName)
+                newExif.read()
+                exif.copy(newExif)
+                newExif.write()
+            except UnicodeDecodeError as e:
+                # Can happen when the filename contains non-ASCII characters
+                str = "Could not update exif data due to UnicodeDecodeError: %s" % e
+                str += "\nHint: The filename/path probably contains non-ASCII characters"
+                str += "\n%s" % fileName
+                str += "\n%s" % newFileName
+                logging.error(str)
         return (skip, cancel, newFileName)
 
     def pack_images(self):
@@ -174,31 +184,7 @@ class ImageManipulations(GObject.GObject):
         if not dirname:
             # Put the zipfile in the user's home folder if no base directory name could be determined.
             dirname = os.path.expanduser("~")
-        zipname = "images" # Default filename
-        if self.subdirectoryName:
-            zipname = self.subdirectoryName
-        if self.appendString:
-            zipname = self.appendString
-        # Sanitize the name of the zipfile
-        zipname = zipname.strip() # Strip whitespace
-        # Remove starting non-alphabetic characters
-        i = 0
-        for c in zipname:
-            if c.isalpha():
-                break
-            i += 1
-        zipname = "%s.zip" % zipname[i:]
-        
-        # Make sure the zipfile will not be created in a subdirectory
-        # If that would have been the case, make sure we zip the files
-        # using the name relative to where the zipfile is made, so that the
-        # zipped files' names do not conflict (test with this string to
-        # append: `-resized/yy.jpg`)
-        useRelName = False
-        temp = os.path.basename(zipname)
-        if temp != zipname:
-            zipname = temp
-            useRelName = True
+        zipname = self.profile.zipname
         
         # Create the final zip file name
         self.zipfile = os.path.join(dirname, zipname)
@@ -207,17 +193,13 @@ class ImageManipulations(GObject.GObject):
         zout = zipfile.ZipFile(self.zipfile, "w")
         i = float(0)
         for fname in self.newFiles:
-            if useRelName:
-                # This is the filename relative to where the zipfile is created. 
-                fzname = os.path.relpath(fname, dirname)
-            else:
-                fzname = os.path.basename(fname)
+            fzname = os.path.basename(fname)
             #TODO: Check what to do with non-ASCII filenames
             zout.write(fname, fzname, zipfile.ZIP_DEFLATED)
             i += 1
             percent = i / self.numFiles
-            self.resizeDialog.builder.get_object("progress_progressbar").set_text("%s %d%%" % (_("Packing images..."), int(percent * 100)))
-            self.resizeDialog.builder.get_object("progress_progressbar").set_fraction(percent)
+            self.resizeDialog.o("progressbar").set_text("%s %d%%" % (_("Packing images..."), int(percent * 100)))
+            self.resizeDialog.o("progressbar").set_fraction(percent)
             # There's more work, return True
             yield True
         zout.close() # Close the zip file

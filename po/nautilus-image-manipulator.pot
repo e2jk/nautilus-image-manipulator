@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-14 22:27+0100\n"
+"POT-Creation-Date: 2012-03-21 14:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,26 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:90
-msgid "Please enter a value for the subdirectory."
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:88
+#: ../nautilus_image_manipulator/ProfileSettings.py:95
+#: ../nautilus_image_manipulator/ProfileSettings.py:280
+msgid "Custom settings"
 msgstr ""
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:97
+msgid "Please enter the name of the folder."
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:102
 msgid "Please enter some text to append to the filename."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:103
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:108
 #, python-format
 msgid "The string to append cannot end in %s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:137
-#: ../nautilus_image_manipulator/ImageManipulations.py:77
-msgid "Resizing images..."
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:114
+msgid "Please enter the name of the zip file."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:188
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:199
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:167
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:178
 #, python-format
 msgid ""
 "Your images have not been sent, but have been zipped together into this "
@@ -45,48 +50,83 @@ msgid ""
 "%(filename)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:190
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:201
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:169
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:180
 #, python-format
 msgid ""
 "Your image has not been sent, but has successfully been resized.\n"
 "You can find it at %(filename)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:191
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:170
 #, python-format
 msgid "The selected upload site %(site_name)s is not valid."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:191
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:170
 msgid "Please file a bug report on Launchpad"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:202
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:181
 #, python-format
 msgid ""
 "The upload site %(site_name)s could not be contacted, please check your "
 "internet connection."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:205
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:254
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:184
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:233
 msgid "Uploading images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:341
+#. Visible when hovering over the quality scale in the custom
+#. settings when the quality is too low
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:429
+msgid ""
+"Warning: the lower the quality, the more deteriorated the images will be"
+msgstr ""
+
+#. Visible when hovering over the quality scale in the custom
+#. settings when the quality is high enough
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:435
+msgid ""
+"Determines the quality of the resized images (the higher the quality, the "
+"larger the image size)"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:437
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+msgid "Quality:"
+msgstr ""
+
+#. Default folder name
+#. Default value to append to filename
+#. Default zipfile name
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:448
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:455
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:462
+#: ../nautilus_image_manipulator/ProfileSettings.py:57
+#: ../nautilus_image_manipulator/ProfileSettings.py:65
+#: ../nautilus_image_manipulator/ProfileSettings.py:69
+#: ../nautilus_image_manipulator/ProfileSettings.py:79
+#: ../nautilus_image_manipulator/ProfileSettings.py:87
+#: ../nautilus_image_manipulator/ProfileSettings.py:90
+msgid "resized"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:478
 msgid "Invalid parameters"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:355
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:492
 msgid "_Skip"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:357
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:494
 msgid "_Retry"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:358
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:495
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -95,18 +135,8 @@ msgid ""
 "%(folder)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:360
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:497
 msgid "Could not resize image"
-msgstr ""
-
-#. Default name of the subdirectory in which the resized images will be put
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:424
-msgid "resized"
-msgstr ""
-
-#. Default value of the string that will be appended to the filename of the resized images
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:426
-msgid "-resized"
 msgstr ""
 
 #: ../bin/nautilus-image-manipulator.py:45
@@ -118,7 +148,7 @@ msgid "a file to be resized. Use multiple arguments to resize multiple files."
 msgstr ""
 
 #: ../bin/nautilus-image-manipulator.py:66
-#: ../nautilus_image_manipulator/nautilus-extension.py:60
+#: ../nautilus_image_manipulator/nautilus-extension.py:71
 msgid "_Resize image"
 msgid_plural "_Resize images"
 msgstr[0] ""
@@ -137,33 +167,105 @@ msgstr ""
 msgid "No images provided"
 msgstr ""
 
-#: ../nautilus_image_manipulator/ImageManipulations.py:219
+#: ../nautilus_image_manipulator/ImageManipulations.py:80
+msgid "Resizing images..."
+msgstr ""
+
+#: ../nautilus_image_manipulator/ImageManipulations.py:201
 msgid "Packing images..."
+msgstr ""
+
+#: ../nautilus_image_manipulator/ProfileSettings.py:51
+#: ../nautilus_image_manipulator/ProfileSettings.py:74
+#: ../nautilus_image_manipulator/ProfileSettings.py:343
+#, python-format
+msgid "Send %(imageSize)s images to %(uploadUrl)s"
+msgstr ""
+
+#. Part of new profile name "Create small images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:52
+#: ../nautilus_image_manipulator/ProfileSettings.py:64
+#: ../nautilus_image_manipulator/ProfileSettings.py:310
+#: ../nautilus_image_manipulator/ProfileSettings.py:327
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:39
+msgid "small"
+msgstr ""
+
+#: ../nautilus_image_manipulator/ProfileSettings.py:63
+#: ../nautilus_image_manipulator/ProfileSettings.py:85
+#: ../nautilus_image_manipulator/ProfileSettings.py:347
+#, python-format
+msgid "Create %(imageSize)s images in the \"%(directoryName)s\" folder"
+msgstr ""
+
+#. Part of new profile name "Create large images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:75
+#: ../nautilus_image_manipulator/ProfileSettings.py:86
+#: ../nautilus_image_manipulator/ProfileSettings.py:313
+#: ../nautilus_image_manipulator/ProfileSettings.py:335
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
+msgid "large"
+msgstr ""
+
+#. Part of new profile name "Create 60% resized images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:316
+#, python-format
+msgid "%d%% resized"
+msgstr ""
+
+#. Part of new profile name "Create very small images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:323
+msgid "very small"
+msgstr ""
+
+#. Part of new profile name "Create medium images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:331
+msgid "medium"
+msgstr ""
+
+#. Part of new profile name "Create very large images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:338
+msgid "very large"
+msgstr ""
+
+#: ../nautilus_image_manipulator/ProfileSettings.py:351
+#, python-format
+msgid "Create %(imageSize)s images and append \"%(appendString)s\""
+msgstr ""
+
+#: ../nautilus_image_manipulator/ProfileSettings.py:354
+msgid "Unnamed profile"
+msgstr ""
+
+#. Part of the profile name: "Send small images to 1fichier.com (95% quality)"
+#: ../nautilus_image_manipulator/ProfileSettings.py:362
+#, python-format
+msgid "(%d%% quality)"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:1
 msgid "An error occurred!"
 msgstr ""
 
-#. Part of "Append XX to file name"
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:2
+msgid "Append to filename:"
+msgstr ""
+
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:3
-msgid "Append"
+msgid "Create a new profile based on these settings"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:4
-msgid "Attach to an email message"
+msgid "Delete this profile"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:5
-msgid "Compression:"
-msgstr ""
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:6
-msgid "Custom size:"
-msgstr ""
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
 msgid "Delete url:"
+msgstr ""
+
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
+msgid "Destination"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:8
@@ -171,91 +273,108 @@ msgid "Download url:"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:9
-msgid "Force aspect ratio"
+msgid "Folder name:"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
 msgid "Height:"
 msgstr ""
 
-#. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
 msgid "Image Size"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
 msgid "Images successfully uploaded!"
 msgstr ""
 
-#. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:15
-msgid "Output Options"
+#. Visible when hovering over the height settings in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
+msgid "Maximum height of the resized images, in pixels"
 msgstr ""
 
+#. Visible when hovering over the width settings in the custom settings
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
-msgid "Put in subdirectory called"
+msgid "Maximum width of the resized images, in pixels"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
-msgid "Resize"
-msgstr ""
-
+#. Visible when hovering over the subfolder name entry box in the custom settings
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
-msgid "Resize images"
+msgid "Name of the folder in which the resized images will be saved"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
-msgid "Resize in place"
+msgid "Name of the zip file:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
-msgid "Scale:"
-msgstr ""
-
+#. Visible when hovering over the percent scale in the custom settings
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
-msgid "Select a size:"
+msgid "Percent of the original image size"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
-msgid "Send the resized images"
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
+msgid "Resize"
 msgstr ""
 
-#. Use "Title Case" if used in your language
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
-msgid "Sending Options"
+msgid "Resize images"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
-msgid "The download url has been copied in the clipboard"
+msgid "Save as a new profile"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
-msgid "This value will be appended before the image extension"
+msgid "Scale:"
 msgstr ""
 
-#. After this text comes a combobox to select to which website to upload the images to. It will thus be like "Upload a .zip file to example.com"
+#. Visible when hovering over the subfolder name entry box in the custom settings
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
-msgid "Upload a .zip file to"
+msgid "The resized images will be compressed together into this zip file"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
-msgid "Width:"
+msgid ""
+"The zip file containing the resized images will be uploaded to this website"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
-msgid "percent"
+msgid "This value will be appended before the image extension"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
-msgid "pixels"
+msgid "Upload the resized images to:"
 msgstr ""
 
-#. Part of "Append XX to file name"
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+msgid "Upload to a website"
+msgstr ""
+
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
-msgid "to file name"
+msgid "Width:"
 msgstr ""
 
-#: ../nautilus_image_manipulator/nautilus-extension.py:61
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
+msgid "append"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
+msgid "custom"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
+msgid "folder"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:38
+msgid "normal"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:40
+msgid "upload"
+msgstr ""
+
+#: ../nautilus_image_manipulator/nautilus-extension.py:72
 msgid "Resize the selected image"
 msgid_plural "Resize each selected image"
 msgstr[0] ""
