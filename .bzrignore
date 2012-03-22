@@ -5,4 +5,4 @@ debian/
 .settings/
 .project
 .pydevproject
-
+docs/_build/*
