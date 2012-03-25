@@ -518,7 +518,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         """Populate the profiles combobox with the names of the profiles"""
         profilesCombo = self.o("profiles_combo")
         # Empty the combobox
-        profilesCombo.get_model().clear()
+        profilesCombo.remove_all()
         # Add the names of the profiles
         for p in self.conf.profiles:
             profilesCombo.append_text(p.name)
