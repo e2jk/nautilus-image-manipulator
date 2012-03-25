@@ -1001,30 +1001,4 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkListStore" id="width_list">
-    <columns>
-      <!-- column-name name -->
-      <column type="gchararray"/>
-      <!-- column-name value -->
-      <column type="gint"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">small</col>
-        <col id="1">640</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">normal</col>
-        <col id="1">1024</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">large</col>
-        <col id="1">1280</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">custom</col>
-        <col id="1">0</col>
-      </row>
-    </data>
-  </object>
 </interface>
