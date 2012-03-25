@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-25 10:17+0200\n"
+"POT-Creation-Date: 2012-03-25 10:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -311,57 +311,53 @@ msgid "Percent of the original image size"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
-msgid "Resize"
+msgid "Rename"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
-msgid "Resize images"
+msgid "Resize"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
-msgid "Save as a new profile"
+msgid "Resize images"
 msgstr ""
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+msgid "Save as a new profile"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
+msgid "Save in a folder"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
 msgid "Scale:"
 msgstr ""
 
 #. Visible when hovering over the subfolder name entry box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
 msgid "The resized images will be compressed together into this zip file"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
 msgid ""
 "The zip file containing the resized images will be uploaded to this website"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
 msgid "This value will be appended before the image extension"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
 msgid "Upload the resized images to:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
 msgid "Upload to a website"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
-msgid "Width:"
-msgstr ""
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
-msgid "append"
-msgstr ""
-
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
-msgid "folder"
-msgstr ""
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
-msgid "upload"
+msgid "Width:"
 msgstr ""
 
 #: ../nautilus_image_manipulator/nautilus-extension.py:72

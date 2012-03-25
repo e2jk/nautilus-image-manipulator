@@ -11,16 +11,16 @@
     </columns>
     <data>
       <row>
-        <col id="0">Save in a folder</col>
-        <col id="1" translatable="yes">folder</col>
+        <col id="0" translatable="yes">Save in a folder</col>
+        <col id="1">folder</col>
       </row>
       <row>
-        <col id="0">Rename</col>
-        <col id="1" translatable="yes">append</col>
+        <col id="0" translatable="yes">Rename</col>
+        <col id="1">append</col>
       </row>
       <row>
         <col id="0" translatable="yes">Upload to a website</col>
-        <col id="1" translatable="yes">upload</col>
+        <col id="1">upload</col>
       </row>
     </data>
   </object>
