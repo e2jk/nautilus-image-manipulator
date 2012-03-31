@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-25 10:23+0200\n"
+"POT-Creation-Date: 2012-03-31 09:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -334,29 +334,31 @@ msgstr ""
 msgid "Scale:"
 msgstr ""
 
-#. Visible when hovering over the subfolder name entry box in the custom settings
+#. Visible when hovering over the zipfile name entry box in the custom settings
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
 msgid "The resized images will be compressed together into this zip file"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
+#. Visible when hovering over the upload website combo box in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
 msgid ""
 "The zip file containing the resized images will be uploaded to this website"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+#. Visible when hovering over the append string entry box in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
 msgid "This value will be appended before the image extension"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
 msgid "Upload the resized images to:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
 msgid "Upload to a website"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
 msgid "Width:"
 msgstr ""
 

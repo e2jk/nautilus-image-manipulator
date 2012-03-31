@@ -465,7 +465,7 @@
                         <child>
                           <object class="GtkBox" id="append_box">
                             <property name="can_focus">False</property>
-                            <property name="tooltip_text" translatable="yes">This value will be appended before the image extension</property>
+                            <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the append string entry box in the custom settings">This value will be appended before the image extension</property>
                             <property name="halign">end</property>
                             <property name="spacing">6</property>
                             <child>
@@ -513,7 +513,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="has_tooltip">True</property>
-                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the subfolder name entry box in the custom settings">The resized images will be compressed together into this zip file</property>
+                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the zipfile name entry box in the custom settings">The resized images will be compressed together into this zip file</property>
                                 <property name="halign">end</property>
                                 <property name="spacing">6</property>
                                 <child>
@@ -555,7 +555,7 @@
                               <object class="GtkBox" id="hosting_box">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="tooltip_text" translatable="yes">The zip file containing the resized images will be uploaded to this website</property>
+                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the upload website combo box in the custom settings">The zip file containing the resized images will be uploaded to this website</property>
                                 <property name="halign">end</property>
                                 <property name="spacing">6</property>
                                 <child>
