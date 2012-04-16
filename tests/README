@@ -1,0 +1,7 @@
+NautilusImageManipulator's unit test suite is designed to be run with `nose`
+
+Execute this command in the root of the project to run it:
+    rm -rf ./cover && nosetests
+
+For more information, refert to nose's documentation:
+    http://nose.readthedocs.org

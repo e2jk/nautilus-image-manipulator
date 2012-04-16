@@ -28,8 +28,8 @@ class Config:
     size = {"small": (640, 640),
             "large": (1280, 1280)}
     actualversion = 2
-    def __init__(self):
-        self.file = os.path.expanduser("~/.config/nautilus-image-manipulator/config")
+    def __init__(self, configFile="~/.config/nautilus-image-manipulator/config"):
+        self.file = os.path.expanduser(configFile)
         self.profiles = []
         if not os.path.isfile(self.file) or not self.read():
             # There is no config file, or the config file was not valid

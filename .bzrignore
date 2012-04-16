@@ -6,3 +6,5 @@ debian/
 .project
 .pydevproject
 docs/_build/*
+.coverage
+cover/
