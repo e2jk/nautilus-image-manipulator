@@ -7,3 +7,8 @@ include data/ui/*
 include po/*
 include MANIFEST.in
 include bin/*
+recursive-include docs *
+include tests/*
+prune docs/_build
+global-exclude *.pyc
+global-exclude *.~1~ *.~2~ *.~3~ *.~4~

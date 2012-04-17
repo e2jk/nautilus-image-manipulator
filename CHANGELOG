@@ -1,16 +1,20 @@
 Changelog for nautilus-image-manipulator
 
 ================================
-1.0 - TBD (rXXX)
+1.0 - 2012-04-17 (r165)
   * Major change: completely redesigned user interface. Now the parameters
       that determine how the images are to be resized are set via profiles.
       A set of default profiles is provided, but the user can freely add or
       remove profiles. The focus of this new UI is a very simplified and
       streamlined user experience. We try to limit the technical jargon to
-      a minimum ;)
+      a minimum ;) (LP #936003)
   * Prevent Nautilus from freezing when Nautilus Image Manipulator is
-      launched
+      launched (LP #931762)
   * Move the config file to ~/.config/nautilus-image-manipulator/config
+      (LP #935738)
+  * Started writing "proper" documentation (LP #962443)
+      see http://nautilus-image-manipulator.readthedocs.org/
+  * Started writing unit tests with nose (LP #946610)
 
 ================================
 0.8 - 2012-02-14 (r139)
