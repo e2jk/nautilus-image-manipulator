@@ -1,0 +1,10 @@
+NautilusImageManipulator's documentation is made using Sphinx.
+
+Steps to compile the documentation:
+  * Move to the ./docs folder
+  * Execute `make html` 
+
+Then open the ./docs/_build/html/index.html file in your browser.
+
+For more information, refert to Sphinx's documentation:
+    http://sphinx.pocoo.org
