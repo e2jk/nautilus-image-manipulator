@@ -2,6 +2,7 @@ Nautilus Image Manipulator's documentation
 ==========================================
 
 :Release: |version|
+
 :Date: |today|
 
 Nautilus Image Manipulator is a `Nautilus`_ extension that lets you resize

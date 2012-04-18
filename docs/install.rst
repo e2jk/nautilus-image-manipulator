@@ -52,9 +52,10 @@ You can get the source in two ways:
 Install the Nautilus extension
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 In order for Nautilus to display the option to use Nautilus Image Manipulator
-when right-clicking one or more images, you need to place the Nautilus extension
-file ``nautilus_image_manipulator/nautilus-image-manipulator-extension.py`` in
-one of these 2 directories:
+when right-clicking one or more images, you need to place the Nautilus
+extension file
+``nautilus_image_manipulator/nautilus-image-manipulator-extension.py`` in one
+of these 2 directories:
 
 * ``/usr/share/nautilus-python/extensions`` (for all users of the system)
 
