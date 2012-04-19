@@ -14,5 +14,6 @@ packaging Nautilus Image Manipulator.
    :numbered:
    :maxdepth: 2
    
+   source
    Releasing a new version <release>
 
