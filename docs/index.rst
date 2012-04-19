@@ -1,7 +1,7 @@
 Nautilus Image Manipulator's documentation
 ==========================================
 
-:Release: |version|
+:Version: |version|
 
 :Date: |today|
 
@@ -21,11 +21,10 @@ Contents
 ========
 
 .. toctree::
-   :numbered:
    :maxdepth: 2
    
-   install
-   release
+   End-user documentation <user>
+   tech
 
 .. _Nautilus: https://en.wikipedia.org/wiki/Nautilus_%28file_manager%29
 .. _GNOME: http://www.gnome.org/
