@@ -25,6 +25,7 @@ Contents
    :maxdepth: 2
    
    install
+   release
 
 .. _Nautilus: https://en.wikipedia.org/wiki/Nautilus_%28file_manager%29
 .. _GNOME: http://www.gnome.org/
