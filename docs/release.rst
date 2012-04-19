@@ -36,8 +36,7 @@ package of this new release:
 * Click on "Create milestone", enter the version number (for instance
   "|version|") as the name
 
-* Enter today's date in "Date
-  released"
+* Enter today's date in "Date released"
 
 * Add that release's text from the ``CHANGELOG`` in the "Changelog" section
 
