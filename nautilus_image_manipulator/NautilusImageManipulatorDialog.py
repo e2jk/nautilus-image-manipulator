@@ -341,6 +341,10 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             if sizeSettings == "custom":
                 width = self.o("width_spin").get_value()
                 height = self.o("height_spin").get_value()
+                # Check if the custom sizes are the same as small or large
+                for s in ("small", "large"):
+                    if (width, height) == Config.size[s]:
+                        size = s
             else:
                 size = sizeSettings
         else:
