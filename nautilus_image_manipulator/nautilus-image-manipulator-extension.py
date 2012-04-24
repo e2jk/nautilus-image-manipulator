@@ -67,12 +67,12 @@ class BackgroundImageExtension(GObject.GObject, Nautilus.MenuProvider):
         # image in the selection
         if not images:
             return
-        
+
         extLabel = ngettext("_Resize image", "_Resize images", len(images))
         extTip = ngettext("Resize the selected image",
                           "Resize each selected image",
                           len(images))
-        
+
         item = Nautilus.MenuItem(name='NautilusImageManipulator::resize',
                                  label=extLabel,
                                  tip=extTip)

@@ -32,7 +32,7 @@ gettext.textdomain('nautilus-image-manipulator')
 
 class NautilusImageManipulatorDialog(Gtk.Dialog):
     __gtype_name__ = "NautilusImageManipulatorDialog"
-    
+
     # To construct a new instance of this method, the following notable 
     # methods are called in this order:
     # __new__(cls)
@@ -67,9 +67,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Get a reference to the builder's get_object and set up the signals.
         self.o = builder.get_object
         builder.connect_signals(self)
-        
+
         # Populate the list of sites to upload to
-        self.upload_sites = ("1fichier.com", )
+        self.upload_sites = ("1fichier.com",)
         uploadCombo = self.o("upload_combo")
         uploadCombo.get_model().clear()
         for u in self.upload_sites:
@@ -96,7 +96,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.conf.profiles[idSelectedProfile] = p
         self.p = self.conf.profiles[idSelectedProfile]
         logging.info("The following profile has been selected:\n%s" % self.p)
-        
+
         # Check if the mandatory values are filled
         if self.p.destination == 'folder':
             if not self.p.foldername:
@@ -120,7 +120,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 self.error_with_parameters(
                     _("Please enter the name of the zip file."))
                 return
-        
+
         # Disable the parameter UI elements and display the progress bar
         self.o("details_box").set_sensitive(False)
         self.o("resize_button").set_sensitive(False)
@@ -135,7 +135,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         im.connect("resizing_done", self.on_resizing_done)
         task = im.resize_images()
         GObject.idle_add(task.next)
-        
+
         # Remember the settings for next time
         self.saveConfig()
 
@@ -187,21 +187,21 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
             self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % self.p.url}) + "\n\n" + extraInfo)
             return
-        
+
         self.o("progressbar").set_text("%s 0%%" % _("Uploading images..."))
         self.o("progressbar").set_fraction(0)
         self.uploadPercent = 0
         (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
         logging.info('downloadPage: %s' % downloadPage)
         logging.info('deletePage: %s' % deletePage)
-        
+
         # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
         # Note that the selection clipboard will be empty when the dialog gets closed.
         # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
         # and http://readthedocs.org/docs/python-gtk-3-tutorial/en/latest/clipboard.html
         Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(downloadPage, -1)
         Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY).set_text(downloadPage, -1)
-        
+
         self.on_uploading_done(downloadPage, deletePage)
 
     def display_error(self, msg, urlInfo=None):
@@ -234,7 +234,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         """This function gets called when uploading the images.
         
         It updates the progress bar according to the progress of the upload."""
-        percent = float(current)/total
+        percent = float(current) / total
         percent100 = int(percent * 100)
         if percent100 > self.uploadPercent:
             self.o("progressbar").set_text("%s %d%%" % (_("Uploading images..."), percent100))
@@ -258,7 +258,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.o("resize_button").hide()
         self.o("close_button").show()
         self.resize(1, 1)
-        
+
         #TODO: delete the temporary folder where the images where placed
         #Question: should the zipfile also be deleted?
 
@@ -276,7 +276,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
     def profiles_combo_changed(self, widget, data=None):
         """Updates the UI according to which profile gets selected"""
-        idCustomSettings = len(self.conf.profiles)-1
+        idCustomSettings = len(self.conf.profiles) - 1
         idSelectedProfile = self.o("profiles_combo").get_active()
         customSelected = (idCustomSettings == idSelectedProfile)
         # Only show the advanced parameters when the custom settings is selected
@@ -309,7 +309,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Force updating the color and tooltip of the quality scale (if
         # quality is too low)
         self.quality_scale_changed(None, None, p.quality)
-        
+
         # Destination settings
         dest_model = self.o("destination_combo").get_model()
         dest_iter = dest_model.get_iter_first()
@@ -346,7 +346,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         else:
             percent = self.o("percent_scale").get_value()
         quality = self.o("quality_scale").get_value()
-        
+
         # Destination settings
         dest_model = self.o("destination_combo").get_model()
         dest_iter = self.o("destination_combo").get_active_iter()
@@ -362,7 +362,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         elif destination == 'upload':
             zipname = self.o("zipname_entry").get_text()
             url = self.o("upload_combo").get_active_text()
-        
+
         # Create and add that profile to the list of profiles
         p = Profile(size, width, height, percent, quality, destination,
                     appendstring, foldername, zipname, url)
@@ -383,7 +383,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         profilesCombo.remove(idSelectedProfile)
         # Determine which profile to select now
         if idSelectedProfile > 0 and (
-           idSelectedProfile == len(self.conf.profiles)-1):
+           idSelectedProfile == len(self.conf.profiles) - 1):
             # If the last profile in the list before the custom settings
             # just got deleted, but there are still other profiles in the
             # list, select the new last profile.
@@ -495,7 +495,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         resizing one image."""
         label = None
         (folder, image) = os.path.split(filename)
-        buttons =(_("_Skip"), 0,
+        buttons = (_("_Skip"), 0,
                Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                _("_Retry"), 1)
         label = Gtk.Label(label=_('The image "%(image)s" could not be resized.\n\nCheck whether you have permission to write to this folder:\n%(folder)s' % {"image": image, "folder": folder}))

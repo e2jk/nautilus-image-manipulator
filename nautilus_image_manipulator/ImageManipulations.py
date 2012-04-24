@@ -34,7 +34,7 @@ class ImageManipulations(GObject.GObject):
         self.origFiles = files
         self.numFiles = len(self.origFiles)
         self.profile = p
-        
+
         # Clean the subdirectory name input
         if self.profile.foldername:
             # Remove eventual slashes at the beginning or end of the subdirectory name
@@ -43,7 +43,7 @@ class ImageManipulations(GObject.GObject):
                 if i:
                     cleanfoldername.append(i)
             self.profile.foldername = "/".join(cleanfoldername)
-        
+
         logging.debug('files: %s' % self.origFiles)
         str = "Resizing parameters:\n"
         str += '- width: %s\n' % self.profile.width
@@ -94,9 +94,9 @@ class ImageManipulations(GObject.GObject):
         logging.debug('resizing image: %s' % fileName)
         skip = False
         cancel = False
-        
+
         (basePath, name) = os.path.split(fileName)
-        
+
         if self.profile.destination == 'folder':
             basePath = "%s/%s" % (basePath, self.profile.foldername)
         if self.profile.destination == 'upload':
@@ -105,22 +105,22 @@ class ImageManipulations(GObject.GObject):
             basePath = "%s/%s" % (basePath, self.profile.zipname[:-4])
         logging.debug('basePath: %s' % basePath)
         logging.debug('name: %s' % name)
-        
+
         if self.profile.destination == 'append':
             # Insert the append string and convert the extension to lower case
             n = os.path.splitext(name)
             name = "%s%s%s" % (n[0], self.profile.appendstring, n[1].lower())
-        
+
         # This is the output filename
         newFileName = "%s/%s.%s" % (basePath, os.path.splitext(name)[0], "jpg")
         logging.debug('newFileName: %s' % newFileName)
-        
+
         # Make sure the directory exists
         # Note: a new subdirectory will also need to be created if a / was
         # entered in the appendString
         try: os.makedirs("/".join(newFileName.split("/")[:-1]))
         except: pass
-        
+
         # Open image with PIL
         im = Image.open(fileName)
         # Get original geometry
@@ -129,22 +129,22 @@ class ImageManipulations(GObject.GObject):
         if self.profile.percent:
             # New geometry is a %
             factor = int(self.profile.percent) / 100.0
-            width = int(w*factor)
-            height = int(h*factor)
+            width = int(w * factor)
+            height = int(h * factor)
         else:
             # New geometry is in pixels: aspect ratio is respected and the
             # resulting image fits inside the given dimensions.
-            aspectratio = float(w)/float(h)
+            aspectratio = float(w) / float(h)
             if self.profile.aspectratio < aspectratio:
                 width = self.profile.width
-                height = int(float(self.profile.width)/aspectratio)
+                height = int(float(self.profile.width) / aspectratio)
             else:
-                width = int(float(self.profile.height)*aspectratio)
+                width = int(float(self.profile.height) * aspectratio)
                 height = self.profile.height
-           
+
         logging.debug('New image size %sx%s' % (width, height))
         # Resize and save image
-        im = im.resize((int(width),int(height)))
+        im = im.resize((int(width), int(height)))
         retry = False
         try:
             im.save(newFileName, "JPEG", quality=int(self.profile.quality))
@@ -185,10 +185,10 @@ class ImageManipulations(GObject.GObject):
             # Put the zipfile in the user's home folder if no base directory name could be determined.
             dirname = os.path.expanduser("~")
         zipname = self.profile.zipname
-        
+
         # Create the final zip file name
         self.zipfile = os.path.join(dirname, zipname)
-        
+
         # Zip the files into a PKZIP format .zip file
         zout = zipfile.ZipFile(self.zipfile, "w")
         i = float(0)
@@ -203,18 +203,18 @@ class ImageManipulations(GObject.GObject):
             # There's more work, return True
             yield True
         zout.close() # Close the zip file
-        
+
         # TODO: check with zipfile.is_zipfile(self.zipfile) and ZipFile.testzip() if the generated zipfile is valid
-        
+
         # Signal we are done packing
         self.emit("packing_done", self.zipfile)
         # No more work, return False
         yield False
-        
+
 
 GObject.type_register(ImageManipulations)
 GObject.signal_new("resizing_done", ImageManipulations, GObject.SignalFlags.RUN_FIRST, None, ())
-GObject.signal_new("packing_done", ImageManipulations, GObject.SignalFlags.RUN_FIRST, None, (GObject.TYPE_STRING, ))
+GObject.signal_new("packing_done", ImageManipulations, GObject.SignalFlags.RUN_FIRST, None, (GObject.TYPE_STRING,))
 
 if __name__ == "__main__":
     pass

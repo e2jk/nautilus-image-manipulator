@@ -63,7 +63,7 @@ class Config:
                     zipname="%s.zip" % _("resized"),
                     url=defaultUploadUrl)
         )
-        
+
         # Make small images and do not upload them
         self.profiles.append(
             Profile(name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
@@ -74,7 +74,7 @@ class Config:
                     destination="folder",
                     foldername=_("resized"))
         )
-        
+
         # Make large images and upload them to 1fichier.com
         self.profiles.append(
             Profile(name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
@@ -85,7 +85,7 @@ class Config:
                     zipname="%s.zip" % _("resized"),
                     url=defaultUploadUrl)
         )
-        
+
         # Make large images and do not upload them
         self.profiles.append(
             Profile(name=_("Create %(imageSize)s images in the \"%(directoryName)s\" folder") % {
@@ -95,7 +95,7 @@ class Config:
                     destination="folder",
                     foldername=_("resized"))
         )
-        
+
         # Default custom profile is basically the same as the first one
         customprofile = copy(self.profiles[0])
         customprofile.name = _("Custom settings")
@@ -138,7 +138,7 @@ class Config:
                     break
                 similarProfile += 1
             # Add the new profile to the profiles list
-            self.profiles.insert(len(self.profiles)-1, newprofile)
+            self.profiles.insert(len(self.profiles) - 1, newprofile)
         if not hasattr(newprofile, 'name'):
             # Add the name back to the new profile
             newprofile.name = name
@@ -157,7 +157,7 @@ class Config:
         logging.info("Reading configuration from %s" % self.file)
         c = ConfigParser.ConfigParser()
         c.read(self.file)
-        
+
         sections = c.sections()
         if len(sections) < 2:
             logging.error("There are no profiles defined")
@@ -165,19 +165,19 @@ class Config:
         if sections[0] != "General":
             logging.error("Invalid first configuration section")
             return False
-        
+
         self.activeprofile = 0
         a = self.readvalue(c, "General", "active profile")
         if a:
             self.activeprofile = int(a.replace("Profile ", ""))
-        
+
         # Check if the saved profile's version is different than the current version
         profileversion = self.readvalue(c, "General", "profile version", "int")
         if profileversion != self.actualversion:
             # There will [probably] be some conversion to do to convert the
             # old settings to the newer.
             pass
-        
+
         for section in sections[1:]:
             name = self.readvalue(c, section, "name")
             size = self.readvalue(c, section, "size")
@@ -197,14 +197,14 @@ class Config:
 
     def write(self):
         logging.info("Saving configuration to %s" % self.file)
-        
+
         # Create a new ConfigParser object, to make sure we only have the
         # latest parameters
         config = ConfigParser.ConfigParser()
         config.add_section("General")
         config.set("General", "profile version", self.actualversion)
         config.set("General", "active profile", "Profile %i" % self.activeprofile)
-        
+
         logging.info("There are %d profiles" % len(self.profiles))
         i = 0
         for p in self.profiles:
@@ -228,10 +228,10 @@ class Config:
                 config.set(section, "zipname", p.zipname)
             if p.url:
                 config.set(section, "url", p.url)
-            
+
             logging.debug("%s\n%s" % ("="*64, p))
             i += 1
-        
+
         f = open(self.file, "w")
         config.write(f)
         f.close()
@@ -262,7 +262,7 @@ class Profile:
             self.width = width
             self.height = height
         if self.width and self.height:
-            self.aspectratio = float(self.width)/float(self.height)
+            self.aspectratio = float(self.width) / float(self.height)
         self.percent = percent
         self.quality = quality
         self.destination = destination
@@ -283,7 +283,7 @@ class Profile:
             if not self.zipname.endswith(".zip"):
                 self.zipname += ".zip"
         self.url = url
-        
+
         self.name = name if name else self.createname()
 
     def __str__(self):
@@ -350,7 +350,7 @@ class Profile:
             elif (areaProfile >= 1.2 * areaLarge):
                 # Part of new profile name "Create very large images[...]"
                 imageSize = _("very large")
-        
+
         # Determine the string depending on the destination
         n = None
         if self.destination == "upload":

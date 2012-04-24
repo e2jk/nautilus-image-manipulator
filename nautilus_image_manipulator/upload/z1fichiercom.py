@@ -35,7 +35,7 @@ class UploadSite():
         # Build the url to upload to and to retrieve the download and delete links:
         self.uploadUrl = "http://upload.1fichier.com/upload.cgi?id=%s" % sessionId
         self.endUploadUrl = "http://upload.1fichier.com/end.pl?xid=%s" % sessionId
-    
+
     def upload(self, filename, callback):
         """Uploads a single file and saves the links to download and delete that file.
         
@@ -43,40 +43,40 @@ class UploadSite():
         ``callback`` is the function that updates the progress bar while uploading"""
         logging.debug('uploading %s to %s' % (filename, self.uploadUrl))
         logging.debug('end upload url: %s' % self.endUploadUrl)
-        
+
         # Register the streaming http handlers with urllib2
         register_openers()
 
         # Start the multipart/form-data encoding of the file "filename"
         # headers contains the necessary Content-Type and Content-Length
         # datagen is a generator object that yields the encoded parameters
-        datagen, headers = multipart_encode( [ ("file[]", open(filename, "rb")), ('domain', '0') ], cb = callback )
-        
+        datagen, headers = multipart_encode([ ("file[]", open(filename, "rb")), ('domain', '0') ], cb=callback)
+
         # There is a bug in poster 0.7.0 that encodes parameter names. It will be fixed in the next release.
 
         request = urllib2.Request(self.uploadUrl, datagen, headers)
         urllib2.urlopen(request)
-        
+
         # Retrieve the download page
         request = urllib2.Request(self.endUploadUrl)
         request.add_header("EXPORT", 1) # To get simplified values in the format explained below
         downloaded_page = urllib2.urlopen(request).read()
-        
+
         # The return is like this:
         # filename;size;download identifier;deletion identifier;domain identifier;control hash
-        
+
         try:
             (filename, size, download_id, deletion_id, domain_id, control_hash) = re.search("(.*);(.*);(.*);(.*);(.*);(.*)", downloaded_page).groups()
         except:
             # TODO: Better failed upload handling
             logging.error('the upload has failed, this is the returned page:\n"%s"\n' % downloaded_page)
             raise
-        
+
         downloadPage = "http://%s.1fichier.com" % download_id
         deletePage = "http://www.1fichier.com/remove/%s/%s" % (download_id, deletion_id)
-        
+
         return (downloadPage, deletePage)
-        
+
 if __name__ == "__main__":
     pass
 
