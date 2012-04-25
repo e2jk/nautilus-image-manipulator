@@ -185,3 +185,29 @@ class TestConfig(object):
         assert False == conf.deleteprofile(3)
         # There are still 4 profiles
         assert 4 == len(conf.profiles)
+
+    def test_write(self):
+        # Make sure there is no saved profile in /tmp/nim-test.config
+        if os.path.isfile(configFile):
+            os.remove(configFile)
+        assert False == os.path.isfile(configFile)
+        conf = Config(configFile)
+
+        # There are 5 default profiles
+        assert 5 == len(conf.profiles)
+
+        # The config file doesn't exist on disk
+        assert False == os.path.isfile(configFile)
+
+        # Create a profile with percent and appendstring
+        newProfile = Profile(percent=50,
+                             quality=90,
+                             destination="append",
+                             appendstring=_("resized"))
+        assert 4 == conf.addprofile(newProfile)
+
+        # Save the file to disk
+        conf.write()
+
+        # The config file now exists on disk
+        assert True == os.path.isfile(configFile)
