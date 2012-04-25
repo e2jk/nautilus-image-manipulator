@@ -108,12 +108,12 @@ class Config:
         always custom settings)"""
         # Remove the name from the profile, to compare profiles nameless
         name = newprofile.__dict__.pop("name")
-        # Create a deep copy of the list of profiles, so that the deleting
-        # of name and quality doesn't affect the real profiles 
+        # Create a deep copy of the list of profiles, so that deleting the
+        # name to compare profiles doesn't affect the real profiles
         tempprofiles = deepcopy(self.profiles[:-1])
         isNewProfile = True
         profileNumber = 0
-        # First pass: check if exact match (ignore name differences)
+        # Check if there is an exact match (ignore name differences)
         for p in tempprofiles:
             del p.__dict__["name"]
             if newprofile == p:
@@ -121,33 +121,62 @@ class Config:
                 break
             profileNumber += 1
         if isNewProfile:
-            # Second pass: check if a similar profile exists where only the
-            # quality (and name) differ
-            quality = newprofile.__dict__.pop("quality")
-            similarProfile = 0
-            for p in tempprofiles:
-                del p.__dict__["quality"]
-                if newprofile == p:
-                    # A similar profile has been found, add the quality as
-                    # part of the names of both the new profile and the
-                    # existing profile so that they can be differentiated
-                    newprofile.name = name
-                    newprofile.quality = quality
-                    newprofile.addqualitytoname()
-                    self.profiles[similarProfile].addqualitytoname()
-                    break
-                similarProfile += 1
+            # Put the name back to the new profile
+            newprofile.name = name
             # Add the new profile to the profiles list
             self.profiles.insert(len(self.profiles) - 1, newprofile)
-        if not hasattr(newprofile, 'name'):
-            # Add the name back to the new profile
-            newprofile.name = name
-        if not hasattr(newprofile, 'quality'):
-            # Add the quality back to the new profile
-            newprofile.quality = quality
+            # Make sure that there are no conflicting profile names
+            self.handleConflictingNames()
         logging.debug("%s profile, position %d" % (
                 "New" if isNewProfile else "Existing", profileNumber))
         return profileNumber
+
+    def handleConflictingNames(self):
+        """Make sure that there are no profiles that have the same name"""
+        # profilesMatrix will contain for each profile whether its default
+        # name needs to be changed
+        profilesMatrix = []
+        for p in self.profiles[:-1]:
+            profilesMatrix.append({"addQuality": False, "addPixels": False})
+        tempprofiles = deepcopy(self.profiles[:-1])
+        i = 0
+        for p in self.profiles[:-2]:
+            # Check the profiles one by one to see if their default name
+            # would be the same 
+            addQuality = False
+            addPixels = False
+            changeNameOfProfiles = []
+            j = 0
+            # Don't compare the profile to itself
+            tempprofiles.pop(0)
+            defaultProfileName = p.createname()
+            for t in tempprofiles:
+                # Check the current profile with all the profiles that follow it
+                if defaultProfileName == t.createname():
+                    # They would have received the same default name
+                    if t.quality != p.quality:
+                        # They have different qualities, add that
+                        # information to their name
+                        profilesMatrix[i]["addQuality"] = True
+                        profilesMatrix[i + j + 1]["addQuality"] = True
+                    else:
+                        # They have the same quality, so the difference has
+                        # to be the size. Add that information (in pixels)
+                        # to their name
+                        profilesMatrix[i]["addPixels"] = True
+                        profilesMatrix[i + j + 1]["addPixels"] = True
+                j += 1
+            i += 1
+
+        # The list of profiles that need their name changed has been created
+        i = 0
+        logging.debug("Outcome of handleConflictingNames:")
+        for p in profilesMatrix:
+            if p["addQuality"] or p["addPixels"]:
+                # This profile needs its name changed
+                self.profiles[i].createname(True, p["addQuality"], p["addPixels"])
+            logging.debug("%d: %s  => %s" % (i, p, self.profiles[i].name))
+            i += 1
 
     def deleteprofile(self, id):
         """Deletes a profile from the list of profiles"""
@@ -316,7 +345,7 @@ class Profile:
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
-    def createname(self):
+    def createname(self, setSelf=False, addQuality=False, addPixels=False):
         """Create a profile name based on its attributes"""
         # Determine the images' size
         if self.size == "small":
@@ -351,6 +380,10 @@ class Profile:
                 # Part of new profile name "Create very large images[...]"
                 imageSize = _("very large")
 
+        if addPixels:
+            # Add the actual size information in the profile name
+            imageSize += " (%dx%d)" % (self.width, self.height)
+
         # Determine the string depending on the destination
         n = None
         if self.destination == "upload":
@@ -365,12 +398,11 @@ class Profile:
             n = _("Create %(imageSize)s images and append \"%(appendString)s\"") % {
                               "imageSize": imageSize,
                               "appendString": self.appendstring}
-        return n if n else _("Unnamed profile")
-
-    def addqualitytoname(self):
-        """Adds the quality to the profile's name"""
-        # Only if the name was the original one (i.e. doesn't already
-        # contain the quality)
-        if self.name == self.createname():
-            # Part of the profile name: "Send small images to 1fichier.com (95% quality)"
-            self.name += " " + _("(%d%% quality)") % self.quality
+        if addQuality:
+            # Add the quality information in the profile name
+            n += " " + _("(%d%% quality)") % self.quality
+        n = n if n else _("Unnamed profile")
+        if setSelf:
+            self.name = n
+        else:
+            return n
