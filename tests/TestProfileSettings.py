@@ -25,6 +25,8 @@ import gettext
 from gettext import gettext as _
 gettext.textdomain('nautilus-image-manipulator')
 
+configFile = "/tmp/nim-test.config"
+
 class TestConfig(object):
     def test_config(self):
         """Test the value of the predefined sizes"""
@@ -32,14 +34,13 @@ class TestConfig(object):
         assert (640, 640) == size["small"]
         assert (1280, 1280) == size["large"]
 
-    def setup_func_init_default(self):
-        "Make sure there is no saved profile in /tmp/nim-test.config"
-        os.remove("/tmp/nim-test.config")
-
-    @with_setup(setup_func_init_default)
     def test_init_default(self):
         """Test the creation of the default configuration"""
-        conf = Config("/tmp/nim-test.config")
+        # Make sure there is no saved profile in /tmp/nim-test.config
+        if os.path.isfile(configFile):
+            os.remove(configFile)
+        assert False == os.path.isfile(configFile)
+        conf = Config(configFile)
 
         # There are 5 default profiles
         assert 5 == len(conf.profiles)
@@ -68,9 +69,12 @@ class TestConfig(object):
         # The default custom profile
         #TODO
 
-    @with_setup(setup_func_init_default)
     def test_addprofile(self):
-        conf = Config("/tmp/nim-test.config")
+        # Make sure there is no saved profile in /tmp/nim-test.config
+        if os.path.isfile(configFile):
+            os.remove(configFile)
+        assert False == os.path.isfile(configFile)
+        conf = Config(configFile)
 
         # There are 5 default profiles
         assert 5 == len(conf.profiles)
@@ -156,9 +160,12 @@ class TestConfig(object):
         assert conf.profiles[6].createname() == conf.profiles[6].name
         assert pname % (_("small") + " (639x640)", 90) == conf.profiles[7].name
 
-    @with_setup(setup_func_init_default)
     def test_deleteprofile(self):
-        conf = Config("/tmp/nim-test.config")
+        # Make sure there is no saved profile in /tmp/nim-test.config
+        if os.path.isfile(configFile):
+            os.remove(configFile)
+        assert False == os.path.isfile(configFile)
+        conf = Config(configFile)
 
         # There are 5 default profiles
         assert 5 == len(conf.profiles)
