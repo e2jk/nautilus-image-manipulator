@@ -186,6 +186,30 @@ class TestConfig(object):
         # There are still 4 profiles
         assert 4 == len(conf.profiles)
 
+    def test_defaultfileoperations(self):
+        oldconfigfile = os.path.expanduser("~/.nautilus-image-manipulator.ini")
+        # Make sure the file is not present to start with
+        assert False == os.path.isfile(oldconfigfile)
+        # "Touch" the file, i.e. make an empty file
+        with file(oldconfigfile, 'a'):
+            os.utime(oldconfigfile, None)
+        assert True == os.path.isfile(oldconfigfile)
+
+        # Use a file in a folder that never exists so that the code for
+        # creating the default profiles is executed, and the new folder is
+        # created
+        dummyconfigfile = "/tmp/nim-test-dummy/file-that-never-exists.config"
+        if os.path.isdir(os.path.dirname(dummyconfigfile)):
+            os.rmdir(os.path.dirname(dummyconfigfile))
+        assert False == os.path.isdir(os.path.dirname(dummyconfigfile))
+        conf = Config(dummyconfigfile)
+        # The old config file has been deleted
+        assert False == os.path.isfile(oldconfigfile)
+        # The folder has been created
+        assert True == os.path.isdir(os.path.dirname(dummyconfigfile))
+        # Leave the system clean by deleting the newly created dummy folder
+        os.rmdir(os.path.dirname(dummyconfigfile))
+
     def test_write(self):
         # Make sure there is no saved profile in /tmp/nim-test.config
         if os.path.isfile(configFile):
