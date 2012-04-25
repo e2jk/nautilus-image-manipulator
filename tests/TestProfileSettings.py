@@ -211,3 +211,42 @@ class TestConfig(object):
 
         # The config file now exists on disk
         assert True == os.path.isfile(configFile)
+
+    def test_xxlast_read(self):
+        # Make sure there *is* a saved profile in /tmp/nim-test.config
+        assert True == os.path.isfile(configFile)
+        conf = Config(configFile)
+
+        # There are 6 profiles in the saved config file
+        assert 6 == len(conf.profiles)
+        assert _("Send %s images to 1fichier.com") % _("small") == conf.profiles[0].name
+        assert _("Create %(imageSize)s images and append \"%(appendString)s\"") % {
+                              "imageSize": _("%d%% resized") % 50,
+                              "appendString": _("resized")} == conf.profiles[4].name
+        assert _("Custom settings") == conf.profiles[5].name
+
+        # Test with an invalid config file
+        assert True == os.path.isfile(configFile)
+        with open(configFile) as f:
+            read_data = f.read()
+            read_data = read_data.replace("[General]", "[Invalid First Section]")
+        with open(configFile, 'w') as f:
+            f.write(read_data)
+        # This will result in the default profiles being loaded
+        conf = Config(configFile)
+        # There are only 5 profiles, i.e. the default profiles
+        assert 5 == len(conf.profiles)
+
+        # Test with an empty config file
+        # Make sure there is no saved profile in /tmp/nim-test.config
+        if os.path.isfile(configFile):
+            os.remove(configFile)
+        assert False == os.path.isfile(configFile)
+        # "Touch" the file, i.e. make an empty file
+        with file(configFile, 'a'):
+            os.utime(configFile, None)
+        assert True == os.path.isfile(configFile)
+        # This will result in the default profiles being loaded
+        conf = Config(configFile)
+        # There are only 5 profiles, i.e. the default profiles
+        assert 5 == len(conf.profiles)
