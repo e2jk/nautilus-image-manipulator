@@ -288,6 +288,10 @@ class Profile:
         if self.size in ("small", "large"):
             (self.width, self.height) = Config.size[self.size]
         else:
+            # Check if the custom sizes are the same as small or large
+            for s in ("small", "large"):
+                if (width, height) == Config.size[s]:
+                    self.size = s
             self.width = width
             self.height = height
         if self.width and self.height:

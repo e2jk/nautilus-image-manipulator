@@ -19,7 +19,7 @@
 import os
 from copy import copy
 from nose.tools import with_setup
-from nautilus_image_manipulator.ProfileSettings import Config
+from nautilus_image_manipulator.ProfileSettings import Config, Profile
 
 import gettext
 from gettext import gettext as _
@@ -78,6 +78,21 @@ class TestConfig(object):
         # Create a new profile that is a copy of the first default profile.
         # It should be detected as being the same as the first profile.
         newProfile = copy(conf.profiles[0])
+        assert 0 == conf.addprofile(newProfile)
+
+        # Create a new profile that has the same properties as the first
+        # default profile, except that it's size is defined as custom with
+        # the small values. It should be detected as being the same as the
+        # first profile.
+        newProfile = Profile(name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
+                                    "imageSize": _("small"),
+                                    "uploadUrl": "1fichier.com"},
+                             width=640,
+                             height=640,
+                             quality=90,
+                             destination="upload",
+                             zipname="%s.zip" % _("resized"),
+                             url="1fichier.com")
         assert 0 == conf.addprofile(newProfile)
 
         # Create a new profile that is a copy of the first default profile
