@@ -180,7 +180,13 @@ class Config:
 
     def deleteprofile(self, id):
         """Deletes a profile from the list of profiles"""
+        if len(self.profiles) - 1 == id:
+            # It's not possible to delete the last profile (custom settings)
+            logging.debug("Not allowed to remove last profile %d, it's custom settings" % id)
+            return False
         self.profiles.pop(id)
+        logging.debug("Removed profile %d" % id)
+        return True
 
     def read(self):
         logging.info("Reading configuration from %s" % self.file)

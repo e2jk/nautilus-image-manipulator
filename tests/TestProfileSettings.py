@@ -155,3 +155,26 @@ class TestConfig(object):
         assert pname % (_("small"), 70) == conf.profiles[5].name
         assert conf.profiles[6].createname() == conf.profiles[6].name
         assert pname % (_("small") + " (639x640)", 90) == conf.profiles[7].name
+
+    @with_setup(setup_func_init_default)
+    def test_deleteprofile(self):
+        conf = Config("/tmp/nim-test.config")
+
+        # There are 5 default profiles
+        assert 5 == len(conf.profiles)
+
+        # Keep pointers to the third and fourth profiles
+        p2 = conf.profiles[2]
+        p3 = conf.profiles[3]
+        assert True == conf.deleteprofile(2)
+        # There are now 4 profiles
+        assert 4 == len(conf.profiles)
+        # The original third profile is not part of the list anymore
+        assert p2 != conf.profiles[2]
+        # The profile that's now third was originally the fourth
+        assert p3 == conf.profiles[2]
+
+        # It's not possible to delete the last profile (custom settings)
+        assert False == conf.deleteprofile(3)
+        # There are still 4 profiles
+        assert 4 == len(conf.profiles)
