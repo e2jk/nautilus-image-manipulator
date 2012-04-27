@@ -16,12 +16,14 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
+from nose.tools import raises
+from gi.repository import GObject
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
 from nautilus_image_manipulator.ProfileSettings import Profile
 
 class TestImageManipulations(object):
     def test_init(self):
-        files = ["/tmp/nim-test-dummy/nonexisting.jpg"]
+        files = ["/tmp/nim-test-dummy2/nonexisting.jpg"]
         p = Profile(percent=50,
                              quality=90,
                              destination="folder",
@@ -36,3 +38,14 @@ class TestImageManipulations(object):
         p.foldername = "/bla/bla/"
         im = ImageManipulations(None, files, p)
         assert "bla/bla" == p.foldername
+
+    @raises(IOError)
+    def test_resize_one_image_nonexisting(self):
+        """Resizing a non existing image throws an exception"""
+        files = ["/tmp/nim-test-dummy2/nonexisting.jpg"]
+        p = Profile(percent=50,
+                             quality=90,
+                             destination="folder",
+                             foldername="blabla")
+        im = ImageManipulations(None, files, p)
+        im.resize_one_image(files[0])
