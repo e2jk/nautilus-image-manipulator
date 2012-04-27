@@ -18,7 +18,6 @@
 
 import os
 from copy import copy
-from nose.tools import with_setup
 from nautilus_image_manipulator.ProfileSettings import Config, Profile
 
 import gettext
