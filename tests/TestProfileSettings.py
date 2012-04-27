@@ -274,3 +274,47 @@ class TestConfig(object):
         conf = Config(configFile)
         # There are only 5 profiles, i.e. the default profiles
         assert 5 == len(conf.profiles)
+
+    def test_zipfilename(self):
+        """Create different upload profiles and test the zipfile's name"""
+        # Clean zipname
+        newProfile = Profile(percent=50,
+                             quality=90,
+                             destination="upload",
+                             zipname="test.zip")
+        assert "test.zip" == newProfile.zipname
+
+        # Name without ".zip"
+        newProfile = Profile(percent=50,
+                             quality=90,
+                             destination="upload",
+                             zipname="test")
+        assert "test.zip" == newProfile.zipname
+
+        # Name without ".zip" (not so nice)
+        newProfile = Profile(percent=50,
+                             quality=90,
+                             destination="upload",
+                             zipname="test.zi")
+        assert "test.zi.zip" == newProfile.zipname
+
+        # Name without ".zip" (not so nice)
+        newProfile = Profile(percent=50,
+                             quality=90,
+                             destination="upload",
+                             zipname="  test.zip  ")
+        assert "test.zip" == newProfile.zipname
+
+        # Name starting with a non-alphabetic character
+        newProfile = Profile(percent=50,
+                             quality=90,
+                             destination="upload",
+                             zipname="&test.zip")
+        assert "test.zip" == newProfile.zipname
+
+        # Name starting with a non-alphabetic character
+        newProfile = Profile(percent=50,
+                             quality=90,
+                             destination="upload",
+                             zipname=",test.zip")
+        assert "test.zip" == newProfile.zipname
