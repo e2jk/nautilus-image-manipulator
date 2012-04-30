@@ -7,11 +7,13 @@ Nautilus Image Manipulator:
 
 Update the version number
 -------------------------
-Change the version number in 2 places:
+Change the version number in 3 places:
 
 * ``./setup.py`` as "version" argument of "DistUtilsExtra.auto.setup"
 
 * ``./bin/nautilus-image-manipulator`` as argument of "optparse.OptionParser"
+
+* ``./docs/conf.py`` as the "version" configuration value
 
 Update the CHANGELOG
 --------------------
