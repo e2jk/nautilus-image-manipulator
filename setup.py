@@ -32,7 +32,7 @@ def update_data_path(prefix, oldvalue=None):
         fin = file('nautilus_image_manipulator/nautilus_image_manipulatorconfig.py', 'r')
         fout = file(fin.name + '.new', 'w')
 
-        for line in fin:            
+        for line in fin:
             fields = line.split(' = ') # Separate variable from value
             if fields[0] == '__nautilus_image_manipulator_data_directory__':
                 # update to prefix, store oldvalue
@@ -67,7 +67,7 @@ def nautilus_plugin():
 
 DistUtilsExtra.auto.setup(
     name='nautilus-image-manipulator',
-    version='1.0',
+    version='1.1',
     license='GPL-3',
     author='Emilien Klein',
     author_email='emilien _AT_ klein _DOT_ st',
