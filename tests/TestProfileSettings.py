@@ -49,7 +49,7 @@ class TestConfig(object):
 
         # The 1st default profile
         p = conf.profiles[0]
-        assert _("Send %s images to 1fichier.com") % _("small") == p.name
+        assert p.name == _("Send %(imageSize)s images to %(uploadUrl)s") % {"imageSize": _("small"), "uploadUrl": "1fichier.com"}
         assert "small" == p.size
         assert 90 == p.quality
         assert "upload" == p.destination
@@ -78,6 +78,8 @@ class TestConfig(object):
         # There are 5 default profiles
         assert 5 == len(conf.profiles)
 
+        up = "1fichier.com"
+
         # Create a new profile that is a copy of the first default profile.
         # It should be detected as being the same as the first profile.
         newProfile = copy(conf.profiles[0])
@@ -89,13 +91,13 @@ class TestConfig(object):
         # first profile.
         newProfile = Profile(name=_("Send %(imageSize)s images to %(uploadUrl)s") % {
                                     "imageSize": _("small"),
-                                    "uploadUrl": "1fichier.com"},
+                                    "uploadUrl": up},
                              width=640,
                              height=640,
                              quality=90,
                              destination="upload",
                              zipname="%s.zip" % _("resized"),
-                             url="1fichier.com")
+                             url=up)
         assert 0 == conf.addprofile(newProfile)
 
         # Create a new profile that is a copy of the first default profile
@@ -103,23 +105,24 @@ class TestConfig(object):
         # new profile will be changed to contain the quality
         newProfile = copy(conf.profiles[0])
         newProfile.quality = 80
-        assert _("Send small images to 1fichier.com") == conf.profiles[0].name
+        assert conf.profiles[0].name == _("Send %(imageSize)s images to %(uploadUrl)s") % {"imageSize": _("small"), "uploadUrl": up}
         assert 4 == conf.addprofile(newProfile)
-        pname = _("Send %s images to 1fichier.com") + " " + _("(%d%% quality)")
-        assert pname % (_("small"), 90) == conf.profiles[0].name
-        assert pname % (_("small"), 80) == conf.profiles[4].name
+        pname = _("Send %(imageSize)s images to %(uploadUrl)s") + " " + _("(%d%% quality)")
+        pname = pname.replace("%d%%", "%(quality)d%%")
+        assert conf.profiles[0].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 90}
+        assert conf.profiles[4].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 80}
 
         # Create a new profile that is a copy of the first default profile
         # but has yet another quality. The name of the first, fifth and the
         # new profile will be changed to contain the quality
         newProfile = copy(conf.profiles[0])
         newProfile.quality = 70
-        assert pname % (_("small"), 90) == conf.profiles[0].name
-        assert pname % (_("small"), 80) == conf.profiles[4].name
+        assert conf.profiles[0].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 90}
+        assert conf.profiles[4].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 80}
         assert 5 == conf.addprofile(newProfile)
-        assert pname % (_("small"), 90) == conf.profiles[0].name
-        assert pname % (_("small"), 80) == conf.profiles[4].name
-        assert pname % (_("small"), 70) == conf.profiles[5].name
+        assert conf.profiles[0].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 90}
+        assert conf.profiles[4].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 80}
+        assert conf.profiles[5].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 70}
 
         # Create a new profile that is a copy of the first default profile
         # that has the same quality but a very large size. The name of the
@@ -130,13 +133,13 @@ class TestConfig(object):
         newProfile.width = 2000
         newProfile.height = 2000
         newProfile.createname(setSelf=True)
-        assert pname % (_("small"), 90) == conf.profiles[0].name
-        assert pname % (_("small"), 80) == conf.profiles[4].name
-        assert pname % (_("small"), 70) == conf.profiles[5].name
+        assert conf.profiles[0].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 90}
+        assert conf.profiles[4].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 80}
+        assert conf.profiles[5].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 70}
         assert 6 == conf.addprofile(newProfile)
-        assert pname % (_("small"), 90) == conf.profiles[0].name
-        assert pname % (_("small"), 80) == conf.profiles[4].name
-        assert pname % (_("small"), 70) == conf.profiles[5].name
+        assert conf.profiles[0].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 90}
+        assert conf.profiles[4].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 80}
+        assert conf.profiles[5].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 70}
         assert conf.profiles[6].createname() == conf.profiles[6].name
 
         # Create a new profile that is a copy of the first default profile
@@ -148,16 +151,16 @@ class TestConfig(object):
         newProfile.width = 639
         newProfile.height = 640
         newProfile.createname(setSelf=True)
-        assert pname % (_("small"), 90) == conf.profiles[0].name
-        assert pname % (_("small"), 80) == conf.profiles[4].name
-        assert pname % (_("small"), 70) == conf.profiles[5].name
+        assert conf.profiles[0].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 90}
+        assert conf.profiles[4].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 80}
+        assert conf.profiles[5].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 70}
         assert conf.profiles[6].createname() == conf.profiles[6].name
         assert 7 == conf.addprofile(newProfile)
-        assert pname % (_("small") + " (640x640)", 90) == conf.profiles[0].name
-        assert pname % (_("small"), 80) == conf.profiles[4].name
-        assert pname % (_("small"), 70) == conf.profiles[5].name
+        assert conf.profiles[0].name == pname % {"imageSize": _("small") + " (640x640)", "uploadUrl": up, "quality": 90}
+        assert conf.profiles[4].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 80}
+        assert conf.profiles[5].name == pname % {"imageSize": _("small"), "uploadUrl": up, "quality": 70}
         assert conf.profiles[6].createname() == conf.profiles[6].name
-        assert pname % (_("small") + " (639x640)", 90) == conf.profiles[7].name
+        assert conf.profiles[7].name == pname % {"imageSize": _("small") + " (639x640)", "uploadUrl": up, "quality": 90}
 
     def test_deleteprofile(self):
         # Make sure there is no saved profile in /tmp/nim-test.config
@@ -242,7 +245,7 @@ class TestConfig(object):
 
         # There are 6 profiles in the saved config file
         assert 6 == len(conf.profiles)
-        assert _("Send %s images to 1fichier.com") % _("small") == conf.profiles[0].name
+        assert conf.profiles[0].name == _("Send %(imageSize)s images to %(uploadUrl)s") % {"imageSize": _("small"), "uploadUrl": "1fichier.com"}
         assert _("Create %(imageSize)s images and append \"%(appendString)s\"") % {
                               "imageSize": _("%d%% resized") % 50,
                               "appendString": _("resized")} == conf.profiles[4].name
