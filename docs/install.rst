@@ -36,6 +36,10 @@ You will need the following software in order to run Nautilus Image Manipulator:
 
 * Nautilus-Python (most often packaged as python-nautilus)
 
+* Python Imaging Library (python-imaging)
+
+* Python binding to exiv2 (python-pyexiv2) (optional)
+
 Note: you can use Nautilus Image Manipulator without Nautilus, but without the
 one feature that makes is interesting, i.e. the Nautilus extension...
 

@@ -20,8 +20,11 @@ from gi.repository import GObject
 import zipfile
 import subprocess
 import Image
-import pyexiv2
 import logging
+try:
+    import pyexiv2
+except ImportError:
+    pass
 
 import gettext
 from gettext import gettext as _
@@ -175,6 +178,9 @@ class ImageManipulations(GObject.GObject):
                 str += "\n%s" % fileName
                 str += "\n%s" % newFileName
                 logging.error(str)
+            except NameError:
+                logging.info("pyexiv2 is not available, EXIF data won't " \
+                             "be copied over")
         return (skip, cancel, newFileName)
 
     def pack_images(self):
