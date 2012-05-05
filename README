@@ -4,17 +4,23 @@ Resize and send images from Nautilus
 nautilus-image-manipulator is a Nautilus extension that lets you resize
 images and send them to friends and family, right from Nautilus.
 
-Just right-click on any photo or group of photos, and  an  option  will
+Just right-click on any photo or group of photos, and an option will
 appear that launches Nautilus Image Manipulator.
 
-It is highly inspirated by Nautilus Image Converter:
-    http://www.bitron.ch/software/nautilus-image-converter.php
+A set of default settings make it easy to quickly resize pictures. You
+can also easily create your own profiles for later reuse.
 
 
 
 You will need Python's Imaging module and (optionally) pyexiv2. On Debian
 and derivatives, those packages can be installed with this command:
     sudo apt-get install python-imaging python-pyexiv2
+
+
+
+It was originally highly inspirated by Nautilus Image Converter, but since
+version 1.0 it has obtained a very different user interface.
+    http://www.bitron.ch/software/nautilus-image-converter.php
 
 
 
@@ -51,4 +57,3 @@ under the MIT license:
     OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
     ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     OTHER DEALINGS IN THE SOFTWARE.
-

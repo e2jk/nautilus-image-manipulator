@@ -8,7 +8,9 @@ Nautilus Image Manipulator's documentation
 Nautilus Image Manipulator is a `Nautilus`_ extension that lets you resize
 images and send them to friends and family, right from `GNOME`_'s default file
 manager. Just right-click on any photo or group of photos, and an option will
-appear that launches Nautilus Image Manipulator.
+appear that launches Nautilus Image Manipulator. A set of default settings make
+it easy to quickly resize pictures. You can also easily create your own
+profiles for later reuse.
 
 This documentation contains information for end users, such as how to install
 the program and run it, and also information that would be useful for

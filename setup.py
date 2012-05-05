@@ -78,8 +78,8 @@ and family, right from Nautilus.
 Just right-click on any photo or group of photos, and an option will
 appear that launches Nautilus Image Manipulator.
 
-It is highly inspired by Nautilus Image Converter:
-    http://www.bitron.ch/software/nautilus-image-converter.php""",
+A set of default settings make it easy to quickly resize pictures. You
+can also easily create your own profiles for later reuse.""",
     url='https://launchpad.net/nautilus-image-manipulator',
     packages=["nautilus_image_manipulator", "nautilus_image_manipulator.upload", "nautilus_image_manipulator.upload.poster"],
     data_files=nautilus_plugin(),
