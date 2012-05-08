@@ -28,6 +28,8 @@ class TestImageManipulations(object):
                              quality=90,
                              destination="folder",
                              foldername="blabla")
+
+        # Verify that the subdirectory name input is properly cleaned
         im = ImageManipulations(None, files, p)
         assert "blabla" == p.foldername
 
