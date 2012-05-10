@@ -19,6 +19,7 @@ The following pages are relevant for users of Nautilus Image Manipulator.
    :maxdepth: 2
    
    install
+   usage
 
 .. _Nautilus: https://en.wikipedia.org/wiki/Nautilus_%28file_manager%29
 .. _GNOME: http://www.gnome.org/
