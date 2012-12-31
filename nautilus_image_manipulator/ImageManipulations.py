@@ -22,7 +22,7 @@ import subprocess
 import Image
 import logging
 try:
-    import pyexiv2
+    from gi.repository import GExiv2
 except ImportError:
     pass
 
@@ -161,26 +161,18 @@ class ImageManipulations(GObject.GObject):
         if not (skip or retry or cancel):
             try:
                 # Load EXIF data
-                exif = pyexiv2.ImageMetadata(fileName)
-                exif.read()
+                exif = GExiv2.Metadata(fileName)
                 # Change EXIF image size to the new size
-                exif["Exif.Photo.PixelXDimension"] = int(width)
-                exif["Exif.Photo.PixelYDimension"] = int(height)
+                exif["Exif.Photo.PixelXDimension"] = str(int(width))
+                exif["Exif.Photo.PixelYDimension"] = str(int(height))
                 # Copy the EXIF data to the new image
-                newExif = pyexiv2.ImageMetadata(newFileName)
-                newExif.read()
-                exif.copy(newExif)
-                newExif.write()
-            except UnicodeDecodeError as e:
-                # Can happen when the filename contains non-ASCII characters
-                str = "Could not update exif data due to UnicodeDecodeError: %s" % e
-                str += "\nHint: The filename/path probably contains non-ASCII characters"
-                str += "\n%s" % fileName
-                str += "\n%s" % newFileName
-                logging.error(str)
+                newExif = GExiv2.Metadata(newFileName)
+                for tag in exif.get_exif_tags():
+                    newExif[tag] = exif[tag]
+                newExif.save_file()
             except NameError:
-                logging.info("pyexiv2 is not available, EXIF data won't " \
-                             "be copied over")
+                logging.info(
+                    "GExiv2 is not available, EXIF data won't be copied over")
         return (skip, cancel, newFileName)
 
     def pack_images(self):
