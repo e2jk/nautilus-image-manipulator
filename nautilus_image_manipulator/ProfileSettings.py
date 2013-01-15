@@ -216,8 +216,8 @@ class Config:
         for section in sections[1:]:
             name = self.readvalue(c, section, "name")
             size = self.readvalue(c, section, "size")
-            width = self.readvalue(c, section, "width", "int")
-            height = self.readvalue(c, section, "height", "int")
+            width = self.readvalue(c, section, "width", "float")
+            height = self.readvalue(c, section, "height", "float")
             percent = self.readvalue(c, section, "percent", "float")
             quality = self.readvalue(c, section, "quality", "float", 95)
             destination = self.readvalue(c, section, "destination")
