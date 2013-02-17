@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 ### BEGIN LICENSE
 # Copyright (C) 2010-2012 Emilien Klein <emilien _AT_ klein _DOT_ st>
-# 
-# This program is free software: you can redistribute it and/or modify it 
-# under the terms of the GNU General Public License version 3, as published 
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
-# 
-# This program is distributed in the hope that it will be useful, but 
-# WITHOUT ANY WARRANTY; without even the implied warranties of 
-# MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR 
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranties of
+# MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR
 # PURPOSE.  See the GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License along 
+#
+# You should have received a copy of the GNU General Public License along
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
@@ -22,7 +22,7 @@ import subprocess
 import Image
 import logging
 try:
-    import pyexiv2
+    from gi.repository import GExiv2
 except ImportError:
     pass
 
@@ -91,7 +91,7 @@ class ImageManipulations(GObject.GObject):
 
     def resize_one_image(self, fileName):
         """Performs the resizing operation on one image.
-        
+
         The return value indicates if this resizing operation was successful.
         """
         logging.debug('resizing image: %s' % fileName)
@@ -161,26 +161,18 @@ class ImageManipulations(GObject.GObject):
         if not (skip or retry or cancel):
             try:
                 # Load EXIF data
-                exif = pyexiv2.ImageMetadata(fileName)
-                exif.read()
+                exif = GExiv2.Metadata(fileName)
                 # Change EXIF image size to the new size
-                exif["Exif.Photo.PixelXDimension"] = int(width)
-                exif["Exif.Photo.PixelYDimension"] = int(height)
+                exif["Exif.Photo.PixelXDimension"] = str(int(width))
+                exif["Exif.Photo.PixelYDimension"] = str(int(height))
                 # Copy the EXIF data to the new image
-                newExif = pyexiv2.ImageMetadata(newFileName)
-                newExif.read()
-                exif.copy(newExif)
-                newExif.write()
-            except UnicodeDecodeError as e:
-                # Can happen when the filename contains non-ASCII characters
-                str = "Could not update exif data due to UnicodeDecodeError: %s" % e
-                str += "\nHint: The filename/path probably contains non-ASCII characters"
-                str += "\n%s" % fileName
-                str += "\n%s" % newFileName
-                logging.error(str)
+                newExif = GExiv2.Metadata(newFileName)
+                for tag in exif.get_exif_tags():
+                    newExif[tag] = exif[tag]
+                newExif.save_file()
             except NameError:
-                logging.info("pyexiv2 is not available, EXIF data won't " \
-                             "be copied over")
+                logging.info(
+                    "GExiv2 is not available, EXIF data won't be copied over")
         return (skip, cancel, newFileName)
 
     def pack_images(self):
