@@ -7,20 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nautilus-image-manipulator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-03-31 09:27+0200\n"
-"PO-Revision-Date: 2012-03-31 07:32+0000\n"
+"POT-Creation-Date: 2013-02-17 23:24+0100\n"
+"PO-Revision-Date: 2013-02-18 06:41+0000\n"
 "Last-Translator: Emilien Klein <emilien+ubuntu@klein.st>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2012-03-31 07:36+0000\n"
-"X-Generator: Launchpad (build 15032)\n"
+"X-Launchpad-Export-Date: 2013-02-19 20:12+0000\n"
+"X-Generator: Launchpad (build 16491)\n"
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:95
 #: ../nautilus_image_manipulator/ProfileSettings.py:101
-#: ../nautilus_image_manipulator/ProfileSettings.py:294
+#: ../nautilus_image_manipulator/ProfileSettings.py:333
 msgid "Custom settings"
 msgstr "Persoonlijke instellingen"
 
@@ -105,7 +105,7 @@ msgstr ""
 "groter de beeldgrootte)"
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:443
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
 msgid "Quality:"
 msgstr "Kwaliteit:"
 
@@ -188,17 +188,17 @@ msgstr ""
 msgid "No images provided"
 msgstr "Geen beelden aangeboden"
 
-#: ../nautilus_image_manipulator/ImageManipulations.py:80
+#: ../nautilus_image_manipulator/ImageManipulations.py:83
 msgid "Resizing images..."
 msgstr "Beelden aan het verkleinen..."
 
-#: ../nautilus_image_manipulator/ImageManipulations.py:201
+#: ../nautilus_image_manipulator/ImageManipulations.py:199
 msgid "Packing images..."
 msgstr "Beelden aan het verpakken..."
 
 #: ../nautilus_image_manipulator/ProfileSettings.py:57
 #: ../nautilus_image_manipulator/ProfileSettings.py:80
-#: ../nautilus_image_manipulator/ProfileSettings.py:357
+#: ../nautilus_image_manipulator/ProfileSettings.py:400
 #, python-format
 msgid "Send %(imageSize)s images to %(uploadUrl)s"
 msgstr "Stuur %(imageSize)s foto's naar %(uploadUrl)s"
@@ -206,14 +206,14 @@ msgstr "Stuur %(imageSize)s foto's naar %(uploadUrl)s"
 #. Part of new profile name "Create small images[...]"
 #: ../nautilus_image_manipulator/ProfileSettings.py:58
 #: ../nautilus_image_manipulator/ProfileSettings.py:70
-#: ../nautilus_image_manipulator/ProfileSettings.py:324
-#: ../nautilus_image_manipulator/ProfileSettings.py:341
+#: ../nautilus_image_manipulator/ProfileSettings.py:363
+#: ../nautilus_image_manipulator/ProfileSettings.py:380
 msgid "small"
 msgstr "kleine"
 
 #: ../nautilus_image_manipulator/ProfileSettings.py:69
 #: ../nautilus_image_manipulator/ProfileSettings.py:91
-#: ../nautilus_image_manipulator/ProfileSettings.py:361
+#: ../nautilus_image_manipulator/ProfileSettings.py:404
 #, python-format
 msgid "Create %(imageSize)s images in the \"%(directoryName)s\" folder"
 msgstr "Maak %(imageSize)s foto's in de \"%(directoryName)s\" map"
@@ -221,168 +221,180 @@ msgstr "Maak %(imageSize)s foto's in de \"%(directoryName)s\" map"
 #. Part of new profile name "Create large images[...]"
 #: ../nautilus_image_manipulator/ProfileSettings.py:81
 #: ../nautilus_image_manipulator/ProfileSettings.py:92
-#: ../nautilus_image_manipulator/ProfileSettings.py:327
-#: ../nautilus_image_manipulator/ProfileSettings.py:349
+#: ../nautilus_image_manipulator/ProfileSettings.py:366
+#: ../nautilus_image_manipulator/ProfileSettings.py:388
 msgid "large"
 msgstr "grote"
 
 #. Part of new profile name "Create 60% resized images[...]"
-#: ../nautilus_image_manipulator/ProfileSettings.py:330
+#: ../nautilus_image_manipulator/ProfileSettings.py:369
 #, python-format
 msgid "%d%% resized"
 msgstr "%d%% aangepaste"
 
 #. Part of new profile name "Create very small images[...]"
-#: ../nautilus_image_manipulator/ProfileSettings.py:337
+#: ../nautilus_image_manipulator/ProfileSettings.py:376
 msgid "very small"
 msgstr "zeer kleine"
 
 #. Part of new profile name "Create medium images[...]"
-#: ../nautilus_image_manipulator/ProfileSettings.py:345
+#: ../nautilus_image_manipulator/ProfileSettings.py:384
 msgid "medium"
 msgstr "medium"
 
 #. Part of new profile name "Create very large images[...]"
-#: ../nautilus_image_manipulator/ProfileSettings.py:352
+#: ../nautilus_image_manipulator/ProfileSettings.py:391
 msgid "very large"
 msgstr "zeer grote"
 
-#: ../nautilus_image_manipulator/ProfileSettings.py:365
+#: ../nautilus_image_manipulator/ProfileSettings.py:408
 #, python-format
 msgid "Create %(imageSize)s images and append \"%(appendString)s\""
 msgstr "Maak %(imageSize)s foto's en voeg \"%(appendString)s\" toe"
 
-#: ../nautilus_image_manipulator/ProfileSettings.py:368
-msgid "Unnamed profile"
-msgstr "Naamloos profiel"
-
-#. Part of the profile name: "Send small images to 1fichier.com (95% quality)"
-#: ../nautilus_image_manipulator/ProfileSettings.py:376
+#. Add the quality information in the profile name
+#: ../nautilus_image_manipulator/ProfileSettings.py:413
 #, python-format
 msgid "(%d%% quality)"
 msgstr "(%d%% kwaliteit)"
 
+#: ../nautilus_image_manipulator/ProfileSettings.py:414
+msgid "Unnamed profile"
+msgstr "Naamloos profiel"
+
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:1
-msgid "An error occurred!"
-msgstr "Er is een fout opgetreden!"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:2
-msgid "Append to filename:"
-msgstr "Toevoegen aan bestandsnaam:"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:3
-msgid "Create a new profile based on these settings"
-msgstr "Maak een nieuw profiel aan op basis van deze instellingen"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:4
-msgid "Delete this profile"
-msgstr "Verwijder dit profiel"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:5
-msgid "Delete url:"
-msgstr "Adres om bestand te wissen:"
-
-#. Use "Title Case" if used in your language
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
-msgid "Destination"
-msgstr "Bestemming"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:8
-msgid "Download url:"
-msgstr "Download adres:"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:9
-msgid "Folder name:"
-msgstr "Naam van de map:"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
-msgid "Height:"
-msgstr "Hoogte:"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
-msgid "Image Size"
-msgstr "Afbeeldingsgrootte"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:12
-msgid "Images successfully uploaded!"
-msgstr "Beelden geüpload!"
-
-#. Visible when hovering over the height settings in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
-msgid "Maximum height of the resized images, in pixels"
-msgstr "Maximale hoogte van de aangepaste afbeeldingen, in pixels"
-
-#. Visible when hovering over the width settings in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
-msgid "Maximum width of the resized images, in pixels"
-msgstr "Maximale breedte van de aangepaste afbeeldingen, in pixels"
-
-#. Visible when hovering over the subfolder name entry box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
-msgid "Name of the folder in which the resized images will be saved"
-msgstr "Naam van de map waarin de verkleinde foto's zullen worden opgeslagen"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:19
-msgid "Name of the zip file:"
-msgstr "Naam van het zip-bestand:"
-
-#. Visible when hovering over the percent scale in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:21
-msgid "Percent of the original image size"
-msgstr "Percentage van het originele beeldformaat"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
-msgid "Rename"
-msgstr "Hernoemen"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
-msgid "Resize"
-msgstr "Schalen"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
-msgid "Resize images"
-msgstr "Beelden verkleinen"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
-msgid "Save as a new profile"
-msgstr "Opslaan als een nieuw profiel"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
 msgid "Save in a folder"
 msgstr "In een map opslaan"
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:2
+msgid "Rename"
+msgstr "Hernoemen"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:3
+msgid "Upload to a website"
+msgstr "Upload naar een website"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:4
+msgid "Resize images"
+msgstr "Beelden verkleinen"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:5
+msgid "Image Size"
+msgstr "Afbeeldingsgrootte"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:6
+msgid "Small"
+msgstr "Klein"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
+msgid "Large"
+msgstr "Groot"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:8
+msgid "Custom"
+msgstr "Op maat"
+
+#. Visible when hovering over the width settings in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
+msgid "Maximum width of the resized images, in pixels"
+msgstr "Maximale breedte van de aangepaste afbeeldingen, in pixels"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
+msgid "Width:"
+msgstr "Breedte:"
+
+#. Visible when hovering over the height settings in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
+msgid "Maximum height of the resized images, in pixels"
+msgstr "Maximale hoogte van de aangepaste afbeeldingen, in pixels"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
+msgid "Height:"
+msgstr "Hoogte:"
+
+#. Visible when hovering over the percent scale in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
+msgid "Percent of the original image size"
+msgstr "Percentage van het originele beeldformaat"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
 msgid "Scale:"
 msgstr "Schalen:"
 
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
+msgid "Destination"
+msgstr "Bestemming"
+
+#. Visible when hovering over the subfolder name entry box in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+msgid "Name of the folder in which the resized images will be saved"
+msgstr "Naam van de map waarin de verkleinde foto's zullen worden opgeslagen"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
+msgid "Folder name:"
+msgstr "Naam van de map:"
+
+#. Visible when hovering over the append string entry box in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
+msgid "This value will be appended before the image extension"
+msgstr "Deze waarde zal voor het beeld extensie worden toegevoegd"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+msgid "Append to filename:"
+msgstr "Toevoegen aan bestandsnaam:"
+
 #. Visible when hovering over the zipfile name entry box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
 msgid "The resized images will be compressed together into this zip file"
 msgstr "De verkleinde foto's worden samen in dit zip-bestand gecomprimeerd"
 
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
+msgid "Name of the zip file:"
+msgstr "Naam van het zip-bestand:"
+
 #. Visible when hovering over the upload website combo box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
 msgid ""
 "The zip file containing the resized images will be uploaded to this website"
 msgstr ""
 "Het zip-bestand met de verkleinde foto's wordt naar deze website geüpload"
 
-#. Visible when hovering over the append string entry box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
-msgid "This value will be appended before the image extension"
-msgstr "Deze waarde zal voor het beeld extensie worden toegevoegd"
-
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
 msgid "Upload the resized images to:"
 msgstr "Upload de verkleinde foto's naar:"
 
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
+msgid "An error occurred!"
+msgstr "Er is een fout opgetreden!"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
+msgid "Images successfully uploaded!"
+msgstr "Beelden geüpload!"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
+msgid "Download url:"
+msgstr "Download adres:"
+
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
-msgid "Upload to a website"
-msgstr "Upload naar een website"
+msgid "Delete url:"
+msgstr "Adres om bestand te wissen:"
 
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
-msgid "Width:"
-msgstr "Breedte:"
+msgid "Delete this profile"
+msgstr "Verwijder dit profiel"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:38
+msgid "Save as a new profile"
+msgstr "Opslaan als een nieuw profiel"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:39
+msgid "Create a new profile based on these settings"
+msgstr "Maak een nieuw profiel aan op basis van deze instellingen"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:40
+msgid "Resize"
+msgstr "Schalen"
 
 #: ../nautilus_image_manipulator/nautilus-extension.py:72
 msgid "Resize the selected image"
