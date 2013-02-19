@@ -67,7 +67,7 @@ def nautilus_plugin():
 
 DistUtilsExtra.auto.setup(
     name='nautilus-image-manipulator',
-    version='1.1',
+    version='1.2',
     license='GPL-3',
     author='Emilien Klein',
     author_email='emilien _AT_ klein _DOT_ st',

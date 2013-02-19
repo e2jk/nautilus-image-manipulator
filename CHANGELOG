@@ -1,6 +1,14 @@
 Changelog for nautilus-image-manipulator
 
 ================================
+1.2 - 2013-02-18 (r199)
+  * Fix uploading to 1fichier.com (LP #1100027)
+  * Fix issue where width/height manually specified in the profile would result
+      in a crash (LP #1030927)
+  * Use GExiv2 instead of pyexiv2 (LP #1074028)
+  * Added German translation
+
+================================
 1.1 - 2012-04-30 (r187)
   * Better management of profiles. In particular, make sure that there are
       no profiles that have the same name.
