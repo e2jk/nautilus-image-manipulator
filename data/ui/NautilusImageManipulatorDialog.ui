@@ -38,6 +38,7 @@
     <property name="title" translatable="yes">Resize images</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="icon">../logo/nim-logo-large.png</property>
     <property name="type_hint">normal</property>
     <signal name="destroy" handler="on_destroy" swapped="no"/>
     <child internal-child="vbox">
