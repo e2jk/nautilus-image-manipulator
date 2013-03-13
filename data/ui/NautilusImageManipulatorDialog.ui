@@ -41,7 +41,7 @@
     <property name="type_hint">normal</property>
     <signal name="destroy" handler="on_destroy" swapped="no"/>
     <child internal-child="vbox">
-      <object class="GtkBox" id="internal_box">
+      <object class="GtkVBox" id="internal_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="margin_left">4</property>
@@ -49,7 +49,7 @@
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
-          <object class="GtkBox" id="details_box">
+          <object class="GtkVBox" id="details_box">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
@@ -67,14 +67,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="parameters_box">
+              <object class="GtkVBox" id="parameters_box">
                 <property name="can_focus">False</property>
                 <property name="margin_right">5</property>
                 <property name="margin_top">10</property>
                 <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkBox" id="imagesize_box">
+                  <object class="GtkVBox" id="imagesize_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_top">6</property>
@@ -97,14 +97,14 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox" id="imagesize_box1">
+                      <object class="GtkVBox" id="imagesize_box1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkBox" id="pixels_box">
+                          <object class="GtkHBox" id="pixels_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
@@ -150,7 +150,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="width_height_box">
+                          <object class="GtkHBox" id="width_height_box">
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">False</property>
@@ -244,7 +244,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="percent_box">
+                          <object class="GtkHBox" id="percent_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the percent scale in the custom settings">Percent of the original image size</property>
@@ -304,7 +304,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="quality_box">
+                          <object class="GtkHBox" id="quality_box">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="margin_top">6</property>
@@ -372,7 +372,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="destination_box">
+                  <object class="GtkVBox" id="destination_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_top">6</property>
@@ -395,7 +395,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkBox" id="destination_box1">
+                      <object class="GtkVBox" id="destination_box1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="margin_left">12</property>
@@ -422,7 +422,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="subfolder_box">
+                          <object class="GtkHBox" id="subfolder_box">
                             <property name="can_focus">False</property>
                             <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the subfolder name entry box in the custom settings">Name of the folder in which the resized images will be saved</property>
                             <property name="halign">end</property>
@@ -463,7 +463,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="append_box">
+                          <object class="GtkHBox" id="append_box">
                             <property name="can_focus">False</property>
                             <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the append string entry box in the custom settings">This value will be appended before the image extension</property>
                             <property name="halign">end</property>
@@ -505,11 +505,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkBox" id="upload_box">
+                          <object class="GtkVBox" id="upload_box">
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkBox" id="zipname_box">
+                              <object class="GtkHBox" id="zipname_box">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="has_tooltip">True</property>
@@ -552,7 +552,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkBox" id="hosting_box">
+                              <object class="GtkHBox" id="hosting_box">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the upload website combo box in the custom settings">The zip file containing the resized images will be uploaded to this website</property>
@@ -640,7 +640,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="error_box">
+          <object class="GtkVBox" id="error_box">
             <property name="can_focus">False</property>
             <property name="margin_right">5</property>
             <property name="margin_top">10</property>
@@ -663,7 +663,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="hbox10">
+              <object class="GtkHBox" id="hbox10">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">12</property>
@@ -699,7 +699,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="error_url_hbox">
+              <object class="GtkHBox" id="error_url_hbox">
                 <property name="can_focus">False</property>
                 <property name="spacing">12</property>
                 <child>
@@ -743,7 +743,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="url_box">
+          <object class="GtkVBox" id="url_box">
             <property name="can_focus">False</property>
             <property name="margin_right">5</property>
             <property name="margin_top">10</property>
@@ -766,7 +766,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox" id="hbox20">
+              <object class="GtkHBox" id="hbox20">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">12</property>
