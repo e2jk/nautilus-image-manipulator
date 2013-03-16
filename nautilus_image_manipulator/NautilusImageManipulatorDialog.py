@@ -26,6 +26,7 @@ from nautilus_image_manipulator.helpers import get_builder
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
 from ProfileSettings import Profile, Config
 from upload.BaseUploadSite import UnknownUploadDestinationException
+from upload.BaseUploadSite import InvalidEndURLsException
 
 import gettext
 from gettext import gettext as _
@@ -187,7 +188,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.o("progressbar").set_text("%s 0%%" % _("Uploading images..."))
         self.o("progressbar").set_fraction(0)
         self.uploadPercent = 0
-        (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
+        try:
+            (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
+        except InvalidEndURLsException:
+            self.error_on_uploading(_("The page where your file can be downloaded from %(site_name)s could not be determined.\nPlease try again, and report a bug if it happens again." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
+            return
         logging.info('downloadPage: %s' % downloadPage)
         logging.info('deletePage: %s' % deletePage)
 

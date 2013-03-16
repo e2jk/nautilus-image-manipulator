@@ -2,7 +2,8 @@ Changelog for nautilus-image-manipulator
 
 ================================
 1.3 - 201X-XX-XX (rYYY)
-  * "Port" to GTK+ 3 (actually, just updated the ui file to be able to open
+  * Better error handling when the upload site could not be parsed successfully.
+  * "Port" to GTK+ 3 (actually, just updated the UI file to be able to open
     with Glade for GTK+ 3)
   * Added Slovak translation (thanks Prescott_SK)
   * Added incomplete Russian translation (thanks Eugene Marshal)

@@ -21,6 +21,11 @@ class UnknownUploadDestinationException(Exception):
        the upload website has most likely changed it's API/website"""
        pass
 
+class InvalidEndURLsException(Exception):
+       """Impossible to determine the URLs where the file will be made
+       available."""
+       pass
+
 class BaseUploadSite():
     def __init__(self):
         """Determines the upload url for YYY"""

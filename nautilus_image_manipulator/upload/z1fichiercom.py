@@ -73,9 +73,9 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
         try:
             (filename, size, download_id, deletion_id, domain_id, control_hash) = re.search("(.*);(.*);(.*);(.*);(.*);(.*)", downloaded_page).groups()
         except:
-            # TODO: Better failed upload handling
+            # TODO: Better failed upload handling, maybe try again?
             logging.error('the upload has failed, this is the returned page:\n"%s"\n' % downloaded_page)
-            raise
+            raise BaseUploadSite.InvalidEndURLsException()
 
         downloadPage = "http://%s.1fichier.com" % download_id
         deletePage = "http://www.1fichier.com/remove/%s/%s" % (download_id, deletion_id)
