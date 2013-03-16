@@ -19,29 +19,29 @@ import os
 
 def main():
     uiFolder = "./data/ui"
-    
+
     #TODO: better not use the "/usr/bin/" part of the command
     cmd = "/usr/bin/glade"
     if not os.path.exists(cmd):
         print "ERROR: Please check your Glade installation."
         exit(-1)
-    
-    
+
+
     # Check if the folder exists, i.e. uiFolder is a valid folder
     if not os.path.isdir(uiFolder):
         # The folder does not exist, we are probably not running the script from the root of the repository
         # Exit with an error message
         print "ERROR: Please run this script from the root of the repository."
         exit(-1)
-    
+
     # List all ".ui" files in uiFolder
     files = []
     for ui_file in glob.glob(uiFolder + "/*.ui"):
         files.append(ui_file)
-    
+
     # Prepare the command to be run to launch Glade
     cmd = "GLADE_CATALOG_PATH=%s %s %s" % (uiFolder, cmd, " ".join(files))
-    
+
     # Run Glade
     subprocess.Popen(cmd, shell=True, stderr=file("/dev/null"))
 
