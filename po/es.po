@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nautilus-image-manipulator\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-02-17 23:24+0100\n"
-"PO-Revision-Date: 2013-02-18 06:41+0000\n"
-"Last-Translator: Emilien Klein <emilien+ubuntu@klein.st>\n"
+"POT-Creation-Date: 2013-02-19 21:14+0100\n"
+"PO-Revision-Date: 2013-03-04 01:52+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-02-19 20:12+0000\n"
-"X-Generator: Launchpad (build 16491)\n"
+"X-Launchpad-Export-Date: 2013-03-16 10:40+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:95
 #: ../nautilus_image_manipulator/ProfileSettings.py:101
@@ -30,7 +30,7 @@ msgstr "Introduzca el nombre de la carpeta."
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:109
 msgid "Please enter some text to append to the filename."
-msgstr "Por favor, introduzca un texto para añadir al nombre del archivo."
+msgstr "Escriba un texto que añadir al nombre del archivo."
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:115
 #, python-format
