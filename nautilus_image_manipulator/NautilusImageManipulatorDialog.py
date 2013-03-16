@@ -25,6 +25,7 @@ import logging
 from nautilus_image_manipulator.helpers import get_builder
 from nautilus_image_manipulator.ImageManipulations import ImageManipulations
 from ProfileSettings import Profile, Config
+from upload.BaseUploadSite import UnknownUploadDestinationException
 
 import gettext
 from gettext import gettext as _
@@ -178,6 +179,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         except urllib2.URLError:
             # Impossible to contact the website (no network, site down, etc.)
             self.error_on_uploading(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, False)
+            return
+        except UnknownUploadDestinationException:
+            self.error_on_uploading(_("The upload destination for %(site_name)s could not be determined, please report a bug so that this can be fixed." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
             return
 
         self.o("progressbar").set_text("%s 0%%" % _("Uploading images..."))

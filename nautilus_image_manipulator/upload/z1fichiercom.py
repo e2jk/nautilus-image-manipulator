@@ -22,16 +22,21 @@ import logging
 
 from nautilus_image_manipulator.upload.poster.encode import multipart_encode
 from nautilus_image_manipulator.upload.poster.streaminghttp import register_openers
+import BaseUploadSite
 
-class UploadSite():
+class UploadSite(BaseUploadSite.BaseUploadSite):
     def __init__(self):
-        """Determines the url to upload to for 1fichier.com.
+        """Determines the upload url for 1fichier.com.
         
         Documentation for 1fichier.com: http://www.1fichier.com/api/web.html
         Note: it's not up to date..."""
         # The session ID is read from the "files" form on http://www.1fichier.com
         html = urllib2.urlopen('http://www.1fichier.com').read()
-        (sessionId) = re.search('<form enctype="multipart/form-data" id="files" action="http://.+\.1fichier\.com/upload.cgi\?id=(.*)" method="post">', html).groups()
+        try:
+            (sessionId) = re.search('<form enctype="multipart/form-data" id="files" action="http://.+\.1fichier\.com/upload.cgi\?id=(.*)" method="post">', html).groups()
+        except AttributeError:
+            # If this exception is raised, fix the previous regex
+            raise BaseUploadSite.UnknownUploadDestinationException()
         # Build the url to upload to and to retrieve the download and delete links:
         self.uploadUrl = "http://upload.1fichier.com/upload.cgi?id=%s" % sessionId
         self.endUploadUrl = "http://upload.1fichier.com/end.pl?xid=%s" % sessionId
