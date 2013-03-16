@@ -329,7 +329,11 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.o("subfolder_entry").set_text(p.foldername)
         elif p.destination == 'upload':
             self.o("zipname_entry").set_text(p.zipname)
-            self.o("upload_combo").set_active(self.upload_sites.index(p.url))
+            try:
+                i = self.upload_sites.index(p.url)
+            except ValueError:
+                i = 0
+            self.o("upload_combo").set_active(i)
 
     def create_new_profile_from_custom_settings(self):
         """Returns a new profile instance based on the data in the advanced
