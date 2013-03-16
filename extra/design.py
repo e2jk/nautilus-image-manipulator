@@ -21,7 +21,7 @@ def main():
     uiFolder = "./data/ui"
     
     #TODO: better not use the "/usr/bin/" part of the command
-    cmd = "/usr/bin/glade-gtk2"
+    cmd = "/usr/bin/glade"
     if not os.path.exists(cmd):
         print "ERROR: Please check your Glade installation."
         exit(-1)
