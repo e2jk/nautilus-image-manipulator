@@ -170,22 +170,14 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         try:
             exec import_string
         except ImportError:
-            if os.path.splitext(fileToUpload)[1] == ".zip":
-                extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
-            else:
-                extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
-            self.display_error(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % self.p.url}) + "\n\n" + extraInfo, (_("Please file a bug report on Launchpad"), "https://bugs.launchpad.net/nautilus-image-manipulator"))
+            self.error_on_uploading(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
             return
         u = None
         try:
             u = UploadSite()
         except urllib2.URLError:
             # Impossible to contact the website (no network, site down, etc.)
-            if os.path.splitext(fileToUpload)[1] == ".zip":
-                extraInfo = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
-            else:
-                extraInfo = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
-            self.display_error(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % self.p.url}) + "\n\n" + extraInfo)
+            self.error_on_uploading(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, False)
             return
 
         self.o("progressbar").set_text("%s 0%%" % _("Uploading images..."))
@@ -204,26 +196,29 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
         self.on_uploading_done(downloadPage, deletePage)
 
-    def display_error(self, msg, urlInfo=None):
+    def error_on_uploading(self, message, fileToUpload, reportBug):
         """Displays an error message.
         
-        Using the option ``urlInfo`` parameter, you can display a link button to open a url.
-        This parameter is a tuple of the form (message, url)"""
+        Can also display a link to report a bug on Launchpad"""
+        if os.path.splitext(fileToUpload)[1] == ".zip":
+            extra_info = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
+        else:
+            extra_info = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
         # Hide the unneccessary sections
         self.o("details_box").hide()
         self.o("progressbar").hide()
         self.o("url_box").hide()
         # Display the error message
-        self.o("error_message_label").set_text(msg)
+        self.o("error_message_label").set_text(message % {"extra_info": extra_info})
         self.o("error_box").show()
         # Hide the cancel and resize button, and show the close button
         self.o("cancel_button").hide()
         self.o("resize_button").hide()
         self.o("close_button").show()
-        # Eventually display an url
-        if urlInfo:
-            self.o("error_url_linkbutton").set_label(urlInfo[0])
-            self.o("error_url_linkbutton").set_uri(urlInfo[1])
+        # Display the link to report a bug
+        if reportBug:
+            self.o("error_url_linkbutton").set_label(_("Please file a bug report on Launchpad"))
+            self.o("error_url_linkbutton").set_uri("https://bugs.launchpad.net/nautilus-image-manipulator")
             self.o("error_url_hbox").show()
         else:
             self.o("error_url_hbox").hide()
