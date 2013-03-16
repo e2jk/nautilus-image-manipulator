@@ -43,7 +43,7 @@ def main():
     cmd = "GLADE_CATALOG_SEARCH_PATH=%s %s %s" % (uiFolder, cmd, " ".join(files))
 
     # Run Glade
-    subprocess.Popen(cmd, shell=True, stderr=file("/dev/null"))
+    subprocess.Popen(cmd, shell=True)
 
 if __name__ == '__main__':
     main()
