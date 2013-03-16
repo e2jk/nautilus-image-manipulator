@@ -172,17 +172,17 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         try:
             exec import_string
         except ImportError:
-            self.error_on_uploading(_("The selected upload site %(site_name)s is not valid." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
+            self.error_on_uploading(_("The selected upload site %(site_name)s is not valid.") % {"site_name": '"%s"' % self.p.url} + "\n\n%(extra_info)s", fileToUpload, True)
             return
         u = None
         try:
             u = UploadSite()
         except urllib2.URLError:
             # Impossible to contact the website (no network, site down, etc.)
-            self.error_on_uploading(_("The upload site %(site_name)s could not be contacted, please check your internet connection." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, False)
+            self.error_on_uploading(_("The upload site %(site_name)s could not be contacted, please check your internet connection.") % {"site_name": '"%s"' % self.p.url} + "\n\n%(extra_info)s", fileToUpload, False)
             return
         except UnknownUploadDestinationException:
-            self.error_on_uploading(_("The upload destination for %(site_name)s could not be determined, please report a bug so that this can be fixed." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
+            self.error_on_uploading(_("The upload destination for %(site_name)s could not be determined, please report a bug so that this can be fixed.") % {"site_name": '"%s"' % self.p.url} + "\n\n%(extra_info)s", fileToUpload, True)
             return
 
         self.o("progressbar").set_text("%s 0%%" % _("Uploading images..."))
@@ -210,9 +210,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         
         Can also display a link to report a bug on Launchpad"""
         if os.path.splitext(fileToUpload)[1] == ".zip":
-            extra_info = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s" % {"filename": fileToUpload})
+            extra_info = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s") % {"filename": fileToUpload}
         else:
-            extra_info = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s" % {"filename": fileToUpload})
+            extra_info = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s") % {"filename": fileToUpload}
         # Hide the unneccessary sections
         self.o("details_box").hide()
         self.o("progressbar").hide()
