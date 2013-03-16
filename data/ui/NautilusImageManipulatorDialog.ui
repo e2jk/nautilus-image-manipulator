@@ -110,11 +110,13 @@
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="pixels_radio">
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="focus_on_click">False</property>
+                                <property name="xalign">0.5</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="size_radio_toggled" swapped="no"/>
                               </object>
@@ -252,6 +254,7 @@
                             <child>
                               <object class="GtkRadioButton" id="percent_radio">
                                 <property name="label" translatable="yes">Scale:</property>
+                                <property name="use_action_appearance">False</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -716,6 +719,7 @@
                 <child>
                   <object class="GtkLinkButton" id="error_url_linkbutton">
                     <property name="label">delete</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -813,6 +817,7 @@
                     <child>
                       <object class="GtkLinkButton" id="download_linkbutton">
                         <property name="label">download</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -828,6 +833,7 @@
                     <child>
                       <object class="GtkLinkButton" id="delete_linkbutton">
                         <property name="label">delete</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
@@ -872,6 +878,7 @@
             <child>
               <object class="GtkButton" id="deleteprofile_button">
                 <property name="label" translatable="yes">Delete this profile</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -888,6 +895,7 @@
             <child>
               <object class="GtkButton" id="newprofile_button">
                 <property name="label" translatable="yes">Save as a new profile</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -906,6 +914,7 @@
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="label">gtk-cancel</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -922,6 +931,7 @@
             <child>
               <object class="GtkButton" id="close_button">
                 <property name="label">gtk-close</property>
+                <property name="use_action_appearance">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_action_appearance">False</property>
@@ -937,6 +947,7 @@
             <child>
               <object class="GtkButton" id="resize_button">
                 <property name="label" translatable="yes">Resize</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
