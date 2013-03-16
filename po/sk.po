@@ -1,0 +1,407 @@
+# Slovak translation for nautilus-image-manipulator
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the nautilus-image-manipulator package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nautilus-image-manipulator\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-02-19 21:14+0100\n"
+"PO-Revision-Date: 2013-01-17 19:05+0000\n"
+"Last-Translator: Prescott_SK <prescott66@gmail.com>\n"
+"Language-Team: Slovak <sk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
+"X-Launchpad-Export-Date: 2013-03-16 10:40+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:95
+#: ../nautilus_image_manipulator/ProfileSettings.py:101
+#: ../nautilus_image_manipulator/ProfileSettings.py:333
+msgid "Custom settings"
+msgstr "Vlastné nastavenia"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:104
+msgid "Please enter the name of the folder."
+msgstr "Prosím, zadajte názov priečinka."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:109
+msgid "Please enter some text to append to the filename."
+msgstr "Prosím, zadajte text, ktorý sa má pridať do názvu súboru."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:115
+#, python-format
+msgid "The string to append cannot end in %s"
+msgstr "Reťazec na pridanie nemôže končiť s %s"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:121
+msgid "Please enter the name of the zip file."
+msgstr "Prosím, zadajte názov súboru zip."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:174
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:185
+#, python-format
+msgid ""
+"Your images have not been sent, but have been zipped together into this "
+"file:\n"
+"%(filename)s"
+msgstr ""
+"Vaše obrázky neboli odoslané, alebo boli skomprimované spolu do tohoto "
+"súboru:\n"
+"%(filename)s"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:176
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:187
+#, python-format
+msgid ""
+"Your image has not been sent, but has successfully been resized.\n"
+"You can find it at %(filename)s"
+msgstr ""
+"Váš obrázok nebol odoslaný, alebo bola mu úspešne zmenená veľkosť.\n"
+"Môžete ho nájsť pod názvom %(filename)s"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:177
+#, python-format
+msgid "The selected upload site %(site_name)s is not valid."
+msgstr "Zvolená odosielacia stránka %(site_name)s nie je platná."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:177
+msgid "Please file a bug report on Launchpad"
+msgstr "Prosím, nahláste chybu na Launchpade"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:188
+#, python-format
+msgid ""
+"The upload site %(site_name)s could not be contacted, please check your "
+"internet connection."
+msgstr ""
+"Nepodarilo sa skontaktovať odosielaciu stránku %(site_name)s, prosím, "
+"skontrolujte vaše internetové pripojenie."
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:191
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:240
+msgid "Uploading images..."
+msgstr "Odosielajú sa obrázky..."
+
+#. Visible when hovering over the quality scale in the custom
+#. settings when the quality is too low
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:435
+msgid ""
+"Warning: the lower the quality, the more deteriorated the images will be"
+msgstr "Upozornenie: čím bude menšia kvalita, tým budú obrázky horšie"
+
+#. Visible when hovering over the quality scale in the custom
+#. settings when the quality is high enough
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:441
+msgid ""
+"Determines the quality of the resized images (the higher the quality, the "
+"larger the image size)"
+msgstr ""
+"Určuje kvalitu obrázkov so zmenou veľkosti (čím bude väčšia kvalita, tým "
+"bude veľkosť obrázkov väčšia)"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:443
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
+msgid "Quality:"
+msgstr "Kvalita:"
+
+#. Default folder name
+#. Default value to append to filename
+#. Default zipfile name
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:454
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:461
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:468
+#: ../nautilus_image_manipulator/ProfileSettings.py:63
+#: ../nautilus_image_manipulator/ProfileSettings.py:71
+#: ../nautilus_image_manipulator/ProfileSettings.py:75
+#: ../nautilus_image_manipulator/ProfileSettings.py:85
+#: ../nautilus_image_manipulator/ProfileSettings.py:93
+#: ../nautilus_image_manipulator/ProfileSettings.py:96
+msgid "resized"
+msgstr "zmenená veľkosť"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:484
+msgid "Invalid parameters"
+msgstr "Neplatné parametre"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:498
+msgid "_Skip"
+msgstr "Pre_skočiť"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:500
+msgid "_Retry"
+msgstr "_Skúsiť znovu"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:501
+#, python-format
+msgid ""
+"The image \"%(image)s\" could not be resized.\n"
+"\n"
+"Check whether you have permission to write to this folder:\n"
+"%(folder)s"
+msgstr ""
+"Obrázku \"%(image)s\" sa neodarilo zmeniť veľkosť.\n"
+"\n"
+"Skontrolujte, či máte oprávnenia pre zápis do tohoto priečinka:\n"
+"%(folder)s"
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:503
+msgid "Could not resize image"
+msgstr "Nepodarilo sa zmeniť veľkosť obrázka"
+
+#: ../bin/nautilus-image-manipulator.py:45
+msgid "show debug messages"
+msgstr "zobraziť ladiace správy"
+
+#: ../bin/nautilus-image-manipulator.py:46
+msgid ""
+"a file to be resized. Use multiple arguments to resize multiple files."
+msgstr ""
+"súbor, ktorému sa má zmeniť veľkosť. Použite viacnásobné argumenty na zmenu "
+"veľkosti viacerých súborov."
+
+#: ../bin/nautilus-image-manipulator.py:66
+#: ../nautilus_image_manipulator/nautilus-extension.py:71
+msgid "_Resize image"
+msgid_plural "_Resize images"
+msgstr[0] "_Zmeniť veľkosť obrázka"
+msgstr[1] "_Zmeniť veľkosť obrázkov"
+msgstr[2] "_Zmeniť veľkosť obrázkov"
+
+#. Display an error message since we don't have images to work on
+#: ../bin/nautilus-image-manipulator.py:68
+#, python-format
+msgid ""
+"Nautilus Image Manipulator needs to be provided with a list of images to "
+"resize.\n"
+"Please right-click on an image and select the \"%(resizeImages)s\" option."
+msgstr ""
+"Nautilus Image Manipulator musí mať poskytnutý zoznam obrázkov, ktorým sa má "
+"zmeniť veľkosť.\n"
+"Prosím, kliknite pravým tlačidlom na obrázok a zvoľte voľbu "
+"„%(resizeImages)s“."
+
+#: ../bin/nautilus-image-manipulator.py:70
+msgid "No images provided"
+msgstr "Nie sú poskytnuté žiadne obrázky"
+
+#: ../nautilus_image_manipulator/ImageManipulations.py:83
+msgid "Resizing images..."
+msgstr "Mení sa veľkosť obrázkov..."
+
+#: ../nautilus_image_manipulator/ImageManipulations.py:199
+msgid "Packing images..."
+msgstr "Balia sa obrázky..."
+
+#: ../nautilus_image_manipulator/ProfileSettings.py:57
+#: ../nautilus_image_manipulator/ProfileSettings.py:80
+#: ../nautilus_image_manipulator/ProfileSettings.py:400
+#, python-format
+msgid "Send %(imageSize)s images to %(uploadUrl)s"
+msgstr "Odoslať obrázky %(imageSize)s na %(uploadUrl)s"
+
+#. Part of new profile name "Create small images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:58
+#: ../nautilus_image_manipulator/ProfileSettings.py:70
+#: ../nautilus_image_manipulator/ProfileSettings.py:363
+#: ../nautilus_image_manipulator/ProfileSettings.py:380
+msgid "small"
+msgstr "s malou veľkosťou"
+
+#: ../nautilus_image_manipulator/ProfileSettings.py:69
+#: ../nautilus_image_manipulator/ProfileSettings.py:91
+#: ../nautilus_image_manipulator/ProfileSettings.py:404
+#, python-format
+msgid "Create %(imageSize)s images in the \"%(directoryName)s\" folder"
+msgstr "Vytvoriť obrázky %(imageSize)s v priečinku „%(directoryName)s“"
+
+#. Part of new profile name "Create large images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:81
+#: ../nautilus_image_manipulator/ProfileSettings.py:92
+#: ../nautilus_image_manipulator/ProfileSettings.py:366
+#: ../nautilus_image_manipulator/ProfileSettings.py:388
+msgid "large"
+msgstr "s veľkou veľkosťou"
+
+#. Part of new profile name "Create 60% resized images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:369
+#, python-format
+msgid "%d%% resized"
+msgstr "s/so %d%%-nou zmenou veľkosti"
+
+#. Part of new profile name "Create very small images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:376
+msgid "very small"
+msgstr "s veľmi malou veľkosťou"
+
+#. Part of new profile name "Create medium images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:384
+msgid "medium"
+msgstr "so strednou veľkosťou"
+
+#. Part of new profile name "Create very large images[...]"
+#: ../nautilus_image_manipulator/ProfileSettings.py:391
+msgid "very large"
+msgstr "s veľmi veľkou veľkosťou"
+
+#: ../nautilus_image_manipulator/ProfileSettings.py:408
+#, python-format
+msgid "Create %(imageSize)s images and append \"%(appendString)s\""
+msgstr "Vytvoriť obrázky %(imageSize)s a pridať \"%(appendString)s\""
+
+#. Add the quality information in the profile name
+#: ../nautilus_image_manipulator/ProfileSettings.py:413
+#, python-format
+msgid "(%d%% quality)"
+msgstr "(%d%%-ná kvalita)"
+
+#: ../nautilus_image_manipulator/ProfileSettings.py:414
+msgid "Unnamed profile"
+msgstr "Nepomenovaný profil"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:1
+msgid "Save in a folder"
+msgstr "Uložiť do priečinka"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:2
+msgid "Rename"
+msgstr "Premenovať"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:3
+msgid "Upload to a website"
+msgstr "Odoslať na webovú stránku"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:4
+msgid "Resize images"
+msgstr "Zmeniť veľkosť obrázkov"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:5
+msgid "Image Size"
+msgstr "Veľkosť obrázku"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:6
+msgid "Small"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:7
+msgid "Large"
+msgstr ""
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:8
+msgid "Custom"
+msgstr ""
+
+#. Visible when hovering over the width settings in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:10
+msgid "Maximum width of the resized images, in pixels"
+msgstr "Maximálna šírka obrázkov so zmenou veľkosti, v pixeloch"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:11
+msgid "Width:"
+msgstr "Šírka:"
+
+#. Visible when hovering over the height settings in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:13
+msgid "Maximum height of the resized images, in pixels"
+msgstr "Maximálna výška obrázkov so zmenou veľkosti, v pixeloch"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:14
+msgid "Height:"
+msgstr "Výška:"
+
+#. Visible when hovering over the percent scale in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:16
+msgid "Percent of the original image size"
+msgstr "Percento pôvodnej veľkosti obrázka"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:17
+msgid "Scale:"
+msgstr "Mierka:"
+
+#. Use "Title Case" if used in your language
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:20
+msgid "Destination"
+msgstr "Cieľ"
+
+#. Visible when hovering over the subfolder name entry box in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:22
+msgid "Name of the folder in which the resized images will be saved"
+msgstr ""
+"Názov priečinka, do ktorého budú uložené obrázky so zmenenou veľkosťou"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:23
+msgid "Folder name:"
+msgstr "Názov priečinka:"
+
+#. Visible when hovering over the append string entry box in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
+msgid "This value will be appended before the image extension"
+msgstr "Táto hodnota bude pridaná pred príponu obrázku"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+msgid "Append to filename:"
+msgstr "Pridať do názvu súboru:"
+
+#. Visible when hovering over the zipfile name entry box in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+msgid "The resized images will be compressed together into this zip file"
+msgstr ""
+"Obrázky so zmenenou veľkosťou budú skomprimované spolu do tohoto súboru zip"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
+msgid "Name of the zip file:"
+msgstr "Názov súboru zip:"
+
+#. Visible when hovering over the upload website combo box in the custom settings
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
+msgid ""
+"The zip file containing the resized images will be uploaded to this website"
+msgstr ""
+"Súbor zip, ktorý obsahuje obrázky so zmenenou veľkosťou bude odoslaný na "
+"túto webovú stránku"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+msgid "Upload the resized images to:"
+msgstr "Odoslať obrázky so zmenenou veľkosťou na:"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
+msgid "An error occurred!"
+msgstr "Vyskytla sa chyba!"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
+msgid "Images successfully uploaded!"
+msgstr "Obrázky boli úspešne odoslané!"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
+msgid "Download url:"
+msgstr "Preberacia url:"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
+msgid "Delete url:"
+msgstr "Odstrániť url:"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
+msgid "Delete this profile"
+msgstr "Odstrániť tento profil"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:38
+msgid "Save as a new profile"
+msgstr "Uložiť ako nový profil"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:39
+msgid "Create a new profile based on these settings"
+msgstr "Vytvoriť nový profil s týmito nastaveniami"
+
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:40
+msgid "Resize"
+msgstr "Zmeniť veľkosť"
+
+#: ../nautilus_image_manipulator/nautilus-extension.py:72
+msgid "Resize the selected image"
+msgid_plural "Resize each selected image"
+msgstr[0] "Zmeniť veľkosť zvoleného obrázku"
+msgstr[1] "Zmeniť veľkosť zvolených obrázkov"
+msgstr[2] "Zmeniť veľkosť zvolených obrázkov"
