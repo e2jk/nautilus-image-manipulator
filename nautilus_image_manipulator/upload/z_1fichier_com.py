@@ -57,8 +57,6 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
         # datagen is a generator object that yields the encoded parameters
         datagen, headers = multipart_encode([ ("file[]", open(filename, "rb")), ('domain', '0') ], cb=callback)
 
-        # There is a bug in poster 0.7.0 that encodes parameter names. It will be fixed in the next release.
-
         request = urllib2.Request(self.uploadUrl, datagen, headers)
         urllib2.urlopen(request)
 
