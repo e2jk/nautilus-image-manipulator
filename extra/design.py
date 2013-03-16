@@ -40,7 +40,7 @@ def main():
         files.append(ui_file)
 
     # Prepare the command to be run to launch Glade
-    cmd = "GLADE_CATALOG_PATH=%s %s %s" % (uiFolder, cmd, " ".join(files))
+    cmd = "GLADE_CATALOG_SEARCH_PATH=%s %s %s" % (uiFolder, cmd, " ".join(files))
 
     # Run Glade
     subprocess.Popen(cmd, shell=True, stderr=file("/dev/null"))

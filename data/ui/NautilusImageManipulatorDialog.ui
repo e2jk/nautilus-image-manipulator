@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
+  <!-- interface-requires nautilus_image_manipulator_dialog 1.0 -->
   <object class="GtkListStore" id="destination_list">
     <columns>
       <!-- column-name Text -->
@@ -30,7 +31,7 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkDialog" id="nautilus_image_manipulator_dialog">
+  <object class="NautilusImageManipulatorDialog" id="nautilus_image_manipulator_dialog">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
