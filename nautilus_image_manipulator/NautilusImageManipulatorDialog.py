@@ -71,11 +71,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         builder.connect_signals(self)
 
         # Populate the list of sites to upload to
-        self.upload_sites = ("1fichier.com",)
-        uploadCombo = self.o("upload_combo")
-        uploadCombo.get_model().clear()
-        for u in self.upload_sites:
-            uploadCombo.append_text(u)
+        model = self.o("upload_combo").get_model()
+        self.upload_sites = [model.get_value(model.get_iter(i), 0) for \
+                             i, k in enumerate(model)]
 
         # Load the saved configuration
         self.loadConfig()
