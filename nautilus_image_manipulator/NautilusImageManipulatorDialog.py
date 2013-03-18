@@ -186,22 +186,12 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.o("progressbar").set_text("%s 0%%" % _("Uploading images..."))
         self.o("progressbar").set_fraction(0)
         self.uploadPercent = 0
+        u.connect("uploading_done", self.on_uploading_done)
         try:
-            (downloadPage, deletePage) = u.upload(fileToUpload, self.uploading_callback)
+            u.upload(fileToUpload, self.uploading_callback)
         except InvalidEndURLsException:
             self.error_on_uploading(_("The page where your file can be downloaded from %(site_name)s could not be determined.\nPlease try again, and report a bug if it happens again." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
             return
-        logging.info('downloadPage: %s' % downloadPage)
-        logging.info('deletePage: %s' % deletePage)
-
-        # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
-        # Note that the selection clipboard will be empty when the dialog gets closed.
-        # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
-        # and http://readthedocs.org/docs/python-gtk-3-tutorial/en/latest/clipboard.html
-        Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(downloadPage, -1)
-        Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY).set_text(downloadPage, -1)
-
-        self.on_uploading_done(downloadPage, deletePage)
 
     def error_on_uploading(self, message, fileToUpload, reportBug):
         """Displays an error message.
@@ -245,15 +235,23 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 Gtk.main_iteration() # Used to refresh the UI
             self.uploadPercent = percent100
 
-    def on_uploading_done(self, downloadPage, deletePage):
-        """Displays the url where the images can be downloaded from, or deleted."""
+    def on_uploading_done(self, u):
+        """Triggered when the file has been uploaded.
+        Displays the url where the images can be downloaded from, or deleted."""
+        # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
+        # Note that the selection clipboard will be empty when the dialog gets closed.
+        # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt
+        # and http://readthedocs.org/docs/python-gtk-3-tutorial/en/latest/clipboard.html
+        Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(u.downloadPage, -1)
+        Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY).set_text(u.downloadPage, -1)
+
         self.o("details_box").hide()
         self.o("progressbar").hide()
         # Update the link buttons with the urls
-        self.o("download_linkbutton").set_label(downloadPage)
-        self.o("download_linkbutton").set_uri(downloadPage)
-        self.o("delete_linkbutton").set_label(deletePage)
-        self.o("delete_linkbutton").set_uri(deletePage)
+        self.o("download_linkbutton").set_label(u.downloadPage)
+        self.o("download_linkbutton").set_uri(u.downloadPage)
+        self.o("delete_linkbutton").set_label(u.deletePage)
+        self.o("delete_linkbutton").set_uri(u.deletePage)
         self.o("url_box").show()
         # Hide the cancel and resize button, and show the close button
         self.o("cancel_button").hide()

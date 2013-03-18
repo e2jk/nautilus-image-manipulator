@@ -19,6 +19,7 @@
 import urllib2
 import re
 import logging
+from gi.repository import GObject
 
 from nautilus_image_manipulator.upload.poster.encode import multipart_encode
 from nautilus_image_manipulator.upload.poster.streaminghttp import register_openers
@@ -30,6 +31,7 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
         
         Documentation for 1fichier.com: http://www.1fichier.com/api/web.html
         Note: it's not up to date..."""
+        super(UploadSite, self).__init__()
         # The session ID is read from the "files" form on http://www.1fichier.com
         html = urllib2.urlopen('http://www.1fichier.com').read()
         try:
@@ -75,10 +77,18 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
             logging.error('the upload has failed, this is the returned page:\n"%s"\n' % downloaded_page)
             raise BaseUploadSite.InvalidEndURLsException()
 
-        downloadPage = "http://%s.1fichier.com" % download_id
-        deletePage = "http://www.1fichier.com/remove/%s/%s" % (download_id, deletion_id)
+        self.downloadPage = "http://%s.1fichier.com" % download_id
+        self.deletePage = "http://www.1fichier.com/remove/%s/%s" % (download_id, deletion_id)
 
-        return (downloadPage, deletePage)
+        logging.info('downloadPage: %s' % self.downloadPage)
+        logging.info('deletePage: %s' % self.deletePage)
+
+        # Signal we are done resizing
+        self.emit("uploading_done")
+
+
+GObject.type_register(UploadSite)
+GObject.signal_new("uploading_done", UploadSite, GObject.SignalFlags.RUN_FIRST, None, ())
 
 if __name__ == "__main__":
     pass

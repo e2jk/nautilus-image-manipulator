@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License along 
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
+from gi.repository import GObject
 
 class UnknownUploadDestinationException(Exception):
        """Impossible to determine the upload destination for this website,
@@ -26,10 +27,9 @@ class InvalidEndURLsException(Exception):
        available."""
        pass
 
-class BaseUploadSite():
+class BaseUploadSite(GObject.GObject):
     def __init__(self):
-        """Determines the upload url for YYY"""
-        pass
+        super(BaseUploadSite, self).__init__()
 
     def upload(self, filename, callback):
         """Uploads a single file and saves the links to download and delete that file.
