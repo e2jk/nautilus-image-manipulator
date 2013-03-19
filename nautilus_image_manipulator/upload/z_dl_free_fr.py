@@ -16,13 +16,14 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 ### END LICENSE
 
+import os
 import urllib2
 import HTMLParser
 import re
 import logging
 from gi.repository import GObject
 
-from nautilus_image_manipulator.upload.poster.encode import multipart_encode
+from nautilus_image_manipulator.upload.poster.encode import multipart_encode, MultipartParam
 from nautilus_image_manipulator.upload.poster.streaminghttp import register_openers
 import BaseUploadSite
 
@@ -99,7 +100,11 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
         # Start the multipart/form-data encoding of the file "filename"
         # headers contains the necessary Content-Type and Content-Length
         # datagen is a generator object that yields the encoded parameters
-        datagen, headers = multipart_encode([ ("ufile", open(filename, "rb")), ], cb=callback)
+        image_param = MultipartParam.from_file("ufile", filename)
+        # The filename must not be specially encoded...
+        # This is a workaround, should probably be fixed directly in Poster
+        image_param.filename = os.path.basename(filename)
+        (datagen, headers) = multipart_encode([image_param], cb=callback)
 
         request = urllib2.Request(self.uploadUrl, datagen, headers)
         f = urllib2.urlopen(request)
