@@ -582,6 +582,7 @@
                                     <property name="entry_text_column">0</property>
                                     <items>
                                       <item>1fichier.com</item>
+                                      <item>dl.free.fr</item>
                                     </items>
                                   </object>
                                   <packing>
