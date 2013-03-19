@@ -83,7 +83,7 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
         logging.info('downloadPage: %s' % self.downloadPage)
         logging.info('deletePage: %s' % self.deletePage)
 
-        # Signal we are done resizing
+        # Signal we are done uploading
         self.emit("uploading_done")
 
 
