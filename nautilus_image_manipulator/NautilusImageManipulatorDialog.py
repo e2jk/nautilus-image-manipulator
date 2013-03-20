@@ -188,6 +188,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.o("progressbar").set_fraction(0)
         self.uploadPercent = 0
         u.connect("uploading_done", self.on_uploading_done)
+        u.connect("waiting_for_validation", self.waiting_for_validation)
         try:
             u.upload(fileToUpload, self.uploading_callback)
         except InvalidEndURLsException:
@@ -239,9 +240,23 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 Gtk.main_iteration() # Used to refresh the UI
             self.uploadPercent = percent100
 
+    def pulse(self):
+        """Sets the progress bar in activity mode, and makes the block move
+        back and forth within the progress bar"""
+        self.o("progressbar").pulse()
+        return self.still_working # True = repeat, False = stop
+
+    def waiting_for_validation(self, u):
+        """Triggered when the file has been uploaded, but has not yet been verified."""
+        self.still_working = True
+        self.o("progressbar").set_text(_("Waiting for validation..."))
+        GObject.timeout_add(100, self.pulse)
+
     def on_uploading_done(self, u):
         """Triggered when the file has been uploaded.
         Displays the url where the images can be downloaded from, or deleted."""
+        # Stop updating the progress bar
+        self.still_working = False
         # Put the download url in the clipboard (both the normal "Ctrl-C" and selection clipboards)
         # Note that the selection clipboard will be empty when the dialog gets closed.
         # More info: http://standards.freedesktop.org/clipboards-spec/clipboards-latest.txt

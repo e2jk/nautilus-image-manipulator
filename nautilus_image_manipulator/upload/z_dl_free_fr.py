@@ -50,6 +50,7 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
         ``filename`` is the file to upload
         ``callback`` is the function that updates the progress bar while uploading"""
         self.send(filename, callback)
+        self.emit("waiting_for_validation")
         GObject.timeout_add(3000, self.waitForValidation)
 
     def waitForValidation(self):
@@ -115,6 +116,7 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
 
 GObject.type_register(UploadSite)
 GObject.signal_new("uploading_done", UploadSite, GObject.SignalFlags.RUN_FIRST, None, ())
+GObject.signal_new("waiting_for_validation", UploadSite, GObject.SignalFlags.RUN_FIRST, None, ())
 
 if __name__ == "__main__":
     pass
