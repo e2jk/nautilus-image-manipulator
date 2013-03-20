@@ -46,12 +46,14 @@ if __name__ == "__main__":
     parser.add_option("-f", "--file", action="append", dest="files", help=_("a file to be resized. Use multiple arguments to resize multiple files.").decode('utf-8'), metavar="FILE")
     (options, args) = parser.parse_args()
 
-    # Set the logging level to show debug messages.
-    if options.verbose:
-        logging.basicConfig(level=logging.DEBUG)
-        logging.debug('verbose logging enabled')
-    else:
-        logging.basicConfig(level=logging.INFO)
+    # Set the logging level appropriately.
+    logging_level = logging.DEBUG if options.verbose else logging.INFO
+    logging.basicConfig(level=logging_level)
+    # Force the logging level. Used in case logging was already initialized,
+    # for instance when ImageManipulations failed to import GExiv2.
+    logging.root.setLevel(logging_level)
+    logging.log(logging_level, "Logging set to level %s" %
+                           logging.getLevelName(logging_level))
 
     images = []
     if options.files:
