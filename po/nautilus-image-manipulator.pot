@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 08:02+0100\n"
+"POT-Creation-Date: 2013-03-20 22:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,56 +62,60 @@ msgid ""
 msgstr ""
 
 #: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:187
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:236
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:237
 msgid "Uploading images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:194
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:195
 msgid ""
 "The page where your file can be downloaded from could not be determined."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:194
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:197
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:195
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:198
 msgid "Please try again, and report a bug if it happens again."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:197
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:198
 #, python-format
 msgid ""
 "Your images were successfully uploaded to %(site_name)s, but their "
 "verification failed."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:205
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:206
 msgid "Your images have been zipped together into this file:"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:207
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:208
 #, python-format
 msgid "You can find your image at %(filename)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:221
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:222
 msgid "Please file a bug report on Launchpad"
+msgstr ""
+
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:252
+msgid "Waiting for validation..."
 msgstr ""
 
 #. Visible when hovering over the quality scale in the custom
 #. settings when the quality is too low
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:443
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:458
 msgid ""
 "Warning: the lower the quality, the more deteriorated the images will be"
 msgstr ""
 
 #. Visible when hovering over the quality scale in the custom
 #. settings when the quality is high enough
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:449
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:464
 msgid ""
 "Determines the quality of the resized images (the higher the quality, the "
 "larger the image size)"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:451
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:466
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
 msgid "Quality:"
 msgstr ""
@@ -119,9 +123,9 @@ msgstr ""
 #. Default folder name
 #. Default value to append to filename
 #. Default zipfile name
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:462
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:469
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:476
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:477
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:484
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:491
 #: ../nautilus_image_manipulator/ProfileSettings.py:63
 #: ../nautilus_image_manipulator/ProfileSettings.py:71
 #: ../nautilus_image_manipulator/ProfileSettings.py:75
@@ -131,19 +135,19 @@ msgstr ""
 msgid "resized"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:492
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:507
 msgid "Invalid parameters"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:506
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:521
 msgid "_Skip"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:508
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:523
 msgid "_Retry"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:509
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:524
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -152,7 +156,7 @@ msgid ""
 "%(folder)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:511
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:526
 msgid "Could not resize image"
 msgstr ""
 
@@ -164,7 +168,7 @@ msgstr ""
 msgid "a file to be resized. Use multiple arguments to resize multiple files."
 msgstr ""
 
-#: ../bin/nautilus-image-manipulator.py:66
+#: ../bin/nautilus-image-manipulator.py:68
 #: ../nautilus_image_manipulator/nautilus-extension.py:71
 msgid "_Resize image"
 msgid_plural "_Resize images"
@@ -172,7 +176,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. Display an error message since we don't have images to work on
-#: ../bin/nautilus-image-manipulator.py:68
+#: ../bin/nautilus-image-manipulator.py:70
 #, python-format
 msgid ""
 "Nautilus Image Manipulator needs to be provided with a list of images to "
@@ -180,7 +184,7 @@ msgid ""
 "Please right-click on an image and select the \"%(resizeImages)s\" option."
 msgstr ""
 
-#: ../bin/nautilus-image-manipulator.py:70
+#: ../bin/nautilus-image-manipulator.py:72
 msgid "No images provided"
 msgstr ""
 
