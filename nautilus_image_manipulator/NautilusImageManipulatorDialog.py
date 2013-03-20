@@ -27,6 +27,7 @@ from nautilus_image_manipulator.ImageManipulations import ImageManipulations
 from ProfileSettings import Profile, Config
 from upload.BaseUploadSite import UnknownUploadDestinationException
 from upload.BaseUploadSite import InvalidEndURLsException
+from upload.BaseUploadSite import FinalURLsNotFoundException
 
 import gettext
 from gettext import gettext as _
@@ -191,6 +192,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             u.upload(fileToUpload, self.uploading_callback)
         except InvalidEndURLsException:
             self.error_on_uploading(_("The page where your file can be downloaded from %(site_name)s could not be determined.\nPlease try again, and report a bug if it happens again." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
+            return
+        except FinalURLsNotFoundException:
+            self.error_on_uploading(_("Your images were successfully uploaded to %(site_name)s, but their verification failed.\nPlease try again, and report a bug if it happens again." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
             return
 
     def error_on_uploading(self, message, fileToUpload, reportBug):

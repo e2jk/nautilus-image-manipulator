@@ -71,8 +71,7 @@ class UploadSite(BaseUploadSite.BaseUploadSite):
                 (downloadPage, deletePage) = re.search('Le fichier sera accessible \&agrave; l\'adresse suivante: <a class="underline" href="http://dl.free.fr/(.+)" onclick=.*Vous pouvez supprimer le fichier lorsque vous le d\&eacute;sirez via l\'adresse suivante:  <a class="underline" href="http://dl.free.fr/rm.pl\?(.+)" onclick="', downloaded_page).groups()
             except AttributeError:
                 logging.error("could not find the urls. Content of the download page:\n%s" % downloaded_page)
-                #TODO: Show an error message to the user
-                raise
+                raise BaseUploadSite.FinalURLsNotFoundException()
             self.downloadPage = "http://dl.free.fr/%s" % downloadPage
             self.deletePage = "http://dl.free.fr/rm.pl?%s" % HTMLParser.HTMLParser().unescape(deletePage)
             logging.info('downloadPage: %s' % self.downloadPage)

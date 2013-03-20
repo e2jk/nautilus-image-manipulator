@@ -27,6 +27,11 @@ class InvalidEndURLsException(Exception):
        available."""
        pass
 
+class FinalURLsNotFoundException(Exception):
+       """The upload was successful, but the file can't be downloaded.
+       Probably due to verification on the external side not being successful."""
+       pass
+
 class BaseUploadSite(GObject.GObject):
     def __init__(self):
         super(BaseUploadSite, self).__init__()
