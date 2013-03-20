@@ -191,10 +191,10 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         try:
             u.upload(fileToUpload, self.uploading_callback)
         except InvalidEndURLsException:
-            self.error_on_uploading(_("The page where your file can be downloaded from %(site_name)s could not be determined.\nPlease try again, and report a bug if it happens again." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
+            self.error_on_uploading(_("The page where your file can be downloaded from could not be determined.") + "\n" + _("Please try again, and report a bug if it happens again.") + "\n\n%(extra_info)s", fileToUpload, True)
             return
         except FinalURLsNotFoundException:
-            self.error_on_uploading(_("Your images were successfully uploaded to %(site_name)s, but their verification failed.\nPlease try again, and report a bug if it happens again." % {"site_name": '"%s"' % self.p.url}) + "\n\n%(extra_info)s", fileToUpload, True)
+            self.error_on_uploading(_("Your images were successfully uploaded to %(site_name)s, but their verification failed.") % {"site_name": '"%s"' % self.p.url} + "\n" + _("Please try again, and report a bug if it happens again.") + "\n\n%(extra_info)s", fileToUpload, True)
             return
 
     def error_on_uploading(self, message, fileToUpload, reportBug):
@@ -202,9 +202,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         
         Can also display a link to report a bug on Launchpad"""
         if os.path.splitext(fileToUpload)[1] == ".zip":
-            extra_info = _("Your images have not been sent, but have been zipped together into this file:\n%(filename)s") % {"filename": fileToUpload}
+            extra_info = _("Your images have been zipped together into this file:") + "\n" + fileToUpload
         else:
-            extra_info = _("Your image has not been sent, but has successfully been resized.\nYou can find it at %(filename)s") % {"filename": fileToUpload}
+            extra_info = _("You can find your image at %(filename)s") % {"filename": fileToUpload}
         # Hide the unneccessary sections
         self.o("details_box").hide()
         self.o("progressbar").hide()
