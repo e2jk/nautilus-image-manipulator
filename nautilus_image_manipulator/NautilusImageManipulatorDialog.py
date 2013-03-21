@@ -101,13 +101,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.p = self.conf.profiles[idSelectedProfile]
         logging.info("The following profile has been selected:\n%s" % self.p)
 
-        # Check if the mandatory values are filled
-        if self.p.destination == 'upload':
-            if not self.p.zipname:
-                self.error_with_parameters(
-                    _("Please enter the name of the zip file."))
-                return
-
         # Disable the parameter UI elements and display the progress bar
         self.o("details_box").set_sensitive(False)
         self.o("resize_button").set_sensitive(False)
@@ -146,6 +139,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
                 isError = False
                 self.o("append_entry_empty_error_label").set_visible(False)
                 self.o("append_entry_invalid_error_label").set_visible(False)
+        elif widget == self.o("zipname_entry"):
+            isError = (0 == len(widget.get_text()))
+            errorLabel = self.o("zipname_entry_error_label")
 
         # Adapt the visibility of the appropriate error message
         if errorLabel:
