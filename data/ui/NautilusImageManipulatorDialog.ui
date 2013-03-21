@@ -457,7 +457,7 @@
                                     <property name="invisible_char_set">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <signal name="changed" handler="subfolder_entry_changed_cb" swapped="no"/>
+                                    <signal name="changed" handler="destination_entry_changed_cb" swapped="no"/>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -497,14 +497,44 @@
                         <child>
                           <object class="GtkBox" id="append_box">
                             <property name="can_focus">False</property>
-                            <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the append string entry box in the custom settings">This value will be appended before the image extension</property>
-                            <property name="halign">end</property>
-                            <property name="spacing">6</property>
+                            <property name="orientation">vertical</property>
                             <child>
-                              <object class="GtkLabel" id="append_label">
+                              <object class="GtkBox" id="box2">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Append to filename:</property>
+                                <property name="tooltip_text" translatable="yes" comments="Visible when hovering over the append string entry box in the custom settings">This value will be appended before the image extension</property>
+                                <property name="halign">end</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="append_label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Append to filename:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkEntry" id="append_entry">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="has_tooltip">True</property>
+                                    <property name="invisible_char">●</property>
+                                    <property name="width_chars">20</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <signal name="changed" handler="destination_entry_changed_cb" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
@@ -513,20 +543,33 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkEntry" id="append_entry">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="has_tooltip">True</property>
-                                <property name="invisible_char">●</property>
-                                <property name="width_chars">20</property>
-                                <property name="invisible_char_set">True</property>
-                                <property name="primary_icon_activatable">False</property>
-                                <property name="secondary_icon_activatable">False</property>
+                              <object class="GtkLabel" id="append_entry_empty_error_label">
+                                <property name="can_focus">False</property>
+                                <property name="xalign">1</property>
+                                <property name="label" translatable="yes">Please enter some text to append to the filename.</property>
+                                <attributes>
+                                  <attribute name="foreground" value="#ffff00000000"/>
+                                </attributes>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="append_entry_invalid_error_label">
+                                <property name="can_focus">False</property>
+                                <property name="xalign">1</property>
+                                <property name="label" translatable="yes">The string to append cannot end in %s</property>
+                                <attributes>
+                                  <attribute name="foreground" value="#ffff00000000"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                           </object>

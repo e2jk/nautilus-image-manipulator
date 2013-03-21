@@ -102,18 +102,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         logging.info("The following profile has been selected:\n%s" % self.p)
 
         # Check if the mandatory values are filled
-        if self.p.destination == 'append':
-            if not self.p.appendstring:
-                self.error_with_parameters(
-                    _("Please enter some text to append to the filename."))
-                return
-            elif self.p.appendstring[-1] == os.path.sep:
-                # If the appendString ends in "/", the image would be
-                # called ".EXT", which is a hidden file in it's own folder.
-                self.error_with_parameters(
-                    _("The string to append cannot end in %s") % os.path.sep)
-                return
-            # TODO: Check that the value is valid to be appended to the filename
         if self.p.destination == 'upload':
             if not self.p.zipname:
                 self.error_with_parameters(
@@ -138,14 +126,32 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         # Remember the settings for next time
         self.saveConfig()
 
-    def subfolder_entry_changed_cb(self, widget, data=None):
+    def destination_entry_changed_cb(self, widget, data=None):
         if widget == self.o("subfolder_entry"):
+            isError = (0 == len(widget.get_text()))
             errorLabel = self.o("subfolder_entry_error_label")
-        isEmpty = (0 == len(widget.get_text()))
+        elif widget == self.o("append_entry"):
+            errorLabel = None
+            if 0 == len(widget.get_text()):
+                isError = True
+                self.o("append_entry_empty_error_label").set_visible(True)
+                self.o("append_entry_invalid_error_label").set_visible(False)
+            elif os.path.sep == widget.get_text()[-1]:
+                isError = True
+                self.o("append_entry_invalid_error_label").set_text(_("The string to append cannot end in %s") % os.path.sep)
+                self.o("append_entry_empty_error_label").set_visible(False)
+                self.o("append_entry_invalid_error_label").set_visible(True)
+            else:
+                # TODO: Check that the value is valid to be appended to the filename
+                isError = False
+                self.o("append_entry_empty_error_label").set_visible(False)
+                self.o("append_entry_invalid_error_label").set_visible(False)
+
         # Adapt the visibility of the appropriate error message
-        errorLabel.set_visible(isEmpty)
+        if errorLabel:
+            errorLabel.set_visible(isError)
         # Don't allow resizing if text is empty
-        self.o("resize_button").set_sensitive(not isEmpty)
+        self.o("resize_button").set_sensitive(not isError)
 
     def on_resizing_done(self, im):
         """Triggered when all the images have been resized"""
@@ -488,6 +494,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.o("subfolder_box").show()
             self.o("append_box").hide()
             self.o("upload_box").hide()
+            self.destination_entry_changed_cb(self.o("subfolder_entry"))
         elif dest == 'append':
             if not self.o("append_entry").get_text():
                 # Default value to append to filename
@@ -495,6 +502,7 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.o("subfolder_box").hide()
             self.o("append_box").show()
             self.o("upload_box").hide()
+            self.destination_entry_changed_cb(self.o("append_entry"))
         elif dest == 'upload':
             if not self.o("zipname_entry").get_text():
                 # Default zipfile name
