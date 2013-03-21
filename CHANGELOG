@@ -5,6 +5,8 @@ Changelog for nautilus-image-manipulator
   * Add dl.free.fr as upload destination (LP #1098695)
   * Filenames containing accents are now properly sent (LP #884275)
   * Better error handling when the upload site could not be parsed successfully.
+  * Nicer errors when required information is missing (in-UI instead of
+    popup windows)
   * "Port" to GTK+ 3 (actually, just updated the UI file to be able to open
     with Glade for GTK+ 3)
   * Added Slovak translation (thanks Prescott_SK)
