@@ -80,6 +80,9 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         self.loadConfig()
         self.processingCanceled = False
 
+        # Give the Resize button the focus to respond to Enter
+        self.o("resize_button").grab_focus()
+
     def set_files(self, files):
         self.files = files
 
