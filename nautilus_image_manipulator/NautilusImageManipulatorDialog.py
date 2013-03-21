@@ -102,11 +102,6 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         logging.info("The following profile has been selected:\n%s" % self.p)
 
         # Check if the mandatory values are filled
-        if self.p.destination == 'folder':
-            if not self.p.foldername:
-                self.error_with_parameters(
-                    _("Please enter the name of the folder."))
-                return
         if self.p.destination == 'append':
             if not self.p.appendstring:
                 self.error_with_parameters(
@@ -142,6 +137,15 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
 
         # Remember the settings for next time
         self.saveConfig()
+
+    def subfolder_entry_changed_cb(self, widget, data=None):
+        if widget == self.o("subfolder_entry"):
+            errorLabel = self.o("subfolder_entry_error_label")
+        isEmpty = (0 == len(widget.get_text()))
+        # Adapt the visibility of the appropriate error message
+        errorLabel.set_visible(isEmpty)
+        # Don't allow resizing if text is empty
+        self.o("resize_button").set_sensitive(not isEmpty)
 
     def on_resizing_done(self, im):
         """Triggered when all the images have been resized"""
@@ -475,6 +479,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
         dest_model = widget.get_model()
         dest_iter = widget.get_active_iter()
         dest = dest_model.get_value(dest_iter, 1)
+        # Make sure the Resize button is clickable
+        self.o("resize_button").set_sensitive(True)
         if dest == 'folder':
             if not self.o("subfolder_entry").get_text():
                 # Default folder name

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 22:54+0100\n"
+"POT-Creation-Date: 2013-03-21 15:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,104 +18,100 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:96
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:99
 #: ../nautilus_image_manipulator/ProfileSettings.py:101
 #: ../nautilus_image_manipulator/ProfileSettings.py:333
 msgid "Custom settings"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:105
-msgid "Please enter the name of the folder."
-msgstr ""
-
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:110
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:108
 msgid "Please enter some text to append to the filename."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:116
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:114
 #, python-format
 msgid "The string to append cannot end in %s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:122
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:120
 msgid "Please enter the name of the zip file."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:174
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:181
 #, python-format
 msgid "The selected upload site %(site_name)s is not valid."
 msgstr ""
 
 #. Impossible to contact the website (no network, site down, etc.)
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:181
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:188
 #, python-format
 msgid ""
 "The upload site %(site_name)s could not be contacted, please check your "
 "internet connection."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:184
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:191
 #, python-format
 msgid ""
 "The upload destination for %(site_name)s could not be determined, please "
 "report a bug so that this can be fixed."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:187
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:237
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:194
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:245
 msgid "Uploading images..."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:195
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:202
 msgid ""
 "The page where your file can be downloaded from could not be determined."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:195
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:198
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:202
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:205
 msgid "Please try again, and report a bug if it happens again."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:198
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:205
 #, python-format
 msgid ""
 "Your images were successfully uploaded to %(site_name)s, but their "
 "verification failed."
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:206
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:213
 msgid "Your images have been zipped together into this file:"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:208
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:215
 #, python-format
 msgid "You can find your image at %(filename)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:222
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:229
 msgid "Please file a bug report on Launchpad"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:252
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:260
 msgid "Waiting for validation..."
 msgstr ""
 
 #. Visible when hovering over the quality scale in the custom
 #. settings when the quality is too low
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:458
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:466
 msgid ""
 "Warning: the lower the quality, the more deteriorated the images will be"
 msgstr ""
 
 #. Visible when hovering over the quality scale in the custom
 #. settings when the quality is high enough
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:464
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:472
 msgid ""
 "Determines the quality of the resized images (the higher the quality, the "
 "larger the image size)"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:466
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:474
 #: ../data/ui/NautilusImageManipulatorDialog.ui.h:18
 msgid "Quality:"
 msgstr ""
@@ -123,9 +119,9 @@ msgstr ""
 #. Default folder name
 #. Default value to append to filename
 #. Default zipfile name
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:477
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:484
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:491
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:487
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:494
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:501
 #: ../nautilus_image_manipulator/ProfileSettings.py:63
 #: ../nautilus_image_manipulator/ProfileSettings.py:71
 #: ../nautilus_image_manipulator/ProfileSettings.py:75
@@ -135,19 +131,19 @@ msgstr ""
 msgid "resized"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:507
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:517
 msgid "Invalid parameters"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:521
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:531
 msgid "_Skip"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:523
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:533
 msgid "_Retry"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:524
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:534
 #, python-format
 msgid ""
 "The image \"%(image)s\" could not be resized.\n"
@@ -156,7 +152,7 @@ msgid ""
 "%(folder)s"
 msgstr ""
 
-#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:526
+#: ../nautilus_image_manipulator/NautilusImageManipulatorDialog.py:536
 msgid "Could not resize image"
 msgstr ""
 
@@ -335,63 +331,67 @@ msgstr ""
 msgid "Folder name:"
 msgstr ""
 
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:24
+msgid "Please enter the name of the folder."
+msgstr ""
+
 #. Visible when hovering over the append string entry box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:25
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
 msgid "This value will be appended before the image extension"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:26
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:27
 msgid "Append to filename:"
 msgstr ""
 
 #. Visible when hovering over the zipfile name entry box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:28
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
 msgid "The resized images will be compressed together into this zip file"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:29
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:30
 msgid "Name of the zip file:"
 msgstr ""
 
 #. Visible when hovering over the upload website combo box in the custom settings
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:31
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
 msgid ""
 "The zip file containing the resized images will be uploaded to this website"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:32
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
 msgid "Upload the resized images to:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:33
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
 msgid "An error occurred!"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:34
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
 msgid "Images successfully uploaded!"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:35
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
 msgid "Download url:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:36
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
 msgid "Delete url:"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:37
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:38
 msgid "Delete this profile"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:38
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:39
 msgid "Save as a new profile"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:39
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:40
 msgid "Create a new profile based on these settings"
 msgstr ""
 
-#: ../data/ui/NautilusImageManipulatorDialog.ui.h:40
+#: ../data/ui/NautilusImageManipulatorDialog.ui.h:41
 msgid "Resize"
 msgstr ""
 
