@@ -224,7 +224,8 @@ class NautilusImageManipulatorDialog(Gtk.Dialog):
             self.o("error_url_hbox").show()
         else:
             self.o("error_url_hbox").hide()
-        #TODO: Make the close button the default behavior (to respond to Enter)
+        # Give the close button the focus to respond to Enter
+        self.o("close_button").grab_focus()
         self.resize(1, 1)
 
     def uploading_callback(self, param, current, total):
