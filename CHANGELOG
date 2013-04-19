@@ -1,7 +1,8 @@
 Changelog for nautilus-image-manipulator
 
 ================================
-1.3 - 201X-XX-XX (rYYY)
+1.3 - 2013-04-19 (r240)
+  * We now have a logo!
   * Add dl.free.fr as upload destination (LP #1098695)
   * Filenames containing accents are now properly sent (LP #884275)
   * Better error handling when the upload site could not be parsed successfully.
