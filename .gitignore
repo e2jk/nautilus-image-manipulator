@@ -1,0 +1,11 @@
+build/
+cover/
+dist/
+docs/_build/
+MANIFEST
+.coverage
+.project
+.pydevproject
+.settings/
+*.pyc
+
